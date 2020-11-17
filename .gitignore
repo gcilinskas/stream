@@ -1,6 +1,17 @@
+docker/.data
+docker/key
+/docker/logs
+.docker-sync/*
+node_modules/*
+/public/uploads/images/*
+/public/uploads/files/*
+config/jwt/*
+!config/jwt/test
 
 ###> symfony/framework-bundle ###
 /.env.local
+/.env
+/.idea
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
@@ -14,3 +25,4 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
