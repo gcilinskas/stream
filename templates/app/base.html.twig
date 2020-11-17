@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Filmai{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+        <!-- Typography CSS -->
+        <link rel="stylesheet" href="{{ asset('css/typography.cs') }}s">
+        <!-- Style -->
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+        <!-- Responsive -->
+        <link rel="stylesheet" href="{{ asset('css/responsive.css') }}" />
+    {% endblock %}
+</head>
+<body>
+<!-- loader Start -->
+<div id="loading">
+    <div id="loading-center">
+    </div>
+</div>
+<!-- loader END -->
+<!-- Header -->
+{% include('app/includes/nav.html.twig') %}
+<!-- Header End -->
+
+{% block body %}{% endblock %}
+<!-- jQuery, Popper JS -->
+<script src="{{ asset('js/jquery-3.4.1.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<!-- Bootstrap JS -->
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<!-- Slick JS -->
+<script src="{{ asset('js/slick.min.js') }}"></script>
+<!-- owl carousel Js -->
+<script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+<!-- select2 Js -->
+<script src="{{ asset('js/select2.min.js') }}"></script>
+<!-- Magnific Popup-->
+<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+<!-- Slick Animation-->
+<script src="{{ asset('js/slick-animation.min.js') }}"></script>
+<!-- Custom JS-->
+<script src="{{ asset('js/custom.js') }}"></script>
+{% block javascripts %}{% endblock %}
+</body>
+</html>
