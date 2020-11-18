@@ -42,7 +42,7 @@ class RegisterController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $userService->create($user);
 
-                return $this->redirectToRoute('login_index');
+                return $this->redirectToRoute('app_login');
             }
         }
         return $this->render('app/register/index.html.twig', ['form' => null]);

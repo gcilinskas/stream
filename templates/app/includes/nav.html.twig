@@ -28,6 +28,7 @@
                             </div>
                         </div>
 
+                        {% if app.user is null %}
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="menu-main-menu-container">
                                 <ul id="top-menu" class="navbar-nav ml-auto">
@@ -42,11 +43,12 @@
                             <div class="menu-main-menu-container">
                                 <ul id="top-menu" class="navbar-nav ml-auto">
                                     <li class="menu-item">
-                                        <a href="{{ path('ticket_index') }}">Prisijungti</a>
+                                        <a href="{{ path('app_login') }}">Prisijungti</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                        {% endif %}
 
                         <div class="mobile-more-menu">
                             <a href="javascript:void(0);" class="more-toggle" id="dropdownMenuButton"
@@ -56,120 +58,114 @@
                             <div class="more-menu" aria-labelledby="dropdownMenuButton">
                                 <div class="navbar-right position-relative">
                                     <ul class="d-flex align-items-center justify-content-end list-inline m-0">
-                                        <li>
-                                            <a href="#" class="iq-user-dropdown search-toggle d-flex align-items-center">
-                                                <img src="{{ asset('images/user/user.jpg') }}"
-                                                     class="img-fluid avatar-40 rounded-circle"
-                                                     alt="user">
-                                            </a>
+
                                             <!-- USER MENU DROPDOWN -->
-                                            <div class="iq-sub-dropdown iq-user-dropdown">
+
+                                        {% if app.user %}
+                                        <li>
+                                            <div class="iq-card shadow-none m-0">
+                                                <div class="iq-card-body p-0 pl-3 pr-3">
+                                                    <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
+                                                        <div class="media align-items-center">
+                                                            <div class="right-icon">
+                                                                <i class="ri-file-user-line text-primary"></i>
+                                                            </div>
+                                                            <div class="media-body ml-3">
+                                                                <h6 class="mb-0 ">Mano Paskyra</h6>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+
+                                                    <a href="{{ path('app_logout') }}" class="iq-sub-card setting-dropdown">
+                                                        <div class="media align-items-center">
+                                                            <div class="right-icon">
+                                                                <i class="ri-logout-circle-line text-primary"></i>
+                                                            </div>
+                                                            <div class="media-body ml-3">
+                                                                <h6 class="mb-0">Atsijungti</h6>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% else %}
+                                            <li>
                                                 <div class="iq-card shadow-none m-0">
                                                     <div class="iq-card-body p-0 pl-3 pr-3">
-                                                        <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
+                                                        <a href="{{ path('register_index') }}" class="iq-sub-card setting-dropdown">
                                                             <div class="media align-items-center">
                                                                 <div class="right-icon">
                                                                     <i class="ri-file-user-line text-primary"></i>
                                                                 </div>
                                                                 <div class="media-body ml-3">
-                                                                    <h6 class="mb-0 ">Manage Profile</h6>
+                                                                    <h6 class="mb-0 ">Registracija</h6>
                                                                 </div>
                                                             </div>
                                                         </a>
-                                                        <a href="setting.html" class="iq-sub-card setting-dropdown">
-                                                            <div class="media align-items-center">
-                                                                <div class="right-icon">
-                                                                    <i class="ri-settings-4-line text-primary"></i>
-                                                                </div>
-                                                                <div class="media-body ml-3">
-                                                                    <h6 class="mb-0 ">Settings</h6>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                        <a href="pricing-plan.html" class="iq-sub-card setting-dropdown">
-                                                            <div class="media align-items-center">
-                                                                <div class="right-icon">
-                                                                    <i class="ri-settings-4-line text-primary"></i>
-                                                                </div>
-                                                                <div class="media-body ml-3">
-                                                                    <h6 class="mb-0 ">Pricing Plan</h6>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                        <a href="login.html" class="iq-sub-card setting-dropdown">
+
+                                                        <a href="{{ path('app_login') }}" class="iq-sub-card setting-dropdown">
                                                             <div class="media align-items-center">
                                                                 <div class="right-icon">
                                                                     <i class="ri-logout-circle-line text-primary"></i>
                                                                 </div>
                                                                 <div class="media-body ml-3">
-                                                                    <h6 class="mb-0">Logout</h6>
+                                                                    <h6 class="mb-0">Prisijungti</h6>
                                                                 </div>
                                                             </div>
                                                         </a>
+
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </li>
+                                            </li>
+                                        {% endif %}
+
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="navbar-right menu-right">
-                            <ul class="d-flex align-items-center list-inline m-0">
-                                <li class="nav-item nav-icon">
-                                    <a href="#" class="iq-user-dropdown search-toggle p-0 d-flex align-items-center"
-                                       data-toggle="search-toggle">
-                                        <img src="images/user/user.jpg" class="img-fluid avatar-40 rounded-circle" alt="user">
-                                    </a>
-                                    <div class="iq-sub-dropdown iq-user-dropdown">
-                                        <div class="iq-card shadow-none m-0">
-                                            <div class="iq-card-body p-0 pl-3 pr-3">
-                                                <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
-                                                    <div class="media align-items-center">
-                                                        <div class="right-icon">
-                                                            <i class="ri-file-user-line text-primary"></i>
+
+
+                        {% if app.user %}
+                            <div class="navbar-right menu-right">
+                                <ul class="d-flex align-items-center list-inline m-0">
+                                    <li class="nav-item nav-icon">
+                                        <a href="#" class="iq-user-dropdown search-toggle p-0 d-flex align-items-center"
+                                           data-toggle="search-toggle">
+                                            <img src="images/user/user.jpg" class="img-fluid avatar-40 rounded-circle" alt="user">
+                                        </a>
+                                        <div class="iq-sub-dropdown iq-user-dropdown">
+                                            <div class="iq-card shadow-none m-0">
+                                                <div class="iq-card-body p-0 pl-3 pr-3">
+                                                    <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
+                                                        <div class="media align-items-center">
+                                                            <div class="right-icon">
+                                                                <i class="ri-file-user-line text-primary"></i>
+                                                            </div>
+                                                            <div class="media-body ml-3">
+                                                                <h6 class="mb-0 ">Mano Paskyra</h6>
+                                                            </div>
                                                         </div>
-                                                        <div class="media-body ml-3">
-                                                            <h6 class="mb-0 ">Manage Profile</h6>
+                                                    </a>
+                                                    <a href="{{ path('app_logout') }}" class="iq-sub-card setting-dropdown">
+                                                        <div class="media align-items-center">
+                                                            <div class="right-icon">
+                                                                <i class="ri-logout-circle-line text-primary"></i>
+                                                            </div>
+                                                            <div class="media-body ml-3">
+                                                                <h6 class="mb-0 ">Atsijungti</h6>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </a>
-                                                <a href="setting.html" class="iq-sub-card setting-dropdown">
-                                                    <div class="media align-items-center">
-                                                        <div class="right-icon">
-                                                            <i class="ri-settings-4-line text-primary"></i>
-                                                        </div>
-                                                        <div class="media-body ml-3">
-                                                            <h6 class="mb-0 ">Settings</h6>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a href="pricing-plan.html" class="iq-sub-card setting-dropdown">
-                                                    <div class="media align-items-center">
-                                                        <div class="right-icon">
-                                                            <i class="ri-settings-4-line text-primary"></i>
-                                                        </div>
-                                                        <div class="media-body ml-3">
-                                                            <h6 class="mb-0 ">Pricing Plan</h6>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a href="{{ path('logout') }}" class="iq-sub-card setting-dropdown">
-                                                    <div class="media align-items-center">
-                                                        <div class="right-icon">
-                                                            <i class="ri-logout-circle-line text-primary"></i>
-                                                        </div>
-                                                        <div class="media-body ml-3">
-                                                            <h6 class="mb-0 ">Logout</h6>
-                                                        </div>
-                                                    </div>
-                                                </a>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
+
                     </nav>
                     <div class="nav-overlay"></div>
                 </div>
