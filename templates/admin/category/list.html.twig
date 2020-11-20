@@ -1,0 +1,57 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div id="content-page" class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Kategorijų Sąrašas</h4>
+                            </div>
+                            <div class="iq-card-header-toolbar d-flex align-items-center">
+                                <a href="{{ path('admin_category_add') }}" class="btn btn-primary">Pridėti Kategoriją</a>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="table-view">
+                                <table class="data-tables table movie_table " style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:10%;">ID</th>
+                                        <th style="width:20%;">Pavadinimas</th>
+                                        <th style="width:10%;">Filmai</th>
+                                        <th style="width:20%;">Veiksmai</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for category in categories %}
+                                        <tr>
+                                            <td>{{ category.id }}</td>
+                                            <td>{{ category.title }}</td>
+                                            <td>{{ category.movies | length }}</td>
+                                            <td>
+                                                <div class="flex align-items-center list-user-action">
+                                                    <a href="{{ path('admin_category_edit', {'category': category.id }) }}"
+                                                       class="iq-bg-success" data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Edit"><i class="ri-pencil-line"></i></a>
+                                                    <a href="{{ path('admin_category_delete', {'category': category.id }) }}"
+                                                        class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Delete" ><i class="ri-delete-bin-line"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

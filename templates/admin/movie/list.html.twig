@@ -1,0 +1,85 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <div id="content-page" class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Movie Lists</h4>
+                            </div>
+                            <div class="iq-card-header-toolbar d-flex align-items-center">
+                                <a href="{{ path('admin_movie_add') }}" class="btn btn-primary">Add movie</a>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="table-view">
+                                <table class="data-tables table movie_table " style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Filmas</th>
+                                        <th>Kategorija</th>
+                                        <th style="width: 20%;">Aprašymas</th>
+                                        <th>Kaina</th>
+                                        <th>Transliavimo Data</th>
+                                        <th>Veiksmai</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for movie in movies %}
+                                        <tr>
+                                            <td>
+                                                <div class="media align-items-center">
+                                                    <div class="iq-movie">
+                                                        {% set imgPath = 'uploads/movies/images/' ~ movie.image %}
+                                                        <a href="javascript:void(0);"><img
+                                                                    src="{{ asset(imgPath) }}"
+                                                                    class="img-border-radius avatar-40 img-fluid" alt=""></a>
+                                                    </div>
+                                                    <div class="media-body text-white text-left ml-3">
+                                                        <p class="mb-0">{{ movie.title }}</p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {% if movie.category is not null %}
+                                                    <p>{{ movie.category.title }}</p>
+                                                {% else %}
+                                                    <p>Kategorija Nepasirinkta</p>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <p>{{ movie.description }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ movie.getFormattedPrice() }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ movie.date|date('Y-m-d') }}</p>
+                                            </td>
+                                            <td>
+                                                <div class="flex align-items-center list-user-action">
+                                                    <a href="{{ path('admin_movie_edit', {'movie': movie.id }) }}"
+                                                       class="iq-bg-success" data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Edit"><i class="ri-pencil-line"></i></a>
+                                                    <a href="{{ path('admin_movie_delete', {'movie': movie.id }) }}"
+                                                       class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Delete"><i class="ri-delete-bin-line"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

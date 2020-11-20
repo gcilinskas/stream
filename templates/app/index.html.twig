@@ -4,7 +4,7 @@
     <!-- Slider Start -->
     <section id="home" class="iq-main-slider p-0">
         <div id="home-slider" class="slider m-0 p-0">
-            <div class="slide slick-bg s-bg-1">
+            <div class="slide slick-bg s-bg-1" style="background-image:url('{{ asset('uploads/movies/images/' ~ movie.image) }}')">
                 <div class="container-fluid position-relative h-100">
                     <div class="slider-inner h-100">
                         <div class="row align-items-center  h-100">
@@ -15,23 +15,21 @@
                                     </div>
                                 </a>
                                 <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
-                                    data-delay-in="0.6">bushland</h1>
+                                    data-delay-in="0.6">{{ movie.title }}</h1>
                                 <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
-                                    <span class="badge badge-secondary p-2">18+</span>
-                                    <span class="ml-3">2 Seasons</span>
+                                    {% if movie.category %}
+                                        <span class="ml-3">{{ movie.category.title }}</span>
+                                    {% endif %}
                                 </div>
-                                <p data-animation-in="fadeInUp" data-delay-in="1.2">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
-                                    dummy text ever since the 1500s.
-                                </p>
+                                <p data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.description }}</p>
                                 <div class="d-flex align-items-center r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
                                     <a href="show-details.html" class="btn btn-hover"><i class="fa fa-play mr-2"
                                                                                          aria-hidden="true"></i>Žiūrėti</a>
-                                    <a href="show-details.html" class="btn btn-link">More details</a>
                                 </div>
                             </div>
                         </div>
                         <div class="trailor-video">
-                            <a href="{{ asset('video/trailer.mp4') }}" class="video-open playbtn">
+                            <a href="{{ asset('uploads/movies/'~movie.movie) }}" class="video-open playbtn">
                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                      x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
                                      enable-background="new 0 0 213.7 213.7" xml:space="preserve">

@@ -18,4 +18,14 @@ class MovieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Movie::class);
     }
+
+    /**
+     * @return Movie[]|null
+     */
+    public function findAllOrdered()
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.date', 'DESC')
+            ->getQuery()->getResult();
+    }
 }

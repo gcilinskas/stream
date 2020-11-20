@@ -1,0 +1,130 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+
+    <!-- Page Content  -->
+    <div id="content-page" class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Redaguoti Filmą</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <form method="POST" enctype="multipart/form-data">
+                                <div class="row">
+                                    <div class="col-lg-7">
+                                        <div class="row">
+                                            {% if errors is defined %}
+                                                {% if errors %}
+                                                    {% for error in errors %}
+                                                        <div class="alert alert-danger">Validacijos Klaida</div>
+                                                        <div class="alert alert-danger">{{ error.message }}</div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endif %}
+                                            <div class="col-12 form-group">
+                                                <input type="text" name="title" class="form-control" value="{{ movie.title }}">
+                                            </div>
+
+                                            <div class="col-9 form_gallery form-group">
+                                                <label id="gallery2" for="form_gallery-upload">Keisti Filmo Viršelio Paveikslėlį</label>
+
+                                                <input data-name="#gallery2" name="imageFile"
+                                                       id="form_gallery-upload" class="form_gallery-upload" onchange="readURL(this);"
+                                                       type="file" accept=".png, .jpg, .jpeg">
+                                            </div>
+
+                                            <div class="col-3" style="min-height: 50px; max-height: 100px; width: auto; overflow: hidden">
+                                                <img src="{{ asset('uploads/movies/images/'~movie.image) }}"
+                                                     style="max-height: 80px; width: auto" id="movie-edit-img">
+                                            </div>
+
+                                            <div class="col-12 form-group">
+                                                <select class="form-control" id="movie-category" name="category" >
+                                                    <option disabled="">Pasirinkite Kategoriją</option>
+                                                    {% for category in categories %}
+                                                        <option value="{{category.id }}"
+                                                            {% if movie.category and movie.category.id == category.id %} selected {% endif %}
+                                                        >
+                                                            {{category.title}}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+
+                                            <div class="col-12 form-group">
+                                                <span style="padding-left: 10px">Kaina EUR</span>
+                                                <input name="price" pattern="^\d*(\.\d{0,2})?$"
+                                                       class="form-control" value="{{ movie.getFormattedPrice() }}">
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <label for="movie-date" style="padding-left: 10px">Pasirinkite Transliavimo Datą</label>
+                                                <input type="text" class="form-control date-input basicFlatpickr" id="movie-date"
+                                                       name="date" value="{{ movie.date|date('Y-m-d') }}">
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                <textarea id="text" name="description" rows="5" class="form-control">{{ movie.description }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <span>Filmo Failo Pavadinimas: </span>
+                                        <label for="edit-movie-file" id="edit-movie-filename">{{ movie.movie }}</label>
+                                        <div class="d-block position-relative">
+                                            <div class="form_video-upload">
+
+                                                <input type="file" name="movieFile" id="edit-movie-file"
+                                                       accept="video/mp4,video/x-m4v,video/*">
+                                                <p>Keisti Filmą</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 form-group ">
+                                        <button type="submit" class="btn btn-primary">Patvirtinti</button>
+                                        <button type="reset" class="btn btn-danger">Atšaukti</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block customjs %}
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#movie-edit-img')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $('#edit-movie-file').change(function() {
+            var file = $('#edit-movie-file')[0].files[0].name;
+            $('#edit-movie-filename').text(file);
+        });
+
+    </script>
+{% endblock %}

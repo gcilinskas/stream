@@ -3,8 +3,7 @@ docker/key
 /docker/logs
 .docker-sync/*
 node_modules/*
-/public/uploads/images/*
-/public/uploads/files/*
+/public/uploads/*
 config/jwt/*
 !config/jwt/test
 

@@ -34,8 +34,6 @@
 {% include('admin/includes/footer.html.twig') %}
 
 {% block javascripts %}
-
-    <!-- Footer END -->
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="{{ asset('admin/js/jquery.min.js') }}"></script>
@@ -59,9 +57,13 @@
     <!-- Smooth Scrollbar JavaScript -->
     <script src="{{ asset('admin/js/smooth-scrollbar.js') }}"></script>
     <!-- Chart Custom JavaScript -->
+    <script src="{{ asset('admin/js/flatpickr.min.js') }}"></script>
+    <!-- Flatpickr JavaScript -->
     <script src="{{ asset('admin/js/chart-custom.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ asset('admin/js/custom.js') }}"></script>
 {% endblock %}
+
+{% block customjs %}{% endblock %}
 </body>
 </html>
