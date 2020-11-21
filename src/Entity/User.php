@@ -49,13 +49,26 @@ class User implements UserInterface
     private $comments;
 
     /**
+     * @var PaymentAddress[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\PaymentAddress", mappedBy="user")
+     */
+    private $paymentAddresses;
+
+    /**
+     * @var PayseraPayment[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\PayseraPayment", mappedBy="user")
+     */
+    private $payseraPayments;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->paymentAddresses = new ArrayCollection();
+        $this->payseraPayments = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -195,6 +208,102 @@ class User implements UserInterface
     {
         if ($this->comments->contains($comment)) {
             $this->comments->remove($comment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return PaymentAddress[]|ArrayCollection
+     */
+    public function getPaymentAddresses()
+    {
+        return $this->paymentAddresses;
+    }
+
+    /**
+     * @param PaymentAddress[]|ArrayCollection $paymentAddresses
+     *
+     * @return User
+     */
+    public function setPaymentAddresses($paymentAddresses)
+    {
+        $this->paymentAddresses = $paymentAddresses;
+
+        return $this;
+    }
+
+    /**
+     * @param PaymentAddress $paymentAddress
+     *
+     * @return User
+     */
+    public function addPaymentAddress (PaymentAddress $paymentAddress): User
+    {
+        if (!$this->paymentAddresses->contains($paymentAddress)) {
+            $this->paymentAddresses->add($paymentAddress);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param PaymentAddress $paymentAddress
+     *
+     * @return User
+     */
+    public function removePaymentAddress (PaymentAddress $paymentAddress): User
+    {
+        if ($this->paymentAddresses->contains($paymentAddress)) {
+            $this->paymentAddresses->remove($paymentAddress);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return PayseraPayment[]|ArrayCollection
+     */
+    public function getPayseraPayments()
+    {
+        return $this->payseraPayments;
+    }
+
+    /**
+     * @param PayseraPayment[]|ArrayCollection $payseraPayments
+     *
+     * @return User
+     */
+    public function setPayseraPayments($payseraPayments)
+    {
+        $this->payseraPayments = $payseraPayments;
+
+        return $this;
+    }
+
+    /**
+     * @param PayseraPayment $payseraPayment
+     *
+     * @return User
+     */
+    public function addPayseraPayment (PayseraPayment $payseraPayment): User
+    {
+        if (!$this->payseraPayments->contains($payseraPayment)) {
+            $this->payseraPayments->add($payseraPayment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param PayseraPayment $payseraPayment
+     *
+     * @return User
+     */
+    public function removePayseraPayment (PayseraPayment $payseraPayment): User
+    {
+        if ($this->payseraPayments->contains($payseraPayment)) {
+            $this->payseraPayments->remove($payseraPayment);
         }
 
         return $this;

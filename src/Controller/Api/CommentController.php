@@ -57,10 +57,9 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUser($this->getUser());
             $this->commentService->update($comment);
-
             $json = $this->serializer->serialize($comment, 'json', ['groups' => ['api_comment', 'api_user']]);
 
-            return $this->json($json);
+            return $this->json(json_decode($json));
         }
 
 
@@ -75,6 +74,9 @@ class CommentController extends AbstractController
      */
     public function movieComments(Movie $movie)
     {
-        return $this->json($this->commentService->getBy(['movie' => $movie]));
+        $comments = $this->commentService->getBy(['movie' => $movie], ['createdAt' => 'ASC']);
+        $json = $this->serializer->serialize($comments, 'json', ['groups' => ['api_comment', 'api_user']]);
+
+        return $this->json(json_decode($json));
     }
 }

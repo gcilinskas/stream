@@ -453,3 +453,19 @@ CUSTOM
 	background-color: #0b0b0b!important;
 	color: #D1D0CF !important;
 }
+
+
+.flex-center {
+	display: flex;
+	justify-content: center;
+	align-items:center;
+}
+
+
+.pd10 {
+	padding:10px;
+}
+
+.pd20 {
+	padding:20px;
+}

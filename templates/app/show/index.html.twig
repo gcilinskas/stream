@@ -60,37 +60,9 @@
 <div class="container-fluid" style="margin-bottom: 50px;">
 
     <div class="col-12" style="display:flex; justify-content: center;align-items: center;">
-        <h3 class=" mb-3">Komentarai ({{ movie.comments|length }})</h3>
+       <h3 class=" mb-3" id="comment-count"></h3>
     </div>
         <div class="col-12" id="movie-comment-container">
-
-            <div id="new-comment"></div>
-
-            {% if movie.comments is not empty %}
-                {% for comment in movie.comments %}
-
-                    <div class="iq-card col-12" style="margin:10px; width: 100%;">
-                        <div class="iq-card-header col-12 d-flex justify-content-between">
-
-                            <div class="col-12" style="display: flex; justify-content: center">
-                                <div class="iq-card  col-12 iq-card-block iq-card-stretch iq-card-height iq-mb-3"
-                                     style="border: 1px solid grey; border-radius: 1px; padding:10px; ">
-                                    <div class="iq-card-body">
-                                        <h6 class="card-title">{{ comment.user.username }}</h6>
-                                        <p class="card-text">{{ comment.text }}</p>
-                                        <p class="card-text"><small class="text-muted">{{ comment.createdAt|date('Y-m-d H:i:s') }}</small></p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                {% endfor %}
-            {% else %}
-
-            {% endif %}
-
         </div>
 </div>
 
@@ -104,65 +76,70 @@
                 e.preventDefault(); // avoid to execute the actual submit of the form.
                 var form = $(this);
                 var url = form.attr('action');
-
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: form.serialize(), // serializes the form's elements.
-                    success: function(data)
+                    success: function(result)
                     {
+                        var form = document.getElementById("form-comment");
+                        form.reset();
 
-                        var result = JSON.parse(data);
-
-                        // var date = new Date(result.createdAtTimestamp * 1000).format('h:i:s');
-
-
-                        var html = $("<div class='iq-card col-12' style='margin:10px; width: 100%;'>"+
-                            "<div class='iq-card-header col-12 d-flex justify-content-between'>" +
-                            "<div class='col-12' style='display: flex; justify-content: center'>" +
-                            "<div class='iq-card  col-12 iq-card-block iq-card-stretch iq-card-height iq-mb-3'" +
-                            "style='border: 1px solid grey; border-radius: 1px; padding:10px; '>" +
-                            "<div class='iq-card-body'>" +
-                            "<h6 class='card-title'>"+ result.user.email +"</h6>" +
-                            "<p class='card-text'>" + result.text + "</p>" +
-                            "<p class='card-text'><small class='text-muted'>" + result.createdAt + "</small></p>"+
-                    "</div> </div> </div> </div></div>");
-
-                        $('#movie-comment-container').prepend(html);
+                        loadComments(11);
                     }
                 });
             });
-
 
         function loadComments(id)
         {
             $.ajax({
                 type: "GET",
                 url: 'http://localhost:8005/api/comment/movie/'+id,
-                data: form.serialize(),
                 success: function(data)
                 {
+                    data.forEach(function (result) {
+                        console.log(result);
+                        var html = $("<div class='iq-card col-12' style='margin:10px; width: 100%;'>"+
+                            "<div class='iq-card-header col-12 d-flex justify-content-between'>" +
+                            "<div class='col-12' style='display: flex; justify-content: center'>" +
+                            "<div class='iq-card  col-12 iq-card-block iq-card-stretch iq-card-height iq-mb-3'" +
+                            "style='border: 1px solid grey; border-radius: 1px; padding:10px; '>" +
+                            "<div class='iq-card-body' style='overflow: hidden'>" +
+                            "<h6 class='card-title'>"+ result.user.email +"</h6>" +
+                            "<p class='card-text'>" + result.text + "</p>" +
+                            "<p class='card-text'><small class='text-muted'>" + result.createdAt + "</small></p>"+
+                            "</div> </div> </div> </div></div>");
 
-                    var result = JSON.parse(data);
-
-                    // var date = new Date(result.createdAtTimestamp * 1000).format('h:i:s');
-
-
-                    var html = $("<div class='iq-card col-12' style='margin:10px; width: 100%;'>"+
-                        "<div class='iq-card-header col-12 d-flex justify-content-between'>" +
-                        "<div class='col-12' style='display: flex; justify-content: center'>" +
-                        "<div class='iq-card  col-12 iq-card-block iq-card-stretch iq-card-height iq-mb-3'" +
-                        "style='border: 1px solid grey; border-radius: 1px; padding:10px; '>" +
-                        "<div class='iq-card-body'>" +
-                        "<h6 class='card-title'>"+ result.user.email +"</h6>" +
-                        "<p class='card-text'>" + result.text + "</p>" +
-                        "<p class='card-text'><small class='text-muted'>" + result.createdAt + "</small></p>"+
-                        "</div> </div> </div> </div></div>");
-
-                    $('#movie-comment-container').prepend(html);
+                        $('#movie-comment-container').prepend(html);
+                        $('#comment-count').html("Komentarai: ("+data.length+")");
+                    });
                 }
             });
         }
+
+        loadComments(11);
+
+            var header = jQuery("#main-header");
+            header.css('opacity', 0);
+            $('#wrapmain').on("mousewheel", function() {
+                console.log($(document).scrollTop());
+
+                var header = jQuery("#main-header"),
+                    yOffset = 0,
+                    triggerPoint = 80;
+
+                yOffset = $(document).scrollTop()
+
+                if (yOffset >= triggerPoint) {
+                    header.css('opacity', 1);
+                    header.addClass("menu-sticky animated slideInDown");
+                } else {
+                    header.removeClass("menu-sticky animated slideInDown");
+                    header.css('opacity', 0);
+                }
+
+            });
+
 
     </script>
 {% endblock %}

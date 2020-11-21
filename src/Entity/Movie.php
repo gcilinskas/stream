@@ -89,11 +89,18 @@ class Movie
     private $comments;
 
     /**
+     * @var PayseraPayment[]|ArrayCollection
+     * @ORM\ManyToOne(targetEntity="App\Entity\PayseraPayment", inversedBy="movie")
+     */
+    private $payseraPayments;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->payseraPayments = new ArrayCollection();
     }
 
     /**
@@ -354,6 +361,54 @@ class Movie
     {
         if ($this->comments->contains($comment)) {
             $this->comments->remove($comment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return PayseraPayment[]|ArrayCollection
+     */
+    public function getPayseraPayments()
+    {
+        return $this->payseraPayments;
+    }
+
+    /**
+     * @param PayseraPayment[]|ArrayCollection $payseraPayments
+     *
+     * @return Movie
+     */
+    public function setPayseraPayments($payseraPayments)
+    {
+        $this->payseraPayments = $payseraPayments;
+
+        return $this;
+    }
+
+    /**
+     * @param PayseraPayment $payseraPayment
+     *
+     * @return Movie
+     */
+    public function addPayseraPayment(PayseraPayment $payseraPayment): Movie
+    {
+        if (!$this->payseraPayments->contains($payseraPayment)) {
+            $this->payseraPayments->add($payseraPayment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param PayseraPayment $payseraPayment
+     *
+     * @return Movie
+     */
+    public function removePayseraPayment(PayseraPayment $payseraPayment): Movie
+    {
+        if ($this->payseraPayments->contains($payseraPayment)) {
+            $this->payseraPayments->remove($payseraPayment);
         }
 
         return $this;
