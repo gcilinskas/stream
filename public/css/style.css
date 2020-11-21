@@ -441,3 +441,15 @@ video { display: block; width: 100%; height: 100%; }
 	70% { transform: translateX(-2px); }
 	100% { transform: translateX(0); }
 }
+
+/*-----------------------------------------------------
+CUSTOM
+ -----------------------------------------------------*/
+.form_input { width: 100%; background-color: rgba(210, 201, 255, 0.04); border: 1px solid transparent; height: 46px; position: relative; color: var(--iq-white); font-size: 16px; width: 100%; -webkit-border-radius: 6px; border-radius: 6px; padding: 0 20px; }
+.form_textarea { border: 1px solid transparent; display: block; height: 136px; position: relative; color: var(--iq-white); font-size: 16px; width: 100%; padding: 15px 20px; letter-spacing: 0.4px; resize: none; background-color: rgba(210, 201, 255, 0.04); -webkit-border-radius: 6px; border-radius: 6px; }
+.iq-card-icon { height: 66px; width: 66px; display: inline-block; line-height: 66px; text-align: center; font-size: 22px; }
+
+#comment-text:focus {
+	background-color: #0b0b0b!important;
+	color: #D1D0CF !important;
+}

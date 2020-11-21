@@ -23,8 +23,8 @@
                                 </div>
                                 <p data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.description }}</p>
                                 <div class="d-flex align-items-center r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
-                                    <a href="show-details.html" class="btn btn-hover"><i class="fa fa-play mr-2"
-                                                                                         aria-hidden="true"></i>Žiūrėti</a>
+                                    <a href="{{ path('app_show_index', {'movie': movie.id }) }}"
+                                       class="btn btn-hover"><i class="fa fa-play mr-2" aria-hidden="true"></i>Žiūrėti</a>
                                 </div>
                             </div>
                         </div>

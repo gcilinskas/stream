@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use DateTime;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -52,7 +53,7 @@ class Movie
 
     /**
      * @var string|null
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -80,6 +81,20 @@ class Movie
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $date;
+
+    /**
+     * @var Comment[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="movie")
+     */
+    private $comments;
+
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -292,6 +307,54 @@ class Movie
     public function setDate(?DateTimeInterface $date): Movie
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    /**
+     * @return Comment[]|ArrayCollection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment[]|ArrayCollection $comments
+     *
+     * @return Movie
+     */
+    public function setComments($comments): Movie
+    {
+        $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * @param Comment $comment
+     *
+     * @return Movie
+     */
+    public function addComment(Comment $comment): Movie
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Comment $comment
+     *
+     * @return Movie
+     */
+    public function removeComment(Comment $comment): Movie
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->remove($comment);
+        }
 
         return $this;
     }

@@ -2,3 +2,8 @@ app_admin:
   resource: ../src/Controller/Admin/
   type: annotation
   prefix: /admin/
+
+app_api:
+  resource: ../src/Controller/Api/
+  type: annotation
+  prefix: /api/
