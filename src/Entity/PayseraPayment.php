@@ -12,6 +12,10 @@ use App\Repository\PayseraPaymentRepository;
  */
 class PayseraPayment
 {
+    public const STATUS_CANCELED = 'STATUS_CANCELED';
+    public const STATUS_SUCCESS = 'STATUS_SUCCESS';
+    public const STATUS_PAID = 'STATUS_PAID';
+
     /**
      * @var int
      * @ORM\Id()
@@ -27,22 +31,10 @@ class PayseraPayment
     private $status;
 
     /**
-     * @var int|null
-     * @ORM\Column(type="integer", nullable=true)
+     * @var Price|null
+     * @ORM\ManyToOne(targetEntity="App\Entity\Price", inversedBy="payseraPayments")
      */
     private $price;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=3, nullable=true)
-     */
-    private $currency;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", length=2, nullable=true)
-     */
-    private $locale;
 
     /**
      * @var DateTime
@@ -124,61 +116,21 @@ class PayseraPayment
     }
 
     /**
-     * @return int|null
+     * @return Price|null
      */
-    public function getPrice(): ?int
+    public function getPrice(): ?Price
     {
         return $this->price;
     }
 
     /**
-     * @param int|null $price
+     * @param Price|null $price
      *
      * @return PayseraPayment
      */
-    public function setPrice(?int $price): PayseraPayment
+    public function setPrice(?Price $price): PayseraPayment
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCurrency(): ?string
-    {
-        return $this->currency;
-    }
-
-    /**
-     * @param string|null $currency
-     *
-     * @return PayseraPayment
-     */
-    public function setCurrency(?string $currency): PayseraPayment
-    {
-        $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getLocale(): ?string
-    {
-        return $this->locale;
-    }
-
-    /**
-     * @param string|null $locale
-     *
-     * @return PayseraPayment
-     */
-    public function setLocale(?string $locale): PayseraPayment
-    {
-        $this->locale = $locale;
 
         return $this;
     }

@@ -100,6 +100,24 @@ class PaymentAddress
     private $payseraPayments;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", length=2, nullable=true)
+     */
+    private $locale = 'LT';
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $firstName;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $lastName;
+
+    /**
      * PaymentAddress constructor.
      */
     public function __construct()
@@ -411,6 +429,66 @@ class PaymentAddress
         if ($this->payseraPayments->contains($payseraPayment)) {
             $this->payseraPayments->remove($payseraPayment);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLocale(): ?string
+    {
+        return $this->locale;
+    }
+
+    /**
+     * @param string|null $locale
+     *
+     * @return PaymentAddress
+     */
+    public function setLocale(?string $locale): PaymentAddress
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string|null $firstName
+     *
+     * @return PaymentAddress
+     */
+    public function setFirstName(?string $firstName): PaymentAddress
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string|null $lastName
+     *
+     * @return PaymentAddress
+     */
+    public function setLastName(?string $lastName): PaymentAddress
+    {
+        $this->lastName = $lastName;
 
         return $this;
     }

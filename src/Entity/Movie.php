@@ -71,12 +71,6 @@ class Movie
     private $category;
 
     /**
-     * @var int|null
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $price;
-
-    /**
      * @var DateTimeInterface|null
      * @ORM\Column(type="datetime", nullable=true)
      */
@@ -95,12 +89,19 @@ class Movie
     private $payseraPayments;
 
     /**
+     * @var Price[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\Price", mappedBy="movie")
+     */
+    private $prices;
+
+    /**
      * User constructor.
      */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->payseraPayments = new ArrayCollection();
+        $this->prices = new ArrayCollection();
     }
 
     /**
@@ -267,38 +268,6 @@ class Movie
     }
 
     /**
-     * @return int|null
-     */
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFormattedPrice()
-    {
-        if ($this->getPrice()) {
-            return number_format((float)$this->price, 2, '.', '');
-        }
-
-        return null;
-    }
-
-    /**
-     * @param int|null $price
-     *
-     * @return Movie
-     */
-    public function setPrice(?int $price): Movie
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
      * @return DateTimeInterface|null
      */
     public function getDate(): ?DateTimeInterface
@@ -412,5 +381,88 @@ class Movie
         }
 
         return $this;
+    }
+
+    /**
+     * @return Price[]|ArrayCollection
+     */
+    public function getPrices()
+    {
+        return $this->prices;
+    }
+
+    /**
+     * @param Price[]|ArrayCollection $prices
+     *
+     * @return Movie
+     */
+    public function setPrices($prices)
+    {
+        $this->prices = $prices;
+
+        return $this;
+    }
+
+    /**
+     * @param Price $price
+     *
+     * @return Movie
+     */
+    public function addPrice(Price $price): Movie
+    {
+        if (!$this->prices->contains($price)) {
+            $this->prices->add($price);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Price $price
+     *
+     * @return Movie
+     */
+    public function removePrice(Price $price): Movie
+    {
+        if ($this->prices->contains($price)) {
+            $this->prices->remove($price);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Price|null
+     */
+    public function getActivePrice(): ?Price
+    {
+        foreach ($this->prices as $price) {
+            if ($price->isActive()) {
+                return $price;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFormattedActivePrice()
+    {
+        if (!$this->getActivePrice()) {
+            return null;
+
+        }
+
+        return number_format((float)$this->getActivePrice()->getAmount(), 2, '.', '');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidForPurchase(): bool
+    {
+        return $this->getActivePrice() && $this->getDate() && ($this->getDate()->getTimestamp() > time());
     }
 }

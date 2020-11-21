@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Movie;
+use App\Factory\PriceFactory;
 use App\Form\Admin\Movie\CreateType;
 use App\Service\CategoryService;
 use App\Service\FileService;
@@ -37,20 +38,28 @@ class MovieController extends AbstractController
     private $categoryService;
 
     /**
+     * @var PriceFactory
+     */
+    private $priceFactory;
+
+    /**
      * MovieController constructor.
      *
      * @param MovieService $movieService
      * @param FileService $fileService
      * @param CategoryService $categoryService
+     * @param PriceFactory $priceFactory
      */
     public function __construct(
         MovieService $movieService,
         FileService $fileService,
-        CategoryService $categoryService
+        CategoryService $categoryService,
+        PriceFactory $priceFactory
     ) {
         $this->movieService = $movieService;
         $this->fileService = $fileService;
         $this->categoryService = $categoryService;
+        $this->priceFactory = $priceFactory;
     }
 
     /**
@@ -68,6 +77,11 @@ class MovieController extends AbstractController
         if ($request->getMethod() === "POST") {
             $form->submit($request->request->all() + $request->files->all(), true);
             if ($form->isSubmitted() && $form->isValid()) {
+
+                if ($request->get('price')) {
+                    $this->priceFactory->create($movie, $request->get('price'));
+                }
+
                 /** @var UploadedFile $movieFile */
                 $movieFile = $form->get('movieFile')->getData();
                 $movieImageFile = $form->get('imageFile')->getData();
@@ -114,6 +128,11 @@ class MovieController extends AbstractController
         if ($request->getMethod() === "POST") {
             $form->submit($request->request->all() + $request->files->all(), true);
             if ($form->isSubmitted() && $form->isValid()) {
+
+                if ($request->get('price') && (int)$request->get('price') !== (int)$movie->getFormattedActivePrice()) {
+                    $this->priceFactory->create($movie, $request->get('price'));
+                }
+
                 /** @var UploadedFile $movieFile */
                 $movieFile = $form->get('movieFile')->getData();
                 $movieImageFile = $form->get('imageFile')->getData();
