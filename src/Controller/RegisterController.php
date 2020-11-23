@@ -37,15 +37,14 @@ class RegisterController extends AbstractController
         $user = new User();
         $form = $formFactory->create(CreateType::class, $user);
 
-        if ($request->isMethod('POST')) {
-            $form->submit($request->request->all());
-            if ($form->isSubmitted() && $form->isValid()) {
-                $userService->create($user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userService->create($user);
 
-                return $this->redirectToRoute('app_login');
-            }
+            return $this->redirectToRoute('app_login');
         }
-        return $this->render('app/register/index.html.twig', ['form' => null]);
+
+        return $this->render('app/register/index.html.twig', ['form' => $form->createView()]);
     }
 
 }

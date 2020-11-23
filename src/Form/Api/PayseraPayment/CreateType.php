@@ -25,23 +25,8 @@ class CreateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('price', EntityType::class, [
-                'entry_class' => Price::class,
-                'required' => true,
-                'constraints' => [
-                    new NotBlank()
-                ]
-            ])
             ->add('movie', EntityType::class, [
                 'class' => Movie::class,
-                'required' => true
-            ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'required' => true
-            ])
-            ->add('paymentAddress', EntityType::class, [
-                'class' => PaymentAddress::class,
                 'required' => true
             ]);
     }

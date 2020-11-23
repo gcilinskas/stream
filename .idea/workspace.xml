@@ -5,12 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c35bc679-b94f-4cb7-b971-f434e33f6fc3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/custom.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/Api/CommentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Api/CommentController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TicketController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TicketController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/app/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/app/base.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/movies/images/ubuntu-linux-gradient-text-wallpaper-5fb83466a6333.jpeg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/uploads/movies/sna78xua9wxicrhcmjdy-online-video-cutter-com-2-5fb8345020425.mp4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Admin/MovieController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Admin/MovieController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Api/PayseraPaymentController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/Api/PayseraPaymentController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Comment.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Comment.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Movie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Movie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/PaymentAddress.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/PaymentAddress.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Price.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Price.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Factory/PriceFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Factory/PriceFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Admin/Movie/CreateType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Admin/Movie/CreateType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/Api/PayseraPayment/CreateType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/Api/PayseraPayment/CreateType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/FileService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/FileService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/MovieService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/MovieService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/PayseraPaymentService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PayseraPaymentService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/movie/add.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/movie/add.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin/movie/list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/movie/list.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/app/show/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/app/show/index.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/app/ticket/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/app/ticket/index.html.twig" afterDir="false" />
     </list>
@@ -132,6 +144,7 @@
       <path value="$PROJECT_DIR$/vendor/namshi/jose" />
       <path value="$PROJECT_DIR$/vendor/vich/uploader-bundle" />
       <path value="$PROJECT_DIR$/vendor/jms/metadata" />
+      <path value="$PROJECT_DIR$/vendor/webtopay/libwebtopay" />
     </include_path>
   </component>
   <component name="ProjectId" id="1kQlwTGqTHH3Dqg5LsmzHOQDcPo" />
@@ -185,6 +198,8 @@
       <workItem from="1605816915082" duration="14347000" />
       <workItem from="1605886805310" duration="23880000" />
       <workItem from="1605953929333" duration="9283000" />
+      <workItem from="1606046479067" duration="16718000" />
+      <workItem from="1606113152749" duration="1197000" />
     </task>
     <servers />
   </component>
@@ -192,43 +207,51 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="702" y="247" width="441" height="573" key="#com.intellij.ide.util.MemberChooser" timestamp="1605972515007">
-      <screen x="0" y="27" width="1920" height="986" />
+    <state x="2220" y="213" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606063951792">
+      <screen x="1920" y="30" width="1680" height="1050" />
+    </state>
+    <state x="2220" y="213" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1606063951792" />
+    <state x="2534" y="264" width="441" height="571" key="#com.intellij.ide.util.MemberChooser" timestamp="1606063803130">
+      <screen x="1920" y="30" width="1680" height="1050" />
     </state>
     <state x="702" y="247" width="441" height="577" key="#com.intellij.ide.util.MemberChooser/0.27.1920.986/1920.30.1680.1050@0.27.1920.986" timestamp="1605972515007" />
-    <state x="2534" y="264" width="441" height="573" key="#com.intellij.ide.util.MemberChooser/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1605914388339" />
+    <state x="2534" y="264" width="441" height="571" key="#com.intellij.ide.util.MemberChooser/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1606063803130" />
     <state x="541" y="27" width="818" height="984" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1605893213844">
       <screen x="0" y="27" width="1920" height="986" />
     </state>
     <state x="541" y="27" width="818" height="984" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.27.1920.986/1920.30.1680.1050@0.27.1920.986" timestamp="1605893213844" />
-    <state x="2493" y="313" width="524" height="482" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1605914100659">
+    <state x="2493" y="313" width="524" height="482" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1606055637294">
       <screen x="1920" y="30" width="1680" height="1050" />
     </state>
     <state x="655" y="293" width="524" height="482" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.27.1920.986/1920.30.1680.1050@0.27.1920.986" timestamp="1605893383677" />
-    <state x="2493" y="313" width="524" height="482" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1605914100659" />
+    <state x="2493" y="313" width="524" height="482" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1606055637294" />
     <state x="712" y="293" width="424" height="482" key="FileChooserDialogImpl" timestamp="1605887785142">
       <screen x="0" y="27" width="1920" height="986" />
     </state>
     <state x="712" y="293" key="FileChooserDialogImpl/0.27.1920.986/1920.30.1680.1050@0.27.1920.986" timestamp="1605887785142" />
     <state x="2543" y="313" width="424" height="482" key="FileChooserDialogImpl/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1605881697994" />
-    <state x="2438" y="274" width="713" height="549" key="NewPhpClassDialog" timestamp="1605914067780">
+    <state x="2438" y="274" width="769" height="549" key="NewPhpClassDialog" timestamp="1606056061429">
       <screen x="1920" y="30" width="1680" height="1050" />
     </state>
-    <state x="2438" y="274" width="713" height="549" key="NewPhpClassDialog/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1605914067780" />
+    <state x="2438" y="274" width="769" height="549" key="NewPhpClassDialog/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1606056061429" />
     <state x="864" y="275" width="181" height="487" key="VCS.ChangeListViewerDialog" timestamp="1605968631698">
       <screen x="0" y="27" width="1920" height="986" />
     </state>
     <state x="864" y="275" width="181" height="487" key="VCS.ChangeListViewerDialog/0.27.1920.986/1920.30.1680.1050@0.27.1920.986" timestamp="1605968631698" />
-    <state x="2627" y="282" width="748" height="522" key="find.popup" timestamp="1605971243477">
-      <screen x="1920" y="30" width="1680" height="1050" />
-    </state>
-    <state x="2627" y="282" width="748" height="522" key="find.popup/0.27.1920.986/1920.30.1680.1050@0.27.1920.986" timestamp="1605971243477" />
-    <state x="973" y="216" width="747" height="522" key="find.popup/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1605908103922" />
-    <state x="575" y="244" width="768" height="637" key="search.everywhere.popup" timestamp="1605972495624">
+    <state x="755" y="281" width="1038" height="522" key="find.popup" timestamp="1606063086665">
       <screen x="0" y="27" width="1920" height="986" />
     </state>
+    <state x="2627" y="282" width="748" height="522" key="find.popup/0.27.1920.986/1920.30.1680.1050@0.27.1920.986" timestamp="1605971243477" />
+    <state x="755" y="281" width="1038" height="522" key="find.popup/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1606063086665" />
+    <state x="2424" y="255" key="run.anything.popup" timestamp="1606049829470">
+      <screen x="1920" y="30" width="1680" height="1050" />
+    </state>
+    <state x="2424" y="255" key="run.anything.popup/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1606049829470" />
+    <state x="2423" y="261" width="672" height="678" key="search.everywhere.popup" timestamp="1606062990527">
+      <screen x="1920" y="30" width="1680" height="1050" />
+    </state>
     <state x="575" y="244" width="768" height="637" key="search.everywhere.popup/0.27.1920.986/1920.30.1680.1050@0.27.1920.986" timestamp="1605972495624" />
-    <state x="2423" y="261" width="672" height="678" key="search.everywhere.popup/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1605918452810" />
+    <state x="2423" y="261" width="672" height="678" key="search.everywhere.popup/0.27.1920.986/1920.30.1680.1050@1920.30.1680.1050" timestamp="1606062990526" />
     <state x="2485" y="469" width="540" height="170" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1605723272715">
       <screen x="1920" y="30" width="1680" height="1050" />
     </state>

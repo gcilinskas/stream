@@ -4,16 +4,13 @@ namespace App\Form\Admin\Movie;
 
 use App\Entity\Movie;
 use App\Service\CategoryService;
-use DateTime;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,33 +43,17 @@ class CreateType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'required' => true
-            ])
-            ->add('description', TextType::class, [
-                'required' => false
-            ])
-            ->add('price', NumberType::class, [
-                'required' => false,
-                'scale' => 2
-            ])
-            ->add('date', DateType::class, [
-                'required' => false,
-                'widget' => 'single_text',
-                'html5' => false,
-                'format' => 'yyyy-MM-dd'
+                'required' => true,
+                'attr' => ['class' => "form-control"]
             ])
             ->add(
-                'movieFile',
-                FileType::class,
-                [
-                    'label' => 'Filmas',
-                ]
-            )
-            ->add(
-                'imageFile',
-                FileType::class,
-                [
-                    'label' => 'Filmo Virselis',
+                'imageFile', FileType::class, [
+                    'required' => false,
+                    'label' => 'Filmo Viršelio Paveikslėls',
+                    'attr' => [
+                        'class' => "form_gallery-upload",
+                        "data-name" => "#gallery2"
+                    ]
                 ]
             )
             ->add(
@@ -80,9 +61,40 @@ class CreateType extends AbstractType
                 ChoiceType::class,
                 [
                     'choices' => $this->getCategoryChoices(),
+                    'attr' => ['class' => "form-control"]
                 ]
             )
-        ;
+            ->add('price', MoneyType::class, [
+                'required' => false,
+                'mapped' => false,
+                'scale' => 2,
+                'attr' => ['class' => "form-control"],
+            ])
+            ->add('date', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'html5' => false,
+                'format' => 'yyyy-MM-dd',
+                'attr' => ['class' => "form-control date-input basicFlatpickr"]
+            ])
+            ->add('description', TextareaType::class, [
+                'required' => false,
+                'attr' => ['class' => "form-control"]
+            ])
+            ->add(
+                'movieFile', FileType::class, [
+                    'required' => false,
+                    'label' => 'Filmas',
+                    'attr' => ['class' => 'movie-add-moviefile']
+                ]
+            )->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => 'Patvirtinti',
+                    'attr' => ['class' => "btn btn-primary"],
+                ]
+            );
     }
 
     /**

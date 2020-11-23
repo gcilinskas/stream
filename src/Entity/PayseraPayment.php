@@ -13,7 +13,7 @@ use App\Repository\PayseraPaymentRepository;
 class PayseraPayment
 {
     public const STATUS_CANCELED = 'STATUS_CANCELED';
-    public const STATUS_SUCCESS = 'STATUS_SUCCESS';
+    public const STATUS_NOT_PAID = 'STATUS_NOT_PAID';
     public const STATUS_PAID = 'STATUS_PAID';
 
     /**
@@ -57,14 +57,21 @@ class PayseraPayment
     /**
      * @var Movie|null
      * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="payseraPayments")
+     * @ORM\JoinColumn(name="movie_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $movie;
 
     /**
-     * @var PaymentAddress|null
-     * @ORM\ManyToOne(targetEntity="App\Entity\PaymentAddress", inversedBy="payseraPayments")
+     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $paymentAddress;
+    private $token;
+
+    /**
+     * @var Ticket|null
+     * @ORM\OneToOne(targetEntity="App\Entity\Ticket", inversedBy="payseraPayment")
+     */
+    private $ticket;
 
     /**
      * PayseraPayment constructor.
@@ -216,21 +223,41 @@ class PayseraPayment
     }
 
     /**
-     * @return PaymentAddress|null
+     * @return string|null
      */
-    public function getPaymentAddress(): ?PaymentAddress
+    public function getToken(): ?string
     {
-        return $this->paymentAddress;
+        return $this->token;
     }
 
     /**
-     * @param PaymentAddress|null $paymentAddress
+     * @param string|null $token
      *
      * @return PayseraPayment
      */
-    public function setPaymentAddress(?PaymentAddress $paymentAddress): PayseraPayment
+    public function setToken(?string $token): PayseraPayment
     {
-        $this->paymentAddress = $paymentAddress;
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return Ticket|null
+     */
+    public function getTicket(): ?Ticket
+    {
+        return $this->ticket;
+    }
+
+    /**
+     * @param Ticket|null $ticket
+     *
+     * @return PayseraPayment
+     */
+    public function setTicket(?Ticket $ticket): PayseraPayment
+    {
+        $this->ticket = $ticket;
 
         return $this;
     }

@@ -78,13 +78,13 @@ class Movie
 
     /**
      * @var Comment[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="movie")
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="movie", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $comments;
 
     /**
      * @var PayseraPayment[]|ArrayCollection
-     * @ORM\ManyToOne(targetEntity="App\Entity\PayseraPayment", inversedBy="movie")
+     * @ORM\OneToMany(targetEntity="App\Entity\PayseraPayment", mappedBy="movie")
      */
     private $payseraPayments;
 
@@ -95,6 +95,12 @@ class Movie
     private $prices;
 
     /**
+     * @var Ticket[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="movie")
+     */
+    private $tickets;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -102,6 +108,7 @@ class Movie
         $this->comments = new ArrayCollection();
         $this->payseraPayments = new ArrayCollection();
         $this->prices = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     /**
@@ -344,7 +351,7 @@ class Movie
     }
 
     /**
-     * @param PayseraPayment[]|ArrayCollection $payseraPayments
+     * @param ArrayCollection|PayseraPayment[] $payseraPayments
      *
      * @return Movie
      */
@@ -448,14 +455,14 @@ class Movie
     /**
      * @return string|null
      */
-    public function getFormattedActivePrice()
+    public function getActiveFormattedPrice()
     {
         if (!$this->getActivePrice()) {
             return null;
 
         }
 
-        return number_format((float)$this->getActivePrice()->getAmount(), 2, '.', '');
+        return number_format($this->getActivePrice()->getAmount() / 100, 2, '.', '');
     }
 
     /**
@@ -464,5 +471,53 @@ class Movie
     public function isValidForPurchase(): bool
     {
         return $this->getActivePrice() && $this->getDate() && ($this->getDate()->getTimestamp() > time());
+    }
+
+    /**
+     * @return Ticket[]|ArrayCollection
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+
+    /**
+     * @param Ticket[]|ArrayCollection $tickets
+     *
+     * @return Movie
+     */
+    public function setTickets($tickets): Movie
+    {
+        $this->tickets = $tickets;
+
+        return $this;
+    }
+
+    /**
+     * @param Ticket $ticket
+     *
+     * @return Movie
+     */
+    public function addTicket(Ticket $ticket): Movie
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets->add($ticket);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Ticket $ticket
+     *
+     * @return Movie
+     */
+    public function removeTicket(Ticket $ticket): Movie
+    {
+        if ($this->tickets->contains($ticket)) {
+            $this->tickets->remove($ticket);
+        }
+
+        return $this;
     }
 }

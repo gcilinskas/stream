@@ -33,14 +33,14 @@ class PayseraPaymentService extends BaseService
                 'sign_password' => $_ENV['PAYSERA_SECRET_KEY'],
                 'orderid' => $payseraPayment->getId(),
                 'amount' => $payseraPayment->getPrice()->getAmount(),
-                'currency' => $payseraPayment->getPrice()->getCurrency(),
-                'country' => $payseraPayment->getPaymentAddress()->getCountry(),
+                'currency' => 'EUR',
+                'country' => 'LT',
                 'accepturl'=> $_ENV['DOMAIN'] . '/api/paysera/success/' . $payseraPayment->getId(),
                 'cancelurl' => $_ENV['DOMAIN'] . '/api/paysera/cancel/' . $payseraPayment->getId(),
                 'callbackurl' => $_ENV['DOMAIN'] . '/api/paysera/callback/' . $payseraPayment->getId(),
                 'test' => $_ENV['PAYSERA_TEST'],
-                'p_firstname' => $payseraPayment->getPaymentAddress()->getFirstName(),
-                'p_lastname' => $payseraPayment->getPaymentAddress()->getLastName(),
+                'p_firstname' => $payseraPayment->getUser()->getFirstName(),
+                'p_lastname' => $payseraPayment->getUser()->getLastName(),
             ]
         );
 

@@ -72,38 +72,39 @@ class MovieController extends AbstractController
     public function add(Request $request)
     {
         $movie = new Movie();
-        $form = $this->createForm(CreateType::class, $movie);
+        $form = $this->createForm(CreateType::class, $movie, [
+            'action' => $this->generateUrl('admin_movie_add'),
+            'method' => 'POST',
+        ]);
 
-        if ($request->getMethod() === "POST") {
-            $form->submit($request->request->all() + $request->files->all(), true);
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                if ($request->get('price')) {
-                    $this->priceFactory->create($movie, $request->get('price'));
-                }
-
-                /** @var UploadedFile $movieFile */
-                $movieFile = $form->get('movieFile')->getData();
-                $movieImageFile = $form->get('imageFile')->getData();
-
-                if ($movieFile) {
-                    $movieFilename = $this->fileService->upload($movieFile);
-                    $movie->setMovie($movieFilename);
-                }
-
-                if ($movieImageFile) {
-                    $movieImageFilename = $this->fileService->uploadImage($movieImageFile);
-                    $movie->setImage($movieImageFilename);
-                }
-
-                try {
-                    $this->movieService->create($movie);
-                } catch (Exception $e) {
-                    throw $e;
-                }
-
-                return $this->redirectToRoute('admin_movie_list');
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($price = $form->get('price')->getData()) {
+                $cents = (int)(round($price * 100));
+                $this->priceFactory->create($movie, $cents);
             }
+
+            /** @var UploadedFile $movieFile */
+            $movieFile = $form->get('movieFile')->getData();
+            $movieImageFile = $form->get('imageFile')->getData();
+
+            if ($movieFile) {
+                $movieFilename = $this->fileService->upload($movieFile);
+                $movie->setMovie($movieFilename);
+            }
+
+            if ($movieImageFile) {
+                $movieImageFilename = $this->fileService->uploadImage($movieImageFile);
+                $movie->setImage($movieImageFilename);
+            }
+
+            try {
+                $this->movieService->create($movie);
+            } catch (Exception $e) {
+                throw $e;
+            }
+
+            return $this->redirectToRoute('admin_movie_list');
         }
 
         return $this->render('admin/movie/add.html.twig', [
@@ -128,9 +129,10 @@ class MovieController extends AbstractController
         if ($request->getMethod() === "POST") {
             $form->submit($request->request->all() + $request->files->all(), true);
             if ($form->isSubmitted() && $form->isValid()) {
-
-                if ($request->get('price') && (int)$request->get('price') !== (int)$movie->getFormattedActivePrice()) {
-                    $this->priceFactory->create($movie, $request->get('price'));
+                $price = $request->get('price');
+                if ($price && (float)$price !== (float)$movie->getActiveFormattedPrice()) {
+                    $cents = (int)($price * 100);
+                    $this->priceFactory->create($movie, $cents);
                 }
 
                 /** @var UploadedFile $movieFile */

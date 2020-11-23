@@ -58,7 +58,9 @@
                                                 <p>{{ movie.getActiveFormattedPrice() }}</p>
                                             </td>
                                             <td>
-                                                <p>{{ movie.date|date('Y-m-d') }}</p>
+                                                {% if movie.date %}
+                                                 <p>{{ movie.date|date('Y-m-d') }}</p>
+                                                {% endif %}
                                             </td>
                                             <td>
                                                 <div class="flex align-items-center list-user-action">

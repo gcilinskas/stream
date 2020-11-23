@@ -33,7 +33,7 @@
 
 {% include('admin/includes/footer.html.twig') %}
 
-{% block javascripts %}
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="{{ asset('admin/js/jquery.min.js') }}"></script>
@@ -62,7 +62,7 @@
     <script src="{{ asset('admin/js/chart-custom.js') }}"></script>
     <!-- Custom JavaScript -->
     <script src="{{ asset('admin/js/custom.js') }}"></script>
-{% endblock %}
+{% block javascripts %}{% endblock %}
 
 {% block customjs %}{% endblock %}
 </body>

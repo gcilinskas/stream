@@ -71,6 +71,12 @@ class MovieService extends BaseService
     {
         $this->fileService->removeMovieFiles($movie);
 
-        parent::remove($movie);
+        try {
+            parent::remove($movie);
+
+        } catch (Exception $e)  {
+            var_dump($e->getMessage());
+            die();
+        }
     }
 }

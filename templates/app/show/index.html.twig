@@ -85,7 +85,7 @@
                         var form = document.getElementById("form-comment");
                         form.reset();
 
-                        loadComments(11);
+                        loadComments(12);
                     }
                 });
             });
@@ -97,8 +97,8 @@
                 url: 'http://localhost:8005/api/comment/movie/'+id,
                 success: function(data)
                 {
+                    $('#movie-comment-container').html("<div></div>");
                     data.forEach(function (result) {
-                        console.log(result);
                         var html = $("<div class='iq-card col-12' style='margin:10px; width: 100%;'>"+
                             "<div class='iq-card-header col-12 d-flex justify-content-between'>" +
                             "<div class='col-12' style='display: flex; justify-content: center'>" +
@@ -117,19 +117,15 @@
             });
         }
 
-        loadComments(11);
+        loadComments(12);
 
             var header = jQuery("#main-header");
             header.css('opacity', 0);
             $('#wrapmain').on("mousewheel", function() {
-                console.log($(document).scrollTop());
-
                 var header = jQuery("#main-header"),
                     yOffset = 0,
                     triggerPoint = 80;
-
                 yOffset = $(document).scrollTop()
-
                 if (yOffset >= triggerPoint) {
                     header.css('opacity', 1);
                     header.addClass("menu-sticky animated slideInDown");

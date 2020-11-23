@@ -49,16 +49,28 @@ class User implements UserInterface
     private $comments;
 
     /**
-     * @var PaymentAddress[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\PaymentAddress", mappedBy="user")
-     */
-    private $paymentAddresses;
-
-    /**
      * @var PayseraPayment[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="App\Entity\PayseraPayment", mappedBy="user")
      */
     private $payseraPayments;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $firstName;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $lastName;
+
+    /**
+     * @var Ticket[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="user")
+     */
+    private $tickets;
 
     /**
      * User constructor.
@@ -66,8 +78,8 @@ class User implements UserInterface
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->paymentAddresses = new ArrayCollection();
         $this->payseraPayments = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -214,54 +226,6 @@ class User implements UserInterface
     }
 
     /**
-     * @return PaymentAddress[]|ArrayCollection
-     */
-    public function getPaymentAddresses()
-    {
-        return $this->paymentAddresses;
-    }
-
-    /**
-     * @param PaymentAddress[]|ArrayCollection $paymentAddresses
-     *
-     * @return User
-     */
-    public function setPaymentAddresses($paymentAddresses)
-    {
-        $this->paymentAddresses = $paymentAddresses;
-
-        return $this;
-    }
-
-    /**
-     * @param PaymentAddress $paymentAddress
-     *
-     * @return User
-     */
-    public function addPaymentAddress (PaymentAddress $paymentAddress): User
-    {
-        if (!$this->paymentAddresses->contains($paymentAddress)) {
-            $this->paymentAddresses->add($paymentAddress);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param PaymentAddress $paymentAddress
-     *
-     * @return User
-     */
-    public function removePaymentAddress (PaymentAddress $paymentAddress): User
-    {
-        if ($this->paymentAddresses->contains($paymentAddress)) {
-            $this->paymentAddresses->remove($paymentAddress);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return PayseraPayment[]|ArrayCollection
      */
     public function getPayseraPayments()
@@ -304,6 +268,94 @@ class User implements UserInterface
     {
         if ($this->payseraPayments->contains($payseraPayment)) {
             $this->payseraPayments->remove($payseraPayment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string|null $firstName
+     *
+     * @return User
+     */
+    public function setFirstName(?string $firstName): User
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string|null $lastName
+     *
+     * @return User
+     */
+    public function setLastName(?string $lastName): User
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * @return Ticket[]|ArrayCollection
+     */
+    public function getTickets()
+    {
+        return $this->tickets;
+    }
+
+    /**
+     * @param Ticket[]|ArrayCollection $tickets
+     *
+     * @return User
+     */
+    public function setTickets($tickets)
+    {
+        $this->tickets = $tickets;
+
+        return $this;
+    }
+
+    /**
+     * @param Ticket $ticket
+     *
+     * @return User
+     */
+    public function addTicket (Ticket $ticket): User
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets->add($ticket);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Ticket $ticket
+     *
+     * @return User
+     */
+    public function removeTicket (Ticket $ticket): User
+    {
+        if ($this->tickets->contains($ticket)) {
+            $this->tickets->remove($ticket);
         }
 
         return $this;

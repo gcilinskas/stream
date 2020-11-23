@@ -12,13 +12,16 @@
                                 <h3 class="mb-3 text-center">Prisijungti</h3>
                                 {% if error is defined %}
                                     {% if error %}
-                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                        <div class="invalid-feedback">
+                                            Toks vartotojas neegzistuoja
+{#                                            {{ error.messageKey|trans(error.messageData, 'security') }}#}
+                                        </div>
                                     {% endif %}
                                 {% endif %}
 
                                 {% if app.user %}
                                     <div class="mb-3">
-                                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                        Esate prisijunges kaip {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
                                     </div>
                                 {% endif %}
 

@@ -877,3 +877,7 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+.mgb10{
+  margin-bottom: 10px!important;
+}

@@ -3,8 +3,11 @@
 namespace App\Form\App\User;
 
 use App\Entity\User;
+use App\Validator\UniqueEmail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -36,21 +39,86 @@ class CreateType extends AbstractType
     {
         $builder
             ->add(
-                'email',
+                'firstName',
                 TextType::class,
                 [
+                    'required' => true,
                     'constraints' => [
                         new NotBlank(),
                     ],
+                    'label' => false,
+                    'attr' => [
+                        'class' => "form-control mb-0",
+                        'placeholder' => 'Vardas',
+                    ]
+                ]
+            )
+            ->add(
+                'lastName',
+                TextType::class,
+                [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank(),
+                    ],
+                    'label' => false,
+                    'attr' => [
+                        'class' => "form-control mb-0",
+                        'placeholder' => 'Pavardė',
+                    ]
+                ]
+            )
+            ->add(
+                'email',
+                TextType::class,
+                [
+                    'required' => true,
+                    'constraints' => [
+                        new NotBlank(),
+                        new UniqueEmail(),
+                    ],
+                    'label' => 'El-paštas',
+                    'attr' => [
+                        'class' => "form-control mb-0",
+                        'placeholder' => 'El-paštas',
+                    ]
                 ]
             )
             ->add(
                 'password',
-                PasswordType::class,
+                RepeatedType::class,
                 [
-                    'constraints' => [
-                        new NotBlank(),
+                    'type' => PasswordType::class,
+                    'required' => true,
+                    'invalid_message' => 'Slaptažodžiai nesutampa.',
+                    'label' => false,
+                    'first_options'  => [
+                        'label' => false,
+                        'attr' => [
+                            'class' => "form-control mb-0 mgb10",
+                            'placeholder' => 'Slaptažodis',
+                        ],
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
                     ],
+                    'second_options' => [
+                        'label' => false,
+                        'attr' => [
+                            'class' => "form-control mb-0",
+                            'placeholder' => 'Patvirtinti Slaptažodį',
+                        ],
+                        'constraints' => [
+                            new NotBlank(),
+                        ],
+                    ],
+                ]
+            )->add(
+                'submit',
+                SubmitType::class,
+                [
+                    'label' => 'Registruotis',
+                    'attr' => ['class' => "btn btn-hover"],
                 ]
             )
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
@@ -59,6 +127,7 @@ class CreateType extends AbstractType
                 $plainPassword = $event->getForm()->get('password')->getData();
                 $encodedPassword = $this->encoder->encodePassword($user, $plainPassword);
                 $user->setPassword($encodedPassword);
+                $user->setRole(User::ROLE_USER);
             });
     }
 

@@ -1,83 +1,89 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
-
-    <!-- Page Content  -->
     <div id="content-page" class="content-page">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="iq-card">
+
                         <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
                                 <h4 class="card-title">Pridėti Filmą</h4>
                             </div>
                         </div>
+
                         <div class="iq-card-body">
-                            <form method="POST" enctype="multipart/form-data">
+                            {{ form_start(form) }}
+                            <div class="row">
+                            <div class="col-lg-6">
                                 <div class="row">
-                                    <div class="col-lg-7">
-                                        <div class="row">
-                                            {% if errors is defined %}
-                                                {% if errors %}
-                                                    {% for error in errors %}
-                                                        <div class="alert alert-danger">Validacijos Klaida</div>
-                                                        <div class="alert alert-danger">{{ error.message }}</div>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            {% endif %}
-                                            <div class="col-12 form-group">
-                                                <input type="text" name="title" class="form-control" placeholder="Pavadinimas">
-                                            </div>
-                                            <div class="col-12 form_gallery form-group">
-                                                <label id="gallery2" for="form_gallery-upload">Įkelti Filmo Viršelio Paveikslėlį</label>
-                                                <input data-name="#gallery2" name="imageFile"
-                                                       id="form_gallery-upload" class="form_gallery-upload"
-                                                       type="file" accept=".png, .jpg, .jpeg">
-                                            </div>
-                                            <div class="col-12 form-group">
-                                                <select class="form-control" id="movie-category" name="category">
-                                                    <option disabled="">Pasirinkite Kategoriją</option>
-                                                    {% for category in categories %}
-                                                        <option value="{{category.id }}">{{category.title}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                            <div class="col-12 form-group">
-                                                <input name="price" pattern="^\d*(\.\d{0,2})?$"   class="form-control" placeholder="Kaina Eurais (pvz: 9.99)">
-                                            </div>
-                                            <div class="col-12 form-group">
-                                                <label for="exampleInputdate">Pasirinkite Transliavimo Datą</label>
-                                                <input type="text" class="form-control date-input basicFlatpickr" id="movie-date" name="date">
-                                            </div>
-                                            <div class="col-12 form-group">
-                                               <textarea id="text" name="description" rows="5" class="form-control" placeholder="Aprašymas"></textarea>
-                                            </div>
-                                        </div>
+                                    <div class="col-12 form-group">
+                                        <label for="movie-date">Pavadinimas</label>
+                                        {{ form_widget(form.title) }}
+                                        {{ form_errors(form.title) }}
                                     </div>
-                                    <div class="col-lg-5">
-                                        <div class="d-block position-relative">
-                                            <div class="form_video-upload">
-                                                <input type="file" name="movieFile"
-                                                       accept="video/mp4,video/x-m4v,video/*">
-                                                <p>Įkelti Filmą</p>
-                                            </div>
-                                        </div>
+                                    <div class="col-12 form_gallery form-group">
+                                        {{ form_label(form.imageFile) }}
+                                        {{ form_widget(form.imageFile) }}
+                                        {{ form_errors(form.imageFile) }}
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label for="movie-date">Kategorija</label>
+                                        {{ form_widget(form.category) }}
+                                        {{ form_errors(form.category) }}
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label for="movie-date">Bilieto Kaina</label>
+                                        {{ form_widget(form.price) }}
+                                        {{ form_errors(form.price) }}
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label for="movie-date">Pasirinkite Transliavimo Datą</label>
+                                        {{ form_widget(form.date) }}
+                                        {{ form_errors(form.date) }}
+                                    </div>
+                                    <div class="col-12 form-group">
+                                        <label for="movie-date">Aprašymas</label>
+                                        {{ form_widget(form.description) }}
+                                        {{ form_errors(form.description) }}
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-12 form-group ">
-                                        <button type="submit" class="btn btn-primary">Patvirtinti</button>
-                                        <button type="reset" class="btn btn-danger">Atšaukti</button>
+                            </div>
+
+                            <div class="col-lg-5" style="height: 350px">
+                                <div class="d-block position-relative" style="height: 350px">
+                                    {{ form_errors(form.movieFile) }}
+                                    <div class="form_video-upload">
+                                        {{ form_widget(form.movieFile) }}
+                                        <p>Įkelti Filmą</p>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 form-group ">
+                                    {{ form_widget(form.submit) }}
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        $("#form-movie").on("submit", function(){
+            console.log("SUBMITED")
+        })
+    </script>
 
 {% endblock %}
 

@@ -18,17 +18,27 @@ class PriceFactory
     private $priceService;
 
     /**
+     * PriceFactory constructor.
+     *
+     * @param PriceService $priceService
+     */
+    public function __construct(PriceService $priceService)
+    {
+        $this->priceService = $priceService;
+    }
+
+    /**
      * @param Movie $movie
-     * @param int $amount
+     * @param int $centAmount
      *
      * @return mixed
      * @throws Exception
      */
-    public function create(Movie $movie, int $amount)
+    public function create(Movie $movie, int $centAmount)
     {
         $price = new Price();
         $price->setMovie($movie)
-            ->setAmount($amount)
+            ->setAmount($centAmount)
             ->setActive(true);
 
         $this->priceService->deactivateMoviePrices($movie);

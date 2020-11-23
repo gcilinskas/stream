@@ -10,24 +10,37 @@
                         <div class="sign-in-page-data">
                             <div class="sign-in-from w-100 m-auto">
                                 <h3 class="mb-3 text-center">Registracija</h3>
-                                <form class="mt-4" action="{{ path('register_index') }}" method="POST">
-{#                                    <div class="form-group">#}
-{#                                        <input type="text" class="form-control mb-0" id="name" placeholder="Vardas" autocomplete="off" required>#}
-{#                                    </div>#}
-                                    <div class="form-group">
-                                        <input type="email" class="form-control mb-0" name="email" id="email" placeholder="El-paštas" autocomplete="off" required>
+                                    {{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+                                <div class="form-group">
+                                    {{ form_widget(form.firstName) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.firstName) }}
                                     </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control mb-0" name="password" id="password" placeholder="Slaptažodis" required>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.lastName) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.lastName) }}
                                     </div>
-                                    <div class="custom-control custom-checkbox mb-3">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck">
-                                        <label class="custom-control-label" for="customCheck">Aš sutinku, kad susipažinau su <a href="#" class="text-primary">portalo paslaugų naudojimosi taisyklėmis</a></label>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.email) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.email) }}
                                     </div>
-
-                                    <button type="submit" class="btn btn-hover">Registruotis</button>
-
-                                </form>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.password.first) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.password.second) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.password.first) }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_end(form) }}
+                                </div>
                             </div>
                         </div>
                         <div class="mt-3">

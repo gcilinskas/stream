@@ -5,15 +5,10 @@ namespace App\Entity;
 use App\Repository\PriceRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * Class Price
  * @ORM\Entity(repositoryClass=PriceRepository::class)
- * @Table(name="price", uniqueConstraints={
- *     @UniqueConstraint(name="unique_active_is_true_movie_price", columns={"active", "movie_id"})
- * })
  */
 class Price
 {
@@ -26,6 +21,7 @@ class Price
     private $id;
 
     /**
+     * Price in CENTS
      * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -39,7 +35,8 @@ class Price
 
     /**
      * @var Movie|null
-     * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="prices")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="prices", cascade={"persist"})
+     * @ORM\JoinColumn(name="movie_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $movie;
 
@@ -53,7 +50,7 @@ class Price
      * @var string
      * @ORM\Column(type="string", length=3)
      */
-    private $currency = 'LT';
+    private $currency = 'EUR';
 
     /**
      * Price constructor.
@@ -69,18 +66,6 @@ class Price
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return Price
-     */
-    public function setId(int $id): Price
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**

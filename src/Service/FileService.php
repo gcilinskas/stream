@@ -92,7 +92,7 @@ class FileService
      */
     public function removeMovieFiles(Movie $movie, bool $flush = true)
     {
-        $item = $this->removeMovieFiles($movie, $flush);
+        $item = $this->removeMovieFile($movie, $flush);
         $item = $this->removeMovieImage($movie, $flush);
 
         return $item;
