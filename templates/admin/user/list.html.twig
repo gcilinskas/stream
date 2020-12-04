@@ -1,0 +1,66 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div id="content-page" class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Vartotojų Sąrašas</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="table-view">
+                                <table class="data-tables table movie_table " style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Vardas</th>
+                                        <th>Pavarde</th>
+                                        <th>Rolė</th>
+                                        <th>Veiksmai</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in users %}
+                                        <tr>
+                                            <td>
+                                                <p>{{ user.email }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ user.firstName }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ user.lastName }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ user.role }}</p>
+                                            </td>
+                                            <td>
+                                                <div class="flex align-items-center">
+                                                    {% if user.isAdmin %}
+                                                        <a href="{{ path('admin_user_admin', {'user': user.id}) }}"
+                                                           class="iq-bg-success">Suteikti Vartotojo Teises
+                                                        </a>
+                                                        {% else %}
+                                                            <a href="{{ path('admin_user_admin', {'user': user.id}) }}"
+                                                               class="iq-bg-success">Suteikti Admin Teises
+                                                            </a>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

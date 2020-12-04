@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Movie;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,10 +23,40 @@ class MovieRepository extends ServiceEntityRepository
     /**
      * @return Movie[]|null
      */
-    public function findAllOrdered()
+    public function findAllOrdered(): ?array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.date', 'ASC')
+            ->where('m.deletedAt is null')
+            ->andWhere('m.date >= :today')
+            ->setParameter('today', (new DateTime())->setTime(0,0, 0))
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @return Movie[]|null
+     */
+    public function findAllNotDeleted(): ?array
     {
         return $this->createQueryBuilder('m')
             ->orderBy('m.date', 'DESC')
+            ->where('m.deletedAt is null')
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @param int $limit
+     *
+     * @return Movie[]|null
+     */
+    public function findNewestMovies(int $limit = 5): ?array
+    {
+        return $this->createQueryBuilder('m')
+            ->orderBy('m.date', 'ASC')
+            ->where('m.deletedAt is null')
+            ->andWhere('m.date >= :today')
+            ->setParameter('today', (new DateTime())->setTime(0,0, 0))
+            ->setMaxResults($limit)
             ->getQuery()->getResult();
     }
 }

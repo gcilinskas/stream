@@ -3,6 +3,7 @@
 namespace App\Form\Admin\Movie;
 
 use App\Entity\Movie;
+use App\EventListener\MovieListener;
 use App\Service\CategoryService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -26,13 +27,20 @@ class CreateType extends AbstractType
     private $categoryService;
 
     /**
+     * @var MovieListener
+     */
+    private $movieListener;
+
+    /**
      * CreateType constructor.
      *
      * @param CategoryService $categoryService
+     * @param MovieListener $movieListener
      */
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, MovieListener $movieListener)
     {
         $this->categoryService = $categoryService;
+        $this->movieListener = $movieListener;
     }
 
     /**
@@ -44,12 +52,13 @@ class CreateType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'required' => true,
+                'label' => 'Pavadinimas',
                 'attr' => ['class' => "form-control"]
             ])
             ->add(
                 'imageFile', FileType::class, [
                     'required' => false,
-                    'label' => 'Filmo Viršelio Paveikslėls',
+                    'label' => 'Filmo Viršelis',
                     'attr' => [
                         'class' => "form_gallery-upload",
                         "data-name" => "#gallery2"
@@ -60,12 +69,21 @@ class CreateType extends AbstractType
                 'category',
                 ChoiceType::class,
                 [
+                    'label' => 'Kategorija',
                     'choices' => $this->getCategoryChoices(),
                     'attr' => ['class' => "form-control"]
                 ]
             )
             ->add('price', MoneyType::class, [
                 'required' => false,
+                'label' => 'Įprasta Bilieto Kaina',
+                'mapped' => false,
+                'scale' => 2,
+                'attr' => ['class' => "form-control"],
+            ])
+            ->add('clubPrice', MoneyType::class, [
+                'required' => false,
+                'label' => 'Bilieto Kaina Klubo Nariams',
                 'mapped' => false,
                 'scale' => 2,
                 'attr' => ['class' => "form-control"],
@@ -73,12 +91,14 @@ class CreateType extends AbstractType
             ->add('date', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',
+                'label' => 'Pasirinkite Transliavimo Datą',
                 'html5' => false,
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => "form-control date-input basicFlatpickr"]
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
+                'label' => 'Aprašymas',
                 'attr' => ['class' => "form-control"]
             ])
             ->add(
@@ -87,14 +107,19 @@ class CreateType extends AbstractType
                     'label' => 'Filmas',
                     'attr' => ['class' => 'movie-add-moviefile']
                 ]
-            )->add(
+            )
+            ->add('previewUrl', TextType::class, [
+                'required' => false,
+                'label' => 'Anonso Nuoroda',
+                'attr' => ['class' => "form-control"]
+            ])->add(
                 'submit',
                 SubmitType::class,
                 [
                     'label' => 'Patvirtinti',
                     'attr' => ['class' => "btn btn-primary"],
                 ]
-            );
+            )->addEventSubscriber($this->movieListener);
     }
 
     /**

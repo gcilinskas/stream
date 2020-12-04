@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Service\MovieService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,7 +32,10 @@ class HomeController extends AbstractController
      */
     public function index()
     {
+        if ($this->getUser() && $this->getUser()->isClubOrAdmin()) {
+            return $this->render('app/index.html.twig', ['movie' => $this->movieService->getNewestMovie()]);
+        }
 
-        return $this->render('app/index.html.twig', ['movie' => $this->movieService->getAll()[0]]);
+        return $this->render('app/about.html.twig');
     }
 }

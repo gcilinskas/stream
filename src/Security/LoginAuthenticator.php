@@ -104,10 +104,6 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator implements Passw
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
-        if ($token->getUser()->isAdmin()) {
-            return new RedirectResponse($this->urlGenerator->generate('admin_dashboard'));
-        }
-
         return new RedirectResponse($this->urlGenerator->generate('home_index'));
     }
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}Filmai{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}" />
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.min.css') }}">
+        <!-- Typography CSS -->
+        <link rel="stylesheet" href="{{ asset('admin/css/typography.css') }}">
+        <!-- Style CSS -->
+        <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
+        <!-- Responsive CSS -->
+        <link rel="stylesheet" href="{{ asset('admin/css/responsive.css') }}">
+    {% endblock %}
+</head>
+<body>
+<div id="loading">
+    <div id="loading-center">
+    </div>
+</div>
+
+<div class="wrapper">
+    {% block body %}{% endblock %}
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="{{ asset('admin/js/jquery.min.js') }}"></script>
+<script src="{{ asset('admin/js/popper.min.js') }}"></script>
+<script src="{{ asset('admin/js/bootstrap.min.js') }}"></script>
+<!-- Appear JavaScript -->
+<script src="{{ asset('admin/js/jquery.appear.js') }}"></script>
+<!-- Countdown JavaScript -->
+<script src="{{ asset('admin/js/countdown.min.js') }}"></script>
+<!-- Counterup JavaScript -->
+<script src="{{ asset('admin/js/waypoints.min.js') }}"></script>
+<script src="{{ asset('admin/js/jquery.counterup.min.js') }}"></script>
+<!-- Wow JavaScript -->
+<script src="{{ asset('admin/js/wow.min.js') }}"></script>
+<!-- Slick JavaScript -->
+<script src="{{ asset('admin/js/slick.min.js') }}"></script>
+<!-- Owl Carousel JavaScript -->
+<script src="{{ asset('admin/js/owl.carousel.min.js') }}"></script>
+<!-- Magnific Popup JavaScript -->
+<script src="{{ asset('admin/js/jquery.magnific-popup.min.js') }}"></script>
+<!-- Smooth Scrollbar JavaScript -->
+<script src="{{ asset('admin/js/smooth-scrollbar.js') }}"></script>
+<!-- Chart Custom JavaScript -->
+<script src="{{ asset('admin/js/flatpickr.min.js') }}"></script>
+<!-- Flatpickr JavaScript -->
+<script src="{{ asset('admin/js/chart-custom.js') }}"></script>
+<!-- Custom JavaScript -->
+<script src="{{ asset('admin/js/custom.js') }}"></script>
+{% block javascripts %}{% endblock %}
+
+{% block customjs %}{% endblock %}
+</body>
+</html>

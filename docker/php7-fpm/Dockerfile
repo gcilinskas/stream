@@ -81,7 +81,6 @@ COPY php.ini /usr/local/etc/php/
 #RUN echo "xdebug.idekey=\"PHPSTORM\"" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 #RUN echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-RUN echo "88.119.95.153     axatest.narbutas.lt" >> /etc/hosts
 RUN echo 'alias sf="php bin/console"' >> ~/.bashrc
 
 WORKDIR /var/www/symfony

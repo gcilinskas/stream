@@ -23,7 +23,8 @@
                                         <th>Filmas</th>
                                         <th>Kategorija</th>
                                         <th style="width: 20%;">Aprašymas</th>
-                                        <th>Kaina</th>
+                                        <th>Įprasta Kaina</th>
+                                        <th>Kaina Klubo Nariui</th>
                                         <th>Transliavimo Data</th>
                                         <th>Veiksmai</th>
                                     </tr>
@@ -55,7 +56,10 @@
                                                 <p>{{ movie.description }}</p>
                                             </td>
                                             <td>
-                                                <p>{{ movie.getActiveFormattedPrice() }}</p>
+                                                <p>{{ movie.getActiveFormattedRegularPrice() }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ movie.getActiveFormattedClubPrice() }}</p>
                                             </td>
                                             <td>
                                                 {% if movie.date %}

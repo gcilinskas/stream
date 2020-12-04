@@ -57,7 +57,6 @@ class PayseraPayment
     /**
      * @var Movie|null
      * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="payseraPayments")
-     * @ORM\JoinColumn(name="movie_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $movie;
 

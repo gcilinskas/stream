@@ -10,9 +10,12 @@
         "doctrine/doctrine-bundle": "^2.2",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.7",
+        "gedmo/doctrine-extensions": "^3.0",
         "lexik/jwt-authentication-bundle": "^2.9",
         "phpdocumentor/reflection-docblock": "^5.2",
+        "phpmailer/phpmailer": "^6.2",
         "sensio/framework-extra-bundle": "^5.1",
+        "swiftmailer/swiftmailer": "^6.0",
         "symfony/asset": "5.1.*",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
@@ -44,6 +47,7 @@
         "webtopay/libwebtopay": "^1.6"
     },
     "require-dev": {
+        "deployer/deployer": "^6.8",
         "symfony/browser-kit": "^5.1",
         "symfony/css-selector": "^5.1",
         "symfony/debug-bundle": "^5.1",

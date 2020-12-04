@@ -2,7 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\Movie;
 use App\Entity\Ticket;
+use App\Entity\User;
+use App\Repository\TicketRepository;
 use Exception;
 
 /**
@@ -10,6 +13,11 @@ use Exception;
  */
 class TicketService extends BaseService
 {
+    /**
+     * @var TicketRepository
+     */
+    protected $repository;
+
     /**
      * @return string
      */
@@ -27,4 +35,26 @@ class TicketService extends BaseService
     {
         parent::remove($ticket);
     }
+
+    /**
+     * @param Movie $movie
+     * @param User $user
+     *
+     * @return Ticket[]|null
+     */
+    public function getAllPaidUnusedByMovieAndUser(Movie $movie, User $user): ?array
+    {
+        return $this->repository->findAllPaidUnusedByMovieAndUser($movie, $user);
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return Ticket[]|null
+     */
+    public function getAllFutureTicketsByUser(User $user): ?array
+    {
+        return $this->repository->findAllFutureTicketsByUser($user);
+    }
+
 }

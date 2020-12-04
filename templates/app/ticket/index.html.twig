@@ -1,6 +1,9 @@
 {% extends 'app/base.html.twig' %}
 
 {% block body %}
+
+    {% include('app/includes/apply-ticket-modal.html.twig') %}
+
     <section class="m-profile">
         <div class="container">
             <h4 class="main-title mb-4">Turimi Bilietai</h4>
@@ -14,11 +17,11 @@
                                     <div class="row">
 
                                         <div class="text-center child-cell col-lg-2 flex-center">  </div>
-                                        <div class="text-center child-cell col-lg-4 flex-center">Filmas</div>
+                                        <div class="text-center child-cell col-lg-2 flex-center">Filmas</div>
                                         <div class="text-center child-cell col-lg-1 flex-center">Žanras</div>
                                         <div class="text-center child-cell col-lg-2 flex-center">Transliavimo Data</div>
-                                        <div class="text-center child-cell col-lg-1 flex-center">Statusas</div>
-                                        <div class="text-center child-cell col-lg-2 flex-center">Vienkartinis Kodas</div>
+                                        <div class="text-center child-cell col-lg-2 flex-center">Statusas</div>
+                                        <div class="text-center child-cell col-lg-3 flex-center">Vienkartinis Kodas</div>
 
                                     </div>
                                 </div>
@@ -30,81 +33,37 @@
                                 <div class='iq-card col-12' style="padding:20px; overflow: hidden; min-height: 100px; ">
                                     <div class='iq-card-body' >
                                         <div class="row">
-
                                             <img src="{{ asset('uploads/movies/images/'~movie.image) }}" class="text-center child-cell col-lg-2 flex-center">
-                                            <div class="text-center child-cell col-lg-4 flex-center pd10">{{ movie.title }}</div>
+                                            <div class="text-center child-cell col-lg-2 flex-center pd10">{{ movie.title }}</div>
                                             <div class="text-center child-cell col-lg-1 flex-center pd10">
                                                 {% if movie.category %} {{ movie.category.title }} {% endif %}
                                             </div>
                                             <div class="text-center child-cell col-lg-2 flex-center pd10">{{ movie.date|date('Y-m-d') }}</div>
-                                            <div class="text-center child-cell col-lg-1 flex-center pd10">{{ ticket.status }}</div>
-                                            <div class="text-center child-cell col-lg-2 flex-center pd10">{{ ticket.code }}</div>
+                                            <div class="text-center child-cell col-lg-2 flex-center pd10">{{ ticket.status }}</div>
+                                            <div class="text-center child-cell col-lg-3 flex-center pd10">{{ ticket.code }}</div>
                                         </div>
                                     </div>
                                 </div>
-                                <hr>
-                            {% endfor %}
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- MainContent -->
-    <section class="m-profile">
-        <div class="container">
-            <h4 class="main-title mb-4">Bilietų Kainoraštis</h4>
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="sign-user_card">
-                        <div class="table-responsive pricing pt-2">
-
-                            <div class='iq-card col-12' style="padding:20px; overflow: hidden; min-height: 100px; ">
-                                <div class='iq-card-body' >
-                                    <div class="row">
-
-                                        <div class="text-center child-cell col-lg-2 flex-center"> - </div>
-                                        <div class="text-center child-cell col-lg-4 flex-center">Filmas</div>
-                                        <div class="text-center child-cell col-lg-2 flex-center">Žanras</div>
-                                        <div class="text-center child-cell col-lg-2 flex-center">Transliavimo Data</div>
-                                        <div class="text-center child-cell col-lg-1 flex-center">Kaina</div>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <hr>
-                            {% for movie in movies %}
-                                <div class='iq-card col-12' style="padding:20px; overflow: hidden; min-height: 100px; ">
-                                    <div class='iq-card-body' >
-                                        <div class="row">
-
-                                            <img src="{{ asset('uploads/movies/images/'~movie.image) }}" class="text-center child-cell col-lg-2 flex-center">
-                                            <div class="text-center child-cell col-lg-4 flex-center pd10">{{ movie.title }}</div>
-                                            <div class="text-center child-cell col-lg-2 flex-center pd10">
-                                                {% if movie.category %} {{ movie.category.title }} {% endif %}
-                                            </div>
-                                            <div class="text-center child-cell col-lg-2 flex-center pd10">{{ movie.date|date('Y-m-d') }}</div>
-                                            {% if movie.getActivePrice() is not null %}
-                                                <div class="text-center child-cell col-lg-1 flex-center pd10">{{ movie.getActiveFormattedPrice() }}</div>
-
-                                                <div class="text-center child-cell col-lg-1 flex-center pd10">
-                                                    <form method="POST" class="ticket-form">
-                                                        <input type="hidden" value="{{ movie.id }}" class="ticket-movie-data">
-                                                        <button type="submit" id="ticket-submit"
-                                                                class=" btn btn-outline-primary child-cell col-2 flex-center">Pirkti</button>
+                                <div class="text-center child-cell col-lg-2 flex-center pd10">
+                                    {% if ticket.movie %}
+                                        {% if movie.showToday() and app.user is not null and app.user.canWatch(movie) %}
+                                            {% if app.user.hasUsedTicket(movie) == true %}
+                                                <a href="{{ path("app_show_index", {"movie": ticket.movie.id}) }}" >
+                                                    <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar</span>
+                                                </a>
+                                                {% else %}
+                                                    <form method="POST" style="margin: 0 15px 0 0; " id="open-ticket-modal-form" data-animation-in="fadeInUp" data-delay-in="1">
+                                                        <input type="hidden" value="{{ ticket.movie.id }}" class="ticket-movie-data">
+                                                        <span class="btn btn-hover open-ticket-apply-modal" id="open-ticket-apply-modal"
+                                                              data-toggle="modal" data-target="#exampleModalCenter"
+                                                              style="margin: 0 15px 0 15px">
+                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar</span>
                                                     </form>
-                                                </div>
-
-                                            {% else %}
-                                                <div class="text-center child-cell col-lg-1 flex-center pd10">Kainos nėra</div>
+                                                {% endif %}
                                             {% endif %}
-                                        </div>
+                                        {% endif %}
                                     </div>
-                                </div>
                                 <hr>
                             {% endfor %}
 
@@ -118,25 +77,5 @@
 {% endblock %}
 
 {% block javascripts %}
-
-    <script>
-        $('.ticket-form').submit(function(e) {
-            e.preventDefault();
-
-            var movieId = $('.ticket-movie-data').val();
-
-            console.log('pay')
-
-            $.ajax({
-                type: "POST",
-                url: 'http://localhost:8005/api/paysera/new/'+movieId,
-                success: function(data)
-                {
-                    window.location.href = data.url;
-                }
-            });
-
-        });
-    </script>
-
+    <script src="{{ asset('js/app/ticket-payment.js') }}"></script>
 {% endblock %}

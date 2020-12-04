@@ -5,6 +5,7 @@ namespace App\Form\App\User;
 use App\Entity\User;
 use App\Validator\UniqueEmail;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -50,7 +51,7 @@ class CreateType extends AbstractType
                     'attr' => [
                         'class' => "form-control mb-0",
                         'placeholder' => 'Vardas',
-                    ]
+                    ],
                 ]
             )
             ->add(
@@ -113,21 +114,29 @@ class CreateType extends AbstractType
                         ],
                     ],
                 ]
-            )->add(
+            )->add('clubRequest', CheckboxType::class, [
+                'label'    => 'Pažymėkite varnelę, jeigu esate klubo narys',
+                'required' => false,
+                'attr' => [
+                    'class' => "form-control club-checkbox d-flex align-items-center",
+                ],
+            ])->add(
                 'submit',
                 SubmitType::class,
                 [
                     'label' => 'Registruotis',
-                    'attr' => ['class' => "btn btn-hover"],
+                    'attr' => ['class' => "btn btn-hover full-width"],
                 ]
             )
             ->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
-                /** @var User $user */
-                $user = $event->getData();
-                $plainPassword = $event->getForm()->get('password')->getData();
-                $encodedPassword = $this->encoder->encodePassword($user, $plainPassword);
-                $user->setPassword($encodedPassword);
-                $user->setRole(User::ROLE_USER);
+                if ($event->getForm()->isValid()) {
+                    /** @var User $user */
+                    $user = $event->getData();
+                    $plainPassword = $event->getForm()->get('password')->getData();
+                    $encodedPassword = $this->encoder->encodePassword($user, $plainPassword);
+                    $user->setPassword($encodedPassword);
+                    $user->setRole(User::ROLE_USER);
+                }
             });
     }
 

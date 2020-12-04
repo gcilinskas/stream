@@ -18,13 +18,14 @@ class PriceService extends BaseService
 
     /**
      * @param Movie $movie
+     * @param bool $isClubPrice
      *
      * @throws Exception
      */
-    public function deactivateMoviePrices(Movie $movie)
+    public function deactivateMoviePrices(Movie $movie, bool $isClubPrice = false)
     {
         /** @var Price[] $prices */
-        $prices = $this->getBy(['movie' => $movie]) ?? [];
+        $prices = $this->getBy(['movie' => $movie, 'clubPrice' => $isClubPrice]) ?? [];
 
         foreach ($prices as $price) {
             $price->setActive(false);

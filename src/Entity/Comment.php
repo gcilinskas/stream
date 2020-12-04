@@ -38,7 +38,8 @@ class Comment
 
     /**
      * @var Movie|null
-     * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="comments", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="comments")
+     * @Groups({"api_comment"})
      */
     private $movie;
 

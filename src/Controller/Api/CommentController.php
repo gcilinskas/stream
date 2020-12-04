@@ -10,7 +10,11 @@ use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -25,20 +29,13 @@ class CommentController extends AbstractController
     private $commentService;
 
     /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
      * CommentController constructor.
      *
      * @param CommentService $commentService
-     * @param SerializerInterface $serializer
      */
-    public function __construct(CommentService $commentService, SerializerInterface $serializer)
+    public function __construct(CommentService $commentService)
     {
         $this->commentService = $commentService;
-        $this->serializer = $serializer;
     }
 
     /**
@@ -57,11 +54,14 @@ class CommentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $comment->setUser($this->getUser());
             $this->commentService->update($comment);
-            $json = $this->serializer->serialize($comment, 'json', ['groups' => ['api_comment', 'api_user']]);
 
-            return $this->json(json_decode($json));
+            return $this->json(
+                ['movie' => $comment->getMovie(), 'comment' => $comment],
+                Response::HTTP_OK,
+                [],
+                [ObjectNormalizer::GROUPS => ['api_comment'],
+            ]);
         }
-
 
         return $this->json(['errors' => $form->getErrors(true)], 400);
     }
@@ -75,8 +75,7 @@ class CommentController extends AbstractController
     public function movieComments(Movie $movie)
     {
         $comments = $this->commentService->getBy(['movie' => $movie], ['createdAt' => 'ASC']);
-        $json = $this->serializer->serialize($comments, 'json', ['groups' => ['api_comment', 'api_user']]);
 
-        return $this->json(json_decode($json));
+        return $this->json($comments, Response::HTTP_OK, [], [ObjectNormalizer::GROUPS => ['api_comment']]);
     }
 }

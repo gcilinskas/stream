@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}Filmai{% endblock %}</title>
-    {% block stylesheets %}
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
         <!-- Favicon -->
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
         <!-- Bootstrap CSS -->
@@ -17,24 +19,17 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" />
         <!-- Responsive -->
         <link rel="stylesheet" href="{{ asset('css/responsive.css') }}" />
-    {% endblock %}
+
 </head>
 <body>
 <div id="wrapmain">
-
-
-<!-- loader Start -->
 <div id="loading">
     <div id="loading-center">
     </div>
 </div>
-<!-- loader END -->
-<!-- Header -->
 {% include('app/includes/nav.html.twig') %}
-<!-- Header End -->
 
 {% block body %}{% endblock %}
-
 
 </div>
 <!-- jQuery, Popper JS -->
@@ -54,10 +49,9 @@
 <script src="{{ asset('js/slick-animation.min.js') }}"></script>
 <!-- Custom JS-->
 <script src="{{ asset('js/custom.js') }}"></script>
+
+
 {% block javascripts %}{% endblock %}
-
-{% block customjs %}
-
-{% endblock %}
+{% block customjs %}{% endblock %}
 </body>
 </html>

@@ -8,9 +8,9 @@ use App\Form\Admin\Movie\CreateType;
 use App\Service\CategoryService;
 use App\Service\FileService;
 use App\Service\MovieService;
+use App\Service\PriceService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,23 +43,31 @@ class MovieController extends AbstractController
     private $priceFactory;
 
     /**
+     * @var PriceService
+     */
+    private $priceService;
+
+    /**
      * MovieController constructor.
      *
      * @param MovieService $movieService
      * @param FileService $fileService
      * @param CategoryService $categoryService
      * @param PriceFactory $priceFactory
+     * @param PriceService $priceService
      */
     public function __construct(
         MovieService $movieService,
         FileService $fileService,
         CategoryService $categoryService,
-        PriceFactory $priceFactory
+        PriceFactory $priceFactory,
+        PriceService $priceService
     ) {
         $this->movieService = $movieService;
         $this->fileService = $fileService;
         $this->categoryService = $categoryService;
         $this->priceFactory = $priceFactory;
+        $this->priceService = $priceService;
     }
 
     /**
@@ -79,25 +87,6 @@ class MovieController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($price = $form->get('price')->getData()) {
-                $cents = (int)(round($price * 100));
-                $this->priceFactory->create($movie, $cents);
-            }
-
-            /** @var UploadedFile $movieFile */
-            $movieFile = $form->get('movieFile')->getData();
-            $movieImageFile = $form->get('imageFile')->getData();
-
-            if ($movieFile) {
-                $movieFilename = $this->fileService->upload($movieFile);
-                $movie->setMovie($movieFilename);
-            }
-
-            if ($movieImageFile) {
-                $movieImageFilename = $this->fileService->uploadImage($movieImageFile);
-                $movie->setImage($movieImageFilename);
-            }
-
             try {
                 $this->movieService->create($movie);
             } catch (Exception $e) {
@@ -125,40 +114,16 @@ class MovieController extends AbstractController
     public function edit(Request $request, Movie $movie)
     {
         $form = $this->createForm(CreateType::class, $movie);
+        $form->handleRequest($request);
 
-        if ($request->getMethod() === "POST") {
-            $form->submit($request->request->all() + $request->files->all(), true);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $price = $request->get('price');
-                if ($price && (float)$price !== (float)$movie->getActiveFormattedPrice()) {
-                    $cents = (int)($price * 100);
-                    $this->priceFactory->create($movie, $cents);
-                }
-
-                /** @var UploadedFile $movieFile */
-                $movieFile = $form->get('movieFile')->getData();
-                $movieImageFile = $form->get('imageFile')->getData();
-
-                if ($movieFile) {
-                    $this->fileService->removeMovieFile($movie);
-                    $movieFilename = $this->fileService->upload($movieFile);
-                    $movie->setMovie($movieFilename);
-                }
-
-                if ($movieImageFile) {
-                    $this->fileService->removeMovieImage($movie);
-                    $movieImageFilename = $this->fileService->uploadImage($movieImageFile);
-                    $movie->setImage($movieImageFilename);
-                }
-
-                try {
-                    $this->movieService->update($movie);
-                } catch (Exception $e) {
-                    throw $e;
-                }
-
-                return $this->redirectToRoute('admin_movie_list');
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->movieService->update($movie);
+            } catch (Exception $e) {
+                throw $e;
             }
+
+            return $this->redirectToRoute('admin_movie_list');
         }
 
         return $this->render('admin/movie/edit.html.twig', [
@@ -178,7 +143,7 @@ class MovieController extends AbstractController
      */
     public function delete(Movie $movie)
     {
-        $this->movieService->delete($movie);
+        $this->movieService->softDelete($movie);
 
         return $this->redirectToRoute('admin_movie_list');
     }
@@ -189,7 +154,7 @@ class MovieController extends AbstractController
     public function list()
     {
         return $this->render('admin/movie/list.html.twig', [
-            'movies' => $this->movieService->getAllOrdered()
+            'movies' => $this->movieService->getAllNotDeleted()
         ]);
     }
 }

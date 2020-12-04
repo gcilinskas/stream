@@ -35,5 +35,8 @@ security:
     access_control:
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/api, roles: [ROLE_USER, ROLE_ADMIN, ROLE_KLUBO_NARYS] }
+         - { path: ^/ticket, roles: [ROLE_USER, ROLE_ADMIN, ROLE_KLUBO_NARYS] }
+         - { path: ^/user, roles: [ROLE_USER, ROLE_ADMIN, ROLE_KLUBO_NARYS] }
+         - { path: ^/preview, roles: [ROLE_USER, ROLE_ADMIN, ROLE_KLUBO_NARYS] }
          - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }

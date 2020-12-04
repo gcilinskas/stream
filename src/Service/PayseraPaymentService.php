@@ -44,6 +44,6 @@ class PayseraPaymentService extends BaseService
             ]
         );
 
-        return ["url" => WebToPay::PAYSERA_PAY_URL . '?data=' . $request['data'] . '&amp;sign=' . $request['sign']];
+        return ["url" => WebToPay::PAYSERA_PAY_URL . '?data=' . $request['data'] . '&amp;sign=' . $request['sign'] . '&lng=lit'];
     }
 }

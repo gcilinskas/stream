@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div id="content-page" class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Klubo narių patvirtinimas</h4>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="table-view">
+                                <table class="data-tables table movie_table " style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Vardas</th>
+                                        <th>Pavarde</th>
+                                        <th>Veiksmai</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for user in users %}
+                                        <tr>
+                                            <td>
+                                                <p>{{ user.email }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ user.firstName }}</p>
+                                            </td>
+                                            <td>
+                                                <p>{{ user.lastName }}</p>
+                                            </td>
+                                            <td>
+                                                <div class="flex align-items-center" style="flex-direction: column">
+                                                    <a href="{{ path('admin_approve_club_user', {'user': user.id}) }}"
+                                                       class="btn btn-success iq-bg-success">Tvirtinti
+                                                    </a>
+                                                    <a href="{{ path('admin_disapprove_club_user', {'user': user.id}) }}"
+                                                       class="btn btn-primary iq-bg-error">Atmesti
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

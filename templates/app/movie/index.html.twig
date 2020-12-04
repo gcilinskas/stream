@@ -1,0 +1,255 @@
+{% extends 'app/base.html.twig' %}
+
+{% block body %}
+<div class="movie-content-custom">
+    {% include('app/includes/apply-ticket-modal.html.twig') %}
+    <div class="app-movie-title trending-text  text-uppercase">
+        <h1>Filmai</h1>
+    </div>
+
+    <div class="container-fluid">
+        <div id="trending-data24" >
+            <div class="trending-info align-items-center w-100 animated fadeInUp">
+                <p class="trending-text text-uppercase movie-category-title">Naujausi Filmai</p>
+                <div class="episodes-contens mt-4">
+                    <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0 movie-card-slider">
+                        {% for movie in newestMovies %}
+                            <div class="e-item movie-card">
+                                <div class="block-image position-relative">
+                                    <img src="{{ asset('uploads/movies/images/'~movie.image) }}" class="img-fluid movie-image">
+                                    <div class="episode-play-info">
+
+{#                                        <div class="episode-play">#}
+
+{#                                            <a href="show-details.html" tabindex="0"><i class="ri-play-fill"></i></a>#}
+{#                                        </div>#}
+
+                                    </div>
+                                </div>
+                                <div class="episodes-description text-body mt-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h4>{{ movie.title }}</h4>
+                                        <span class="text-primary">2.25 m</span>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        {% if movie.previewUrl %}
+                                            {% include('app/movie/movie-preview.html.twig') %}
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="movie-time d-flex align-items-center my-2 movie-date">
+                                        {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
+                                            <span  style="margin-right:5px">Filmą rodo: </span>
+                                            <div class="badge badge-secondary p-1 mr-2"><span>šiandien</span></div>
+                                        {% else %}
+                                            <span  style="margin-right:5px">Filmą rodys: </span>
+                                            <div class="badge badge-secondary p-1 mr-2"><span>{{ movie.date|date('Y-m-d') }}</span></div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="movie-time d-flex align-items-center my-2 movie-date">
+                                        <span style="margin-right:5px">Metai: </span>
+                                    </div>
+                                    <div class="movie-time d-flex align-items-center my-2 movie-date">
+                                        <span style="margin-right:5px">Šalis: </span>
+                                    </div>
+                                    <p class="mb-0">{{ movie.getMiniDescriptionPreview }}</p>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        {% for category in categories %}
+            {% if category.movies|length > 0 %}
+
+            <section id="iq-upcoming-movie">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 overflow-hidden">
+                            <div class="iq-main-header d-flex align-items-center justify-content-between">
+                                <h4 class="main-title">{{ category.title }}</h4>
+                            </div>
+
+                            <div class="upcoming-contens">
+                                <ul class="favorites-slider list-inline  row p-0 mb-0">
+
+                                    {% for movie in category.movies %}
+                                        <li class="slide-item">
+                                                <div class="block-images position-relative" style="min-height: 130px; width: auto">
+                                                    <div class="img-box" style="overflow:hidden; width:auto">
+                                                        <img src="{{ asset('uploads/movies/images/'~movie.image) }}"
+                                                             style="height:200px; width: auto; overflow:hidden">
+                                                    </div>
+
+                                                    <div class="block-description">
+                                                        <h6>{{ movie.title }}</h6>
+                                                        <div class="movie-time d-flex align-items-center my-2">
+                                                            {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
+                                                                <span class="text-white" style="margin-right:5px">Filmą rodo: </span>
+                                                                <div class="badge badge-secondary p-1 mr-2"> šiandien </div>
+                                                            {% else %}
+                                                                <span class="text-white" style="margin-right:5px">Filmą rodys: </span>
+                                                                <div class="badge badge-secondary p-1 mr-2"> {{ movie.date|date('Y-m-d') }}</div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="hover-buttons" style="width:100px;">
+                                                            <div class="row">
+                                                                {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
+                                                                    {% if app.user.hasUsedTicket(movie) == true %}
+                                                                        <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
+                                                                             <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                                                                Žiūrėti Dabar
+                                                                            </span>
+                                                                        </a>
+                                                                    {% else %}
+                                                                        <form method="POST" style="margin: 0 15px 0 0; " id="open-ticket-modal-form">
+                                                                            <input type="hidden" value="{{ movie.id }}" class="ticket-movie-data">
+                                                                            <span class="btn btn-hover open-ticket-apply-modal" id="open-ticket-apply-modal"
+                                                                                  data-toggle="modal" data-target="#exampleModalCenter"
+                                                                                  style="margin: 0 15px 0 15px">
+                                                                            <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar</span>
+                                                                        </form>
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {% if app.user is not null and app.user.canWatch(movie) %}
+                                                                        <div class="" style="margin: 0 0 0 15px; width:100%">
+                                                                            <button type="button" id="watch-later" style="width:300px;"
+                                                                                    class=" btn btn-outline-primary child-cell col-2 flex-center">
+                                                                                Rodys {{ movie.date|date('Y-m-d') }}
+                                                                            </button>
+                                                                        </div>
+                                                                        <span style="margin: 0 0 0 15px">
+                                                                            Turite Bilietą
+                                                                        </span>
+                                                                    {% else %}
+                                                                        <form method="POST" class="ticket-form pay-for-ticket"
+                                                                              style="margin: 0 0 0 15px; width:100%">
+                                                                            <input type="hidden" name="movie-id" value="{{ movie.id }}" class="ticket-movie-data">
+                                                                            <button type="submit" id="ticket-submit" style="width:300px;"
+                                                                                    class=" btn btn-outline-primary child-cell col-2 flex-center">
+                                                                                Pirkti Bilietą
+                                                                            </button>
+                                                                        </form>
+                                                                        <span style="margin: 0 0 0 15px">
+                                                                            Kaina: {{ movie.getActiveFormattedPriceByUser(app.user) }} &euro;
+                                                                        </span>
+                                                                    {% endif%}
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+
+                                                        {% if movie.previewUrl %}
+                                                            <div class="hover-buttons" style="width:100px; left:100px;">
+                                                                <div class="row">
+                                                                    <div class="trailor-video" style="display: block; left:200px; top:80px;">
+                                                                        <a href="{{ movie.previewUrl }}"  class="video-open-youtube playbtn" id="open-video">
+                                                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                                 x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
+                                                                                 enable-background="new 0 0 213.7 213.7" xml:space="preserve">
+                                                                                      <polygon class='triangle' fill="none" stroke-width="7" stroke-linecap="round"
+                                                                                               stroke-linejoin="round" stroke-miterlimit="10"
+                                                                                               points="73.5,62.5 148.5,105.8 73.5,149.1 " />
+                                                                                <circle class='circle' fill="none" stroke-width="7" stroke-linecap="round"
+                                                                                        stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />
+                                                                            </svg>
+                                                                            <span class="w-trailor">Anonsas</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="movie-mobile-buttons" style="width:170px; margin:auto; overflow: hidden; height: 230px;">
+                                                        <div class=" flex-center movie-time d-flex align-items-center my-2">
+                                                            <h6>{{ movie.title }}</h6>
+                                                        </div>
+
+                                                        <div class="movie-time d-flex align-items-center my-2">
+                                                            {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
+                                                                <span class="text-white" style="margin-right:5px">Filmą rodo: </span>
+                                                                <div class="badge badge-secondary p-1 mr-2"> šiandien </div>
+                                                            {% else %}
+                                                                <span class="text-white" style="margin-right:5px">Filmą rodys: </span>
+                                                                <div class="badge badge-secondary p-1 mr-2"> {{ movie.date|date('Y-m-d') }}</div>
+                                                            {% endif %}
+                                                        </div>
+
+                                                            {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
+                                                                {% if app.user.hasUsedTicket(movie) == true %}
+                                                                    <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
+                                                                             <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                                                                Žiūrėti Dabar
+                                                                            </span>
+                                                                    </a>
+                                                                {% else %}
+                                                                    <form method="POST"  id="open-ticket-modal-form">
+                                                                        <input type="hidden" value="{{ movie.id }}" class="ticket-movie-data">
+                                                                        <span class="btn btn-hover open-ticket-apply-modal" id="open-ticket-apply-modal"
+                                                                              data-toggle="modal" data-target="#exampleModalCenter"
+                                                                              style="margin: 0 15px 0 15px">
+                                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Filmą</span>
+                                                                    </form>
+                                                                {% endif %}
+                                                            {% else %}
+                                                                <form method="POST" class="ticket-form pay-for-ticket">
+                                                                    <div class="movie-time d-flex align-items-center my-2">
+                                                                    <input type="hidden" value="{{ movie.id }}" class="ticket-movie-data">
+                                                                    <button type="submit" id="ticket-submit" style="width:100%"
+                                                                            class=" btn btn-hover child-cell flex-center">Pirkti Bilietą</button>
+                                                                    </div>
+                                                                </form>
+                                                                <div class="movie-time d-flex align-items-center my-2"
+                                                                     style="width: 100%;">
+                                                                    <span class="text-white">Kaina: </span>
+                                                                    <div class="badge badge-secondary p-1 mr-2">
+                                                                        {{ movie.getActiveFormattedPriceByUser(app.user) }} &euro;
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        {% if movie.previewUrl %}
+                                                        <div class=" flex-center movie-time d-flex align-items-center my-2">
+                                                            <div class="trailor-video" style="display: block;">
+                                                                <a href="{{ movie.previewUrl }}"  class="video-open-youtube playbtn" id="open-video">
+                                                                    <svg version="1.1" style="height: 50px;"
+                                                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                                                         x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
+                                                                         enable-background="new 0 0 213.7 213.7" xml:space="preserve">
+                                                                                          <polygon class='triangle' fill="none" stroke-width="7" stroke-linecap="round"
+                                                                                                   stroke-linejoin="round" stroke-miterlimit="10"
+                                                                                                   points="73.5,62.5 148.5,105.8 73.5,149.1 " />
+                                                                        <circle class='circle' fill="none" stroke-width="7" stroke-linecap="round"
+                                                                                stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />
+                                                                                </svg>
+                                                                    <span class="w-trailor">Anonsas</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+
+                                                        {% endif %}
+
+
+                                                    </div>
+                                                </div>
+                                        </li>
+                                    {% endfor %}
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        {% endif %}
+    {% endfor %}
+        </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/app/ticket-payment.js') }}"></script>
+{% endblock %}

@@ -53,6 +53,12 @@ class Price
     private $currency = 'EUR';
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $clubPrice = false;
+
+    /**
      * Price constructor.
      */
     public function __construct()
@@ -164,6 +170,34 @@ class Price
     public function setCurrency(string $currency): Price
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormattedAmount(): string
+    {
+        return number_format($this->getAmount() / 100, 2, '.', '');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClubPrice(): bool
+    {
+        return $this->clubPrice;
+    }
+
+    /**
+     * @param bool $clubPrice
+     *
+     * @return Price
+     */
+    public function setClubPrice(bool $clubPrice): Price
+    {
+        $this->clubPrice = $clubPrice;
 
         return $this;
     }

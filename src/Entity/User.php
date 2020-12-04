@@ -15,12 +15,14 @@ class User implements UserInterface
 {
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_USER = 'ROLE_USER';
+    const ROLE_KLUBO_NARYS = 'ROLE_KLUBO_NARYS';
 
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"api_user"})
+     * @Groups({"api_user", "ajax_tickets"})
+     *
      */
     private $id;
 
@@ -71,6 +73,12 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="user")
      */
     private $tickets;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $clubRequest = false;
 
     /**
      * User constructor.
@@ -338,7 +346,7 @@ class User implements UserInterface
      *
      * @return User
      */
-    public function addTicket (Ticket $ticket): User
+    public function addTicket(Ticket $ticket): User
     {
         if (!$this->tickets->contains($ticket)) {
             $this->tickets->add($ticket);
@@ -352,12 +360,88 @@ class User implements UserInterface
      *
      * @return User
      */
-    public function removeTicket (Ticket $ticket): User
+    public function removeTicket(Ticket $ticket): User
     {
         if ($this->tickets->contains($ticket)) {
             $this->tickets->remove($ticket);
         }
 
         return $this;
+    }
+
+    /**
+     * @param $movie
+     *
+     * @return bool
+     */
+    public function canWatch($movie)
+    {
+        foreach ($this->getTickets() as $ticket) {
+            if ($ticket->getMovie() === $movie && $ticket->isPaid()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Movie $movie
+     *
+     * @return bool
+     */
+    public function hasUsedTicket(Movie $movie)
+    {
+        foreach ($this->getTickets() as $ticket) {
+            if ($ticket->getMovie() === $movie && $ticket->isUsed()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClubRequest(): bool
+    {
+        return $this->clubRequest;
+    }
+
+    /**
+     * @param bool $clubRequest
+     *
+     * @return User
+     */
+    public function setClubRequest(bool $clubRequest): User
+    {
+        $this->clubRequest = $clubRequest;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClubUser(): bool
+    {
+        return $this->getRole() === User::ROLE_KLUBO_NARYS;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClubOrAdmin(): bool
+    {
+        return in_array($this->getRole(), [User::ROLE_KLUBO_NARYS, User::ROLE_ADMIN]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRegularUser(): bool
+    {
+        return $this->getRole() === User::ROLE_USER;
     }
 }

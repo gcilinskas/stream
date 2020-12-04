@@ -11,10 +11,9 @@ config/jwt/*
 /.env.local
 /.env
 /.idea
-/.env.local.php
+.idea
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

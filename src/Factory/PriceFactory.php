@@ -34,14 +34,34 @@ class PriceFactory
      * @return mixed
      * @throws Exception
      */
-    public function create(Movie $movie, int $centAmount)
+    public function createRegularPrice(Movie $movie, int $centAmount)
     {
         $price = new Price();
         $price->setMovie($movie)
             ->setAmount($centAmount)
             ->setActive(true);
 
-        $this->priceService->deactivateMoviePrices($movie);
+        $this->priceService->deactivateMoviePrices($movie, false);
+
+        return $this->priceService->create($price);
+    }
+
+    /**
+     * @param Movie $movie
+     * @param int $centAmount
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function createClubPrice(Movie $movie, int $centAmount)
+    {
+        $price = new Price();
+        $price->setMovie($movie)
+            ->setAmount($centAmount)
+            ->setActive(true)
+            ->setClubPrice(true);
+
+        $this->priceService->deactivateMoviePrices($movie, true);
 
         return $this->priceService->create($price);
     }

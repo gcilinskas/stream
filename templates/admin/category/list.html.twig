@@ -31,7 +31,7 @@
                                         <tr>
                                             <td>{{ category.id }}</td>
                                             <td>{{ category.title }}</td>
-                                            <td>{{ category.movies | length }}</td>
+                                            <td>{{ category.moviesCount }}</td>
                                             <td>
                                                 <div class="flex align-items-center list-user-action">
                                                     <a href="{{ path('admin_category_edit', {'category': category.id }) }}"

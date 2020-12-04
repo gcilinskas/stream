@@ -1,6 +1,15 @@
 {
+    "behat/transliterator": {
+        "version": "v1.3.0"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
+    },
+    "deployer/deployer": {
+        "version": "v6.8.0"
+    },
+    "deployer/phar-update": {
+        "version": "v2.2.0"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -81,6 +90,9 @@
     "egulias/email-validator": {
         "version": "2.1.24"
     },
+    "gedmo/doctrine-extensions": {
+        "version": "v3.0.0"
+    },
     "jms/metadata": {
         "version": "2.3.0"
     },
@@ -123,6 +135,12 @@
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
     },
+    "phpmailer/phpmailer": {
+        "version": "v6.2.0"
+    },
+    "pimple/pimple": {
+        "version": "v3.3.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -149,6 +167,9 @@
         "files": [
             "config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "swiftmailer/swiftmailer": {
+        "version": "v6.2.3"
     },
     "symfony/asset": {
         "version": "v5.1.8"

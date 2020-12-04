@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TicketRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class Ticket
@@ -12,38 +13,43 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ticket
 {
-    const STATUS_UNUSED = "STATUS_UNUSED";
-    const STATUS_USED = "STATUS_USED";
+    const STATUS_UNUSED = "Nepanaudotas";
+    const STATUS_USED = "Panaudotas";
 
     /**
-     * @var int|null
+     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"ajax_ticket_movie"})
      */
     private $id;
 
     /**
      * @var string
      * @ORM\Column(type="string", unique=true)
+     * @Groups({"ajax_ticket_movie"})
      */
     private $code;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups({"ajax_ticket_movie"})
      */
     private $status;
 
     /**
      * @var User|null
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tickets")
+     * @Groups({"ajax_ticket_movie"})
      */
     private $user;
 
     /**
      * @var Movie|null
      * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="tickets")
+     * @Groups({"ajax_tickets", "ticket_movie"})
      */
     private $movie;
 
@@ -75,6 +81,7 @@ class Ticket
 
     /**
      * @return int|null
+     * @Groups({"ajax_ticket_movie"})
      */
     public function getId(): ?int
     {
@@ -82,11 +89,11 @@ class Ticket
     }
 
     /**
-     * @param int|null $id
+     * @param int $id
      *
      * @return Ticket
      */
-    public function setId(?int $id): Ticket
+    public function setId(int $id): Ticket
     {
         $this->id = $id;
 
@@ -231,5 +238,22 @@ class Ticket
         $this->payseraPayment = $payseraPayment;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPaid()
+    {
+        return $this->getPayseraPayment() && ($this->getPayseraPayment()->getStatus() === PayseraPayment::STATUS_PAID);
+
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUsed()
+    {
+        return $this->getStatus() === Ticket::STATUS_USED;
     }
 }

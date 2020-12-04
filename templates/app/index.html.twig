@@ -1,47 +1,92 @@
 {% extends 'app/base.html.twig' %}
 
 {% block body %}
+    {% include('app/includes/apply-ticket-modal.html.twig') %}
     <!-- Slider Start -->
     <section id="home" class="iq-main-slider p-0">
         <div id="home-slider" class="slider m-0 p-0">
             <div class="slide slick-bg s-bg-1" style="background-image:url('{{ asset('uploads/movies/images/' ~ movie.image) }}')">
                 <div class="container-fluid position-relative h-100">
+
                     <div class="slider-inner h-100">
                         <div class="row align-items-center  h-100">
                             <div class="col-xl-6 col-lg-12 col-md-12">
-                                <a href="javascript:void(0);">
-                                    <div class="channel-logo" data-animation-in="fadeInLeft" data-delay-in="0.5">
-                                        <img src="images/logo.png" class="c-logo" alt="streamit">
-                                    </div>
-                                </a>
                                 <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
-                                    data-delay-in="0.6">{{ movie.title }}</h1>
-                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
-                                    {% if movie.category %}
-                                        <span class="ml-3">{{ movie.category.title }}</span>
+                                    data-delay-in="0.6">{{ movie.title }}
+                                </h1>
+                                <div class="movie-time d-flex align-items-center my-2"  data-animation-in="fadeInUp" data-delay-in="1">
+                                    {% if movie.showToday() %}
+                                        <span class="text-white" style="margin-right:5px">Filmą rodo: </span>
+                                        <div class="badge badge-secondary p-1 mr-2"> šiandien </div>
+                                    {% else %}
+                                        <span class="text-white" style="margin-right:5px">Filmą rodys: </span>
+                                        <div class="badge badge-secondary p-1 mr-2"> {{ movie.date|date('Y-m-d') }}</div>
                                     {% endif %}
                                 </div>
-                                <p data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.description }}</p>
-                                <div class="d-flex align-items-center r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
-                                    <a href="{{ path('app_show_index', {'movie': movie.id }) }}"
-                                       class="btn btn-hover"><i class="fa fa-play mr-2" aria-hidden="true"></i>Žiūrėti</a>
+                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                    {% if movie.category %}
+                                        Žanras: <span class="ml-3">{{ movie.category.title }}</span>
+                                    {% endif %}
+                                </div>
+                                <p data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.getDescriptionPreview() }}</p>
+                                <div class="row">
+                                    {% if movie.showToday() and app.user is not null and app.user.canWatch(movie) %}
+                                        {% if app.user.hasUsedTicket(movie) == true %}
+                                            <a href="{{ path("app_show_index", {"movie": movie.id}) }}" data-animation-in="fadeInUp" data-delay-in="1">
+                                                 <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                                    Žiūrėti Dabar
+                                                </span>
+                                            </a>
+                                        {% else %}
+                                            <form method="POST" style="margin: 0 15px 0 0; " id="open-ticket-modal-form" data-animation-in="fadeInUp" data-delay-in="1">
+                                                <input type="hidden" value="{{ movie.id }}" class="ticket-movie-data">
+                                                <span class="btn btn-hover open-ticket-apply-modal" id="open-ticket-apply-modal"
+                                                      data-toggle="modal" data-target="#exampleModalCenter"
+                                                      style="margin: 0 15px 0 15px">
+                                                    <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar</span>
+                                            </form>
+                                        {% endif %}
+                                    {% else %}
+                                        {% if app.user is not null and app.user.canWatch(movie) %}
+                                            <div class="" style="margin: 0 0 0 15px; width:100%">
+                                                <button type="button" id="watch-later" style="width:300px;"
+                                                        class=" btn btn-outline-primary child-cell col-2 flex-center">
+                                                    Rodys {{ movie.date|date('Y-m-d') }}
+                                                </button>
+                                            </div>
+                                            <span style="margin: 0 0 0 15px">Turite Bilietą</span>
+                                        {% else %}
+                                            <div class="d-flex r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
+                                                <form method="POST" class="ticket-form pay-for-ticket" style="margin: 0 0 0 15px; width:100%" >
+                                                    <input type="hidden" name="movie-id" value="{{ movie.id }}" class="ticket-movie-data">
+                                                    <button type="submit" id="ticket-submit" style="width:300px;"
+                                                            class=" btn btn-outline-primary child-cell">Pirkti Bilietą</button>
+                                                </form>
+                                                <span style="margin: 0 15px 0 0; ">Kaina: {{ movie.getActiveFormattedPriceByUser(app.user) }} &euro;</span>
+                                            </div>
+                                        {% endif%}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-                        <div class="trailor-video">
-                            <a href="{{ asset('uploads/movies/'~movie.movie) }}" class="video-open playbtn">
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                     x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
-                                     enable-background="new 0 0 213.7 213.7" xml:space="preserve">
-                              <polygon class='triangle' fill="none" stroke-width="7" stroke-linecap="round"
-                                       stroke-linejoin="round" stroke-miterlimit="10"
-                                       points="73.5,62.5 148.5,105.8 73.5,149.1 " />
-                                    <circle class='circle' fill="none" stroke-width="7" stroke-linecap="round"
-                                            stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />
-                           </svg>
-                                <span class="w-trailor">Anonsas</span>
-                            </a>
-                        </div>
+
+                        {% if movie.previewUrl %}
+                            <div class="trailor-video">
+                                <a href="{{ movie.previewUrl }}"  class="video-open-youtube playbtn" id="open-video">
+                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
+                                         enable-background="new 0 0 213.7 213.7" xml:space="preserve">
+                                  <polygon class='triangle' fill="none" stroke-width="7" stroke-linecap="round"
+                                           stroke-linejoin="round" stroke-miterlimit="10"
+                                           points="73.5,62.5 148.5,105.8 73.5,149.1 " />
+                                        <circle class='circle' fill="none" stroke-width="7" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />
+                               </svg>
+                                    <span class="w-trailor">Anonsas</span>
+                                </a>
+                            </div>
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
@@ -53,5 +98,8 @@
             </symbol>
         </svg>
     </section>
-    <!-- Slider End -->
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/app/ticket-payment.js') }}"></script>
 {% endblock %}

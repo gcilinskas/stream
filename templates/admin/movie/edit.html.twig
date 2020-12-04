@@ -14,28 +14,21 @@
                             </div>
                         </div>
                         <div class="iq-card-body">
-                            <form method="POST" enctype="multipart/form-data">
-                                <div class="row">
-                                    <div class="col-lg-7">
-                                        <div class="row">
-                                            {% if errors is defined %}
-                                                {% if errors %}
-                                                    {% for error in errors %}
-                                                        <div class="alert alert-danger">Validacijos Klaida</div>
-                                                        <div class="alert alert-danger">{{ error.message }}</div>
-                                                    {% endfor %}
-                                                {% endif %}
-                                            {% endif %}
+                            {{ form_start(form) }}
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+
                                             <div class="col-12 form-group">
-                                                <input type="text" name="title" class="form-control" value="{{ movie.title }}">
+                                                {{ form_label(form.title) }}
+                                                {{ form_widget(form.title) }}
+                                                {{ form_errors(form.title) }}
                                             </div>
 
                                             <div class="col-9 form_gallery form-group">
-                                                <label id="gallery2" for="form_gallery-upload">Keisti Filmo Viršelio Paveikslėlį</label>
-
-                                                <input data-name="#gallery2" name="imageFile"
-                                                       id="form_gallery-upload" class="form_gallery-upload" onchange="readURL(this);"
-                                                       type="file" accept=".png, .jpg, .jpeg">
+                                                {{ form_label(form.imageFile) }}
+                                                {{ form_widget(form.imageFile) }}
+                                                {{ form_errors(form.imageFile) }}
                                             </div>
 
                                             <div class="col-3" style="min-height: 50px; max-height: 100px; width: auto; overflow: hidden">
@@ -44,56 +37,59 @@
                                             </div>
 
                                             <div class="col-12 form-group">
-                                                <select class="form-control" id="movie-category" name="category" >
-                                                    <option disabled="">Pasirinkite Kategoriją</option>
-                                                    {% for category in categories %}
-                                                        <option value="{{category.id }}"
-                                                            {% if movie.category and movie.category.id == category.id %} selected {% endif %}
-                                                        >
-                                                            {{category.title}}
-                                                        </option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-
-                                            <div class="col-12 form-group">
-                                                <span style="padding-left: 10px">Kaina EUR</span>
-                                                <input name="price" pattern="^\d*(\.\d{0,2})?$"
-                                                       class="form-control" value="{{ movie.getActiveFormattedPrice() }}">
+                                                {{ form_label(form.category) }}
+                                                {{ form_widget(form.category) }}
+                                                {{ form_errors(form.category) }}
                                             </div>
                                             <div class="col-12 form-group">
-                                                <label for="movie-date" style="padding-left: 10px">Pasirinkite Transliavimo Datą</label>
-                                                <input type="text" class="form-control date-input basicFlatpickr" id="movie-date"
-                                                       name="date" value="{{ movie.date|date('Y-m-d') }}">
+                                                {{ form_label(form.price) }}
+                                                {{ form_widget(form.price, {'value': movie.getActiveFormattedRegularPrice()}) }}
+                                                {{ form_errors(form.price) }}
                                             </div>
                                             <div class="col-12 form-group">
-                                                <textarea id="text" name="description" rows="5" class="form-control">{{ movie.description }}</textarea>
+                                                {{ form_label(form.clubPrice) }}
+                                                {{ form_widget(form.clubPrice, {'value': movie.getActiveFormattedClubPrice()}) }}
+                                                {{ form_errors(form.clubPrice) }}
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                {{ form_label(form.date) }}
+                                                {{ form_widget(form.date) }}
+                                                {{ form_errors(form.date) }}
+                                            </div>
+                                            <div class="col-12 form-group">
+                                                {{ form_label(form.description) }}
+                                                {{ form_widget(form.description) }}
+                                                {{ form_errors(form.description) }}
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-lg-5">
                                         <span>Filmo Failo Pavadinimas: </span>
                                         <label for="edit-movie-file" id="edit-movie-filename">{{ movie.movie }}</label>
                                         <div class="d-block position-relative">
+                                            {{ form_errors(form.movieFile) }}
                                             <div class="form_video-upload">
-
-                                                <input type="file" name="movieFile" id="edit-movie-file"
-                                                       accept="video/mp4,video/x-m4v,video/*">
-                                                <p>Keisti Filmą</p>
+                                                {{ form_widget(form.movieFile) }}
+                                                <p>Įkelti Filmą</p>
                                             </div>
                                         </div>
 
                                     </div>
 
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-12 form-group ">
-                                        <button type="submit" class="btn btn-primary">Patvirtinti</button>
-                                        <button type="reset" class="btn btn-danger">Atšaukti</button>
+                                <div style="display: flex;flex-direction: column; " class="col-lg-6">
+
+                                    <div style="margin-bottom: 20px;">
+                                        {{ form_label(form.previewUrl) }}
+                                        {{ form_widget(form.previewUrl) }}
+                                        {{ form_errors(form.previewUrl) }}
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ form_widget(form.submit) }}
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>

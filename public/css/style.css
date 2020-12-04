@@ -371,7 +371,7 @@ video { display: block; width: 100%; height: 100%; }
 -----------------------------------------------------------------------*/
 #sign-in-page-box { background: #fff; border-radius: 10px; position: relative; width: 100%; min-height: 480px; height: 93vh; margin: 15px auto; box-shadow: 0px 4px 20px 0px rgba(44, 101, 144, 0.1); -webkit-box-shadow: 0px 4px 20px 0px rgba(44, 101, 144, 0.1); }
 .sign-in-detail { color: var(--iq-white); }
-.sign-in-page { height: 100vh; position: relative; background: url(../images/login/login.jpg)  no-repeat scroll 0 0; background-size: cover; }
+.sign-in-page { height: 100vh; position: relative; background-size: cover; }
 .sign-in-page .height-self-center { height: 100vh; border-radius: 15px; }
 .sign-in-page-data { border-radius: 15px; }
 .sign-in-detail { padding: 50px 80px; }
@@ -454,13 +454,11 @@ CUSTOM
 	color: #D1D0CF !important;
 }
 
-
 .flex-center {
 	display: flex;
 	justify-content: center;
 	align-items:center;
 }
-
 
 .pd10 {
 	padding:10px;
@@ -469,7 +467,6 @@ CUSTOM
 .pd20 {
 	padding:20px;
 }
-
 
 .invalid-feedback {
 	display: block;
@@ -483,3 +480,97 @@ CUSTOM
 	list-style-type: none;
 	padding: 0;
 }
+
+#ticket-submit{
+	padding-left: 60px;
+	padding-right: 60px;
+	margin: auto;
+	width: 100%;
+}
+
+#watch-later{
+	padding-left: 60px;
+	padding-right: 60px;
+	margin: auto;
+	width: 100%;
+}
+
+@media(min-width:768px) {
+	.movie-mobile-buttons { display: none; }
+}
+@media(max-width:768px) {
+	.movie-mobile-buttons {
+		display: block;
+		width: 100%;
+	}
+
+	.movie-mobile-buttons span {
+		margin: 0 15px 0 15px;
+		width: 100%;
+	}
+}
+
+.modal-content { background-color: var(--iq-light-card) !important;; }
+
+
+.alert-success-custom { color: var(--iq-success);  }
+
+.full-width {
+	width:100%
+}
+
+.club-checkbox {
+	height: 20px;
+}
+
+.duk-p {
+	font-size: 20px;
+}
+
+.about p {
+	font-size: 20px;
+}
+
+.about-invite img{
+	margin-bottom:60px!important;
+}
+
+.about .slick-track{
+	width:100% !important;
+	transform: none;
+}
+
+.app-movie-title{
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+.movie-content-custom{
+	padding-top: 140px!important;
+}
+
+@media (max-width:767px) {
+	.movie-content-custom{
+		padding-top: 40px!important;
+	}
+}
+
+.movie-category-title{
+	font-size:25px !important;
+}
+
+.movie-image {
+	/*height:200px;*/
+	min-height: 200px;
+	width: auto!important;
+	overflow:hidden
+}
+
+.movie-date {
+	font-size: 18px;
+}
+
+/*.movie-card{*/
+/*	height: 411px;*/
+/*}*/

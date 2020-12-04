@@ -4,18 +4,14 @@ namespace App\Controller\Api;
 
 use App\Entity\Movie;
 use App\Entity\PayseraPayment;
-use App\Entity\Ticket;
 use App\Factory\TicketFactory;
 use App\Service\MovieService;
 use App\Service\PayseraPaymentService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
-use WebToPayException;
 
 /**
  * Class PayseraPaymentController
@@ -63,24 +59,24 @@ class PayseraPaymentController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function new(Movie $movie)
+    public function new(Movie $movie): Response
     {
-        if ($movie && $movie->isValidForPurchase()) {
+        if ($movie && $movie->isValidForPurchase($this->getUser())) {
             $payseraPayment = (new PayseraPayment())->setMovie($movie)
-                ->setPrice($movie->getActivePrice())
+                ->setPrice($movie->getActivePriceByUser($this->getUser()))
                 ->setUser($this->getUser())
                 ->setStatus(PayseraPayment::STATUS_NOT_PAID);
             $payseraPayment = $this->payseraPaymentService->create($payseraPayment);
-
             try {
                 $response = $this->payseraPaymentService->pay($payseraPayment);
-                return $this->json($response, Response::HTTP_OK);
-            } catch ( WebToPayException $e ) {
+
+                return $this->json($response);
+            } catch (Exception $e ) {
                 return new Response($e->getMessage(), Response::HTTP_BAD_REQUEST);
             }
         }
 
-        return $this->json(['errors' => [], 400]);
+        return $this->json('Filmas nera galimas pirkimui. Susisiekite su administracija', 400);
     }
 
     /**
@@ -91,7 +87,7 @@ class PayseraPaymentController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function cancelPayment(PayseraPayment $payseraPayment, Request $request)
+    public function cancelPayment(PayseraPayment $payseraPayment, Request $request): Response
     {
         $data = $request->get('data');
         $payseraPayment->setStatus(PayseraPayment::STATUS_CANCELED)->setToken($data);
@@ -108,7 +104,7 @@ class PayseraPaymentController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function success(PayseraPayment $payseraPayment, Request $request)
+    public function success(PayseraPayment $payseraPayment, Request $request): Response
     {
         $data = $request->get('data');
         $payseraPayment->setStatus(PayseraPayment::STATUS_PAID)->setToken($data);

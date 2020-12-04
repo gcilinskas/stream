@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Category;
 use App\Form\Admin\Category\CreateType;
 use App\Service\CategoryService;
+use App\Service\MovieService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -25,13 +26,20 @@ class CategoryController extends AbstractController
     private $categoryService;
 
     /**
+     * @var MovieService
+     */
+    private $movieService;
+
+    /**
      * CategoryController constructor.
      *
      * @param CategoryService $categoryService
+     * @param MovieService $movieService
      */
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, MovieService $movieService)
     {
         $this->categoryService = $categoryService;
+        $this->movieService = $movieService;
     }
 
     /**
@@ -120,7 +128,7 @@ class CategoryController extends AbstractController
     public function list()
     {
         return $this->render('admin/category/list.html.twig', [
-            'categories' => $this->categoryService->getAll()
+            'categories' => $this->categoryService->getAll(),
         ]);
     }
 }

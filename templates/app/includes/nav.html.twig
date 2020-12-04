@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <nav class="navbar navbar-expand-lg navbar-light p-0">
+                    <nav class="navbar navbar-expand-lg navbar-light p-0" style="height:100px;">
                         <a href="#" class="navbar-toggler c-toggler" data-toggle="collapse"
                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                            aria-expanded="false" aria-label="Toggle navigation">
@@ -15,45 +15,70 @@
                         </a>
 
                         <a class="navbar-brand" href="{{ path('home_index') }}">
-                            <img class="img-fluid logo" src="{{ asset('images/logo.png') }}" alt="logo" />
+                            <img class="img-fluid logo" src="{{ asset('images/logo.png') }}" alt="logo" style="height: 65px; width: auto; margin-top:5px"/>
                         </a>
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <div class="menu-main-menu-container">
-                                <ul id="top-menu" class="navbar-nav ml-auto">
-                                    <li class="menu-item">
-                                        <a href="{{ path('app_ticket_index') }}">Bilietai</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                            {% if app.user is not null and app.user.isAdmin() %}
+                                    <div class="menu-main-menu-container">
+                                        <ul id="top-menu" class="navbar-nav ml-auto">
+                                            <li class="menu-item">
+                                                <a href="{{ path('admin_dashboard') }}">Admin</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                            {% endif %}
 
-                        {% if app.user is null %}
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <div class="menu-main-menu-container">
                                 <ul id="top-menu" class="navbar-nav ml-auto">
                                     <li class="menu-item">
-                                        <a href="{{ path('register_index') }}">Registracija</a>
+                                        <a href="{{ path('app_duk_index') }}">DUK</a>
                                     </li>
                                 </ul>
                             </div>
-                        </div>
 
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <div class="menu-main-menu-container">
-                                <ul id="top-menu" class="navbar-nav ml-auto">
-                                    <li class="menu-item">
-                                        <a href="{{ path('app_login') }}">Prisijungti</a>
-                                    </li>
-                                </ul>
-                            </div>
+                            {% if app.user is null %}
+                                    <div class="menu-main-menu-container">
+                                        <ul id="top-menu" class="navbar-nav ml-auto">
+                                            <li class="menu-item">
+                                                <a href="{{ path('register_index') }}">Registracija</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="menu-main-menu-container">
+                                        <ul id="top-menu" class="navbar-nav ml-auto">
+                                            <li class="menu-item">
+                                                <a href="{{ path('app_login') }}">Prisijungti</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                            {% else %}
+                                <div class="menu-main-menu-container">
+                                    <ul id="top-menu" class="navbar-nav ml-auto">
+                                        <li class="menu-item">
+                                            <a href="{{ path('app_movie_index') }}">Filmai</a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="menu-main-menu-container">
+                                    <ul id="top-menu" class="navbar-nav ml-auto">
+                                        <li class="menu-item">
+                                            <a href="{{ path('app_ticket_index') }}">Bilietai</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            {% endif %}
                         </div>
-                        {% endif %}
 
                         <div class="mobile-more-menu">
+
+                            {#dropdown trigger#}
                             <a href="javascript:void(0);" class="more-toggle" id="dropdownMenuButton"
                                data-toggle="more-toggle" aria-haspopup="true" aria-expanded="false">
-                                <i class="ri-more-line"></i>
+                                <img src="{{ asset('images/user-white.png') }}" class="img-fluid avatar-40 rounded-circle" alt="user">
                             </a>
                             <div class="more-menu" aria-labelledby="dropdownMenuButton">
                                 <div class="navbar-right position-relative">
@@ -65,13 +90,13 @@
                                         <li>
                                             <div class="iq-card shadow-none m-0">
                                                 <div class="iq-card-body p-0 pl-3 pr-3">
-                                                    <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
+                                                    <a href="{{ path('app_user_edit') }}" class="iq-sub-card setting-dropdown">
                                                         <div class="media align-items-center">
                                                             <div class="right-icon">
                                                                 <i class="ri-file-user-line text-primary"></i>
                                                             </div>
                                                             <div class="media-body ml-3">
-                                                                <h6 class="mb-0 ">Mano Paskyra</h6>
+                                                                <h6 class="mb-0 ">Keisti slaptažodį</h6>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -133,18 +158,18 @@
                                     <li class="nav-item nav-icon">
                                         <a href="#" class="iq-user-dropdown search-toggle p-0 d-flex align-items-center"
                                            data-toggle="search-toggle">
-                                            <img src="images/user/user.jpg" class="img-fluid avatar-40 rounded-circle" alt="user">
+                                            <img src="{{ asset('images/user-white.png') }}" class="img-fluid avatar-40 rounded-circle" alt="user">
                                         </a>
                                         <div class="iq-sub-dropdown iq-user-dropdown">
                                             <div class="iq-card shadow-none m-0">
                                                 <div class="iq-card-body p-0 pl-3 pr-3">
-                                                    <a href="manage-profile.html" class="iq-sub-card setting-dropdown">
+                                                    <a  href="{{ path('app_user_edit') }}" class="iq-sub-card setting-dropdown">
                                                         <div class="media align-items-center">
                                                             <div class="right-icon">
                                                                 <i class="ri-file-user-line text-primary"></i>
                                                             </div>
                                                             <div class="media-body ml-3">
-                                                                <h6 class="mb-0 ">Mano Paskyra</h6>
+                                                                <h6 class="mb-0 ">Keisti slaptažodį</h6>
                                                             </div>
                                                         </div>
                                                     </a>

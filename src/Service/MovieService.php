@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Movie;
 use App\Repository\MovieRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -57,7 +58,7 @@ class MovieService extends BaseService
     /**
      * @return Movie[]|null
      */
-    public function getAllOrdered()
+    public function getAllOrdered(): ?array
     {
         return $this->repository->findAllOrdered();
     }
@@ -71,12 +72,45 @@ class MovieService extends BaseService
     {
         $this->fileService->removeMovieFiles($movie);
 
-        try {
-            parent::remove($movie);
+        parent::remove($movie);
+    }
 
-        } catch (Exception $e)  {
-            var_dump($e->getMessage());
-            die();
-        }
+    /**
+     * @param Movie $movie
+     *
+     * @throws Exception
+     */
+    public function softDelete(Movie $movie)
+    {
+        $this->fileService->removeMovieFiles($movie);
+        $movie->setDeletedAt(new DateTime());
+
+        $this->update($movie);
+    }
+
+    /**
+     * @return Movie|null
+     */
+    public function getNewestMovie(): ?Movie
+    {
+        $movies = $this->getAllOrdered();
+
+        return reset($movies) ? reset($movies) : null;
+    }
+
+    /**
+     * @return Movie[]|null
+     */
+    public function getNewestMovies(): ?array
+    {
+        return $this->repository->findNewestMovies();
+    }
+
+    /**
+     * @return Movie[]|array|null
+     */
+    public function getAllNotDeleted(): ?array
+    {
+        return $this->repository->findAllNotDeleted();
     }
 }

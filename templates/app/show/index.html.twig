@@ -17,7 +17,7 @@
                         <h4 class="trending-text big-title text-uppercase mt-0">{{ movie.title }}</h4>
                         <div class="d-flex align-items-center text-white text-detail episode-name mb-0">
                             {% if movie.category %}
-                            <span class="" style="font-size: 15px">Žanras: {{ movie.category.title }}</span>
+                                <span class="" style="font-size: 15px">Žanras: {{ movie.category.title }}</span>
                             {% endif %}
                         </div>
                         <p class="trending-dec w-100 mb-0">{{ movie.description }}</p>
@@ -69,73 +69,6 @@
 
 {% endblock %}
 
-{% block customjs %}
-    <script>
-
-            $("#form-comment").submit(function(e) {
-                e.preventDefault(); // avoid to execute the actual submit of the form.
-                var form = $(this);
-                var url = form.attr('action');
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(), // serializes the form's elements.
-                    success: function(result)
-                    {
-                        var form = document.getElementById("form-comment");
-                        form.reset();
-
-                        loadComments(12);
-                    }
-                });
-            });
-
-        function loadComments(id)
-        {
-            $.ajax({
-                type: "GET",
-                url: 'http://localhost:8005/api/comment/movie/'+id,
-                success: function(data)
-                {
-                    $('#movie-comment-container').html("<div></div>");
-                    data.forEach(function (result) {
-                        var html = $("<div class='iq-card col-12' style='margin:10px; width: 100%;'>"+
-                            "<div class='iq-card-header col-12 d-flex justify-content-between'>" +
-                            "<div class='col-12' style='display: flex; justify-content: center'>" +
-                            "<div class='iq-card  col-12 iq-card-block iq-card-stretch iq-card-height iq-mb-3'" +
-                            "style='border: 1px solid grey; border-radius: 1px; padding:10px; '>" +
-                            "<div class='iq-card-body' style='overflow: hidden'>" +
-                            "<h6 class='card-title'>"+ result.user.email +"</h6>" +
-                            "<p class='card-text'>" + result.text + "</p>" +
-                            "<p class='card-text'><small class='text-muted'>" + result.createdAt + "</small></p>"+
-                            "</div> </div> </div> </div></div>");
-
-                        $('#movie-comment-container').prepend(html);
-                        $('#comment-count').html("Komentarai: ("+data.length+")");
-                    });
-                }
-            });
-        }
-
-        loadComments(12);
-
-            var header = jQuery("#main-header");
-            header.css('opacity', 0);
-            $('#wrapmain').on("mousewheel", function() {
-                var header = jQuery("#main-header"),
-                    yOffset = 0,
-                    triggerPoint = 80;
-                yOffset = $(document).scrollTop()
-                if (yOffset >= triggerPoint) {
-                    header.css('opacity', 1);
-                    header.addClass("menu-sticky animated slideInDown");
-                } else {
-                    header.removeClass("menu-sticky animated slideInDown");
-                    header.css('opacity', 0);
-                }
-
-            });
-
-
-    </script>
+{% block javascripts %}
+    <script src="{{ asset('js/app/show.js') }}"></script>
 {% endblock %}

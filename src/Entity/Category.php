@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +33,11 @@ class Category
      * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="category")
      */
     private $movies;
+
+    /**
+     * @var int
+     */
+    private $moviesCount = 0;
 
     /**
      * Category constructor
@@ -70,11 +76,32 @@ class Category
     }
 
     /**
+     * @return int
+     */
+    public function getMoviesCount()
+    {
+        foreach ($this->getMovies() as $movie) {
+            if (!$movie->getDeletedAt()) {
+                $this->moviesCount++;
+            }
+        }
+
+        return $this->moviesCount;
+    }
+
+    /**
      * @return Movie[]|ArrayCollection
      */
     public function getMovies()
     {
-        return $this->movies;
+        $movies = [];
+        foreach ($this->movies as $movie) {
+            if (!$movie->isDeleted() && $movie->getDate() >= (new DateTime())->setTime(0, 0, 0)) {
+                $movies[] = $movie;
+            }
+        }
+
+        return $movies;
     }
 
     /**

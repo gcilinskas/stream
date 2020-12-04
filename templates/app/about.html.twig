@@ -1,0 +1,131 @@
+{% extends 'app/base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
+{% endblock %}
+
+{% block body %}
+    <section id="parallex" class="parallax-window about"  style="background-image: none">
+        <div class="container-fluid h-100 parallaxt-details" >
+            <div class="flex-center">
+                <h1 class="slider-text big-title title text-uppercase" style="padding:30px; font-size: 60px"> Kino klubas "8 1/2"</h1>
+            </div>
+            <div class="row align-items-center justify-content-center h-100 parallaxt-details">
+                <div class="col-lg-4">
+                    <h1>Apie Mus</h1>
+                    <br>
+                    <p><b>Kino klubas "8 1/2"</b> vienija bendraminčius kino meno mylėtojus Klaipėdoje ir Lietuvoje. Mūsų tikslas- suburti aktyvią kino mylėtojų bendruomenę, organizuoti įvairaus pobūdžio filmų peržiūras, susitikimus su jų režisieriais, aktoriais ir kitais kūrybinės grupės nariais, inicijuoti interaktyvius edukacinius kino renginius ir projektus. </p>
+                </div>
+                <div class="col-lg-8">
+                    <div class="parallax-img">
+                        <video src="{{ asset('video/about.mp4') }}" controls></video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="main-content about about-invite">
+        <section id="iq-favorites">
+            <div class="container-fluid">
+                <div class="row align-items-center justify-content-center h-100 parallaxt-details">
+
+                    <div class="col-lg-5" style="margin:50px;">
+                        <p><b>Kino klubas “8 1/2”</b> yra įsikūręs Klaipėdos “Kultūros fabriko” erdvėje ir jo kino salėje, kur kartą per savaitę  mes kviečiame į Lietuvos, Europos šalių bei Amerikos iškiliausių kino meno kūrinių peržiūras, premjeras, festivalius. Šiuo metu siekdami neprarsti ryšio ir sustiprinti jį  su savo kino bendruomenės nariais,  sudarėme galimybę per mūsų   internetinę platformą on line  formate  žiūrėti geriausius tiek  kino klasikos, tiek laiko patikrintus ir nauju Europos bei pasaulio  filmus.</p>
+                        <p>Šiuo metu, siekdami neprarasti ryšio ir sustiprinti jį su savo kino bendruomenės nariais, sudarėme galimybę per mūsų internetinę platformą online formate žiūrėti geriausius tiek kino klasikos, tiek laiko patikrintus ir naujus Europos bei pasaulio filmus.</p>
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="{{ asset('images/about/main1.jpg') }}"  class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+    <section id="parallex" class="parallax-window about"  style="background-image: none">
+
+        <div class="container-fluid h-100  parallaxt-details">
+                <div class="col-lg-12">
+                    <p>Tiems, kurie dar nespėjo tapti klubo nariais, kviečiame visus kino meno mylėtojus tapti klubo nariais ir gauti štai tokias privilegijas:</p>
+                    <hr>
+                    <section class="projects-section" id="projects" style="padding:20px;">
+                    <div class="featured-text text-center text-lg-left">
+                        <ul>
+                            <li><p >Per pus pigiau dalyvauti viešose kino peržiūrose, susitikimuose su filmų kūrybine grupe, kituose edukaciniuose renginiuose</p></li>
+                            <li><p >Dalyvauti uždaruose renginiuose, bei virtualiuose peržiūrose, skirtuose tik klubo nariams</p></li>
+                            <li><p >Mėgautis nemokamu puodeliu kavos ir arbatos, dalyvauti neformaliose diskusijose</p></li>
+                            <li><p >Siūlyti filmų repertuarą ir idėjas naujiems projektams įgyvendinti</p></li>
+                            <li><p >Mėgautis geriausiais vynais "Vyno klube" 10% pigiau</p></li>
+                            <li><p >Puikiai leisti laiką  įdomių  ir kino meną mėgstančių bendraminčių kompanijoje, plėsti pažinčių ratą</p></li>
+                            <li><p >Kino klubo nariams kino seansai ir renginiai tiek kino salėje, tiek per internetinę platformą – tik 2 Eur, ktiems - 4 Eur</p></li>
+                        </ul>
+                    </div>
+                    </section>
+                    <hr>
+
+                </div>
+                </div>
+        </section>
+
+
+
+    <!-- Projects-->
+    <section class="projects-section" id="projects" style="background-color: #1c1b1b;">
+
+        <div class="flex-center about-register" style="margin-bottom:50px; margin-top: -80px;" >
+            <a href="{{ path('register_index') }}" class="btn btn-outline-light"> <h2>Registracija</h2> </a>
+        </div>
+
+        <div class="container">
+            <!-- Project One Row-->
+            <div class="row justify-content-center no-gutters mb-5 mb-lg-0 about">
+                <div class="col-lg-6"><img class="img-fluid" src="{{ asset('images/about/main3.jpg') }}" alt="" /></div>
+                <div class="col-lg-6">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-left">
+                                <h2 class="text-white">Registracija</h2>
+                                <p class="mb-0 text-white-50">Norėdami tapti klubo nariais, tai galite padaryti jau dabar. Vienkartinis metinis registracijos mokestis klubo nariams - 7 Eur.</p>
+                                <hr class="d-none d-lg-block mb-0 ml-0" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Project Two Row-->
+            <div class="row justify-content-center no-gutters about">
+                <div class="col-lg-6"><img class="img-fluid" src="{{ asset('images/about/main4.jpg') }}" alt="" /></div>
+                <div class="col-lg-6 order-lg-first">
+                    <div class="bg-black text-center h-100 project">
+                        <div class="d-flex h-100">
+                            <div class="project-text w-100 my-auto text-center text-lg-right">
+                                <h2 class="text-white">Privatumo Politika</h2>
+                                <p class="mb-0 text-white-50">Mes gerbiame Jūsų privatumą, todėl nerinksime jokių papildomų duomenų, o gautus tvarkysime ir saugosime remiantis įstatymais. Daugiau apie mūsų organizacijos privatumo politiką rasite
+                                    <a href="https://skalvija.lt/privatumo-ir-slapuku-politika/" target="_blank" style="text-decoration: underline">čia</a></p>
+                                <hr class="d-none d-lg-block mb-0 mr-0" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/scripts.js') }}"></script>
+
+    <script>
+        $(function() {
+            $('.about-register a').hover(function() {
+                $('.about-register h2').css('color', 'black');
+            }, function() {
+                $('.about-register h2').css('color', 'white');
+            });
+        });
+    </script>
+{% endblock %}

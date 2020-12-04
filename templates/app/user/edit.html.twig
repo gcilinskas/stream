@@ -1,0 +1,47 @@
+{% extends 'app/base.html.twig' %}
+
+{% block body %}
+    <!-- MainContent -->
+    <section class="sign-in-page" style="background: {{ asset('images/back.jpg') }}">
+        <div class="container">
+            <div class="row justify-content-center align-items-center height-self-center">
+                <div class="col-lg-5 col-md-12 align-self-center">
+                    <div class="sign-user_card ">
+                        <div class="sign-in-page-data">
+                            <div class="sign-in-from w-100 m-auto">
+                                <h3 class="mb-3 text-center">Atnaujinti Slaptažodį</h3>
+                                {{ form_start(form, {'attr': {'class': 'mt-4'}}) }}
+{#                                <div class="form-group">#}
+{#                                    {{ form_label(form.firstName) }}#}
+{#                                    {{ form_widget(form.firstName) }}#}
+{#                                    <div class="invalid-feedback">#}
+{#                                        {{ form_errors(form.firstName) }}#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="form-group">#}
+{#                                    {{ form_label(form.lastName) }}#}
+{#                                    {{ form_widget(form.lastName) }}#}
+{#                                    <div class="invalid-feedback">#}
+{#                                        {{ form_errors(form.lastName) }}#}
+{#                                    </div>#}
+{#                                </div>#}
+                                <div class="form-group">
+                                    {{ form_widget(form.password.first) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ form_widget(form.password.second) }}
+                                    <div class="invalid-feedback">
+                                        {{ form_errors(form.password.first) }}
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

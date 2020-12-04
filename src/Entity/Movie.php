@@ -7,25 +7,33 @@ use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class Movie
  *
  * @ORM\Entity(repositoryClass=App\Repository\MovieRepository::class)
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false, hardDelete=true)
  */
 class Movie
 {
+    use SoftDeleteableEntity;
+
     /**
      * @var int|null
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"api_comment", "ajax_tickets", "ticket_movie"})
      */
     private $id;
 
     /**
      * @var string|null
      * @ORM\Column(type="string")
+     * @Groups({"ajax_tickets", "ticket_movie"})
      */
     private $title;
 
@@ -101,6 +109,17 @@ class Movie
     private $tickets;
 
     /**
+     * @var bool
+     */
+    private $showToday;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $previewUrl;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -141,6 +160,36 @@ class Movie
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescriptionPreview(): ?string
+    {
+        if ($this->getDescription() && strlen($this->getDescription()) > 300) {
+            $descriptionPreview = substr($this->getDescription(), 0, 300);
+            $descriptionPreview .= '...';
+
+            return $descriptionPreview;
+        }
+
+        return $this->getDescription();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMiniDescriptionPreview(): ?string
+    {
+        if ($this->getDescription() && strlen($this->getDescription()) > 100) {
+            $descriptionPreview = substr($this->getDescription(), 0, 100);
+            $descriptionPreview .= '...';
+
+            return $descriptionPreview;
+        }
+
+        return $this->getDescription();
     }
 
     /**
@@ -441,10 +490,24 @@ class Movie
     /**
      * @return Price|null
      */
-    public function getActivePrice(): ?Price
+    public function getActiveRegularPrice(): ?Price
     {
         foreach ($this->prices as $price) {
-            if ($price->isActive()) {
+            if ($price->isActive() && !$price->isClubPrice()) {
+                return $price;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return Price|null
+     */
+    public function getActiveClubPrice(): ?Price
+    {
+        foreach ($this->prices as $price) {
+            if ($price->isActive() && $price->isClubPrice()) {
                 return $price;
             }
         }
@@ -455,22 +518,39 @@ class Movie
     /**
      * @return string|null
      */
-    public function getActiveFormattedPrice()
+    public function getActiveFormattedRegularPrice(): ?string
     {
-        if (!$this->getActivePrice()) {
+        if (!$this->getActiveRegularPrice()) {
             return null;
-
         }
 
-        return number_format($this->getActivePrice()->getAmount() / 100, 2, '.', '');
+        return number_format($this->getActiveRegularPrice()->getAmount() / 100, 2, '.', '');
     }
 
     /**
+     * @return string|null
+     */
+    public function getActiveFormattedClubPrice(): ?string
+    {
+        if (!$this->getActiveClubPrice()) {
+            return null;
+        }
+
+        return number_format($this->getActiveClubPrice()->getAmount() / 100, 2, '.', '');
+    }
+
+
+    /**
+     * @param User $user
+     *
      * @return bool
      */
-    public function isValidForPurchase(): bool
+    public function isValidForPurchase(User $user): bool
     {
-        return $this->getActivePrice() && $this->getDate() && ($this->getDate()->getTimestamp() > time());
+        return (($user->isClubOrAdmin() && $this->getActiveClubPrice()) ||
+            ($user->isRegularUser() && $this->getActiveRegularPrice())) &&
+            $this->getDate() &&
+            ($this->getDate()->getTimestamp() >= time() || $this->showToday());
     }
 
     /**
@@ -519,5 +599,64 @@ class Movie
         }
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function showToday(): bool
+    {
+        $today = (new DateTime())->format("Y-m-d");
+        $movieDate = $this->getDate()->format("Y-m-d");
+
+        return $today === $movieDate;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPreviewUrl(): ?string
+    {
+        return $this->previewUrl;
+    }
+
+    /**
+     * @param string|null $previewUrl
+     *
+     * @return Movie
+     */
+    public function setPreviewUrl(?string $previewUrl): Movie
+    {
+        $this->previewUrl = $previewUrl;
+
+        return $this;
+    }
+
+    /**
+     * @param User|null $user
+     *
+     * @return string|null
+     */
+    public function getActiveFormattedPriceByUser(?User $user): ?string
+    {
+        if (!$user || ($user && $user->isRegularUser())) {
+            return $this->getActiveFormattedRegularPrice();
+        }
+
+        return $this->getActiveFormattedClubPrice();
+    }
+
+    /**
+     * @param User|null $user
+     *
+     * @return Price|null
+     */
+    public function getActivePriceByUser(?User $user)
+    {
+        if (!$user || ($user && $user->isRegularUser())) {
+            return $this->getActiveRegularPrice();
+        }
+
+        return $this->getActiveClubPrice();
     }
 }
