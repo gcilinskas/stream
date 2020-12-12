@@ -16,6 +16,7 @@ config/jwt/*
 /config/secrets/prod/prod.decrypt.private.php
 /var/
 /vendor/
+/public/video
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
