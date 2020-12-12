@@ -29,6 +29,18 @@
                                         Žanras: <span class="ml-3">{{ movie.category.title }}</span>
                                     {% endif %}
                                 </div>
+                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                        Metai: <span class="ml-3">{{ movie.year }}</span>
+                                </div>
+                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                    Šalis: <span class="ml-3">{{ movie.country }}</span>
+                                </div>
+                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                    Režisierius: <span class="ml-3">{{ movie.director }}</span>
+                                </div>
+                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                    Trukmė: <span class="ml-3">{{ movie.duration }}</span>
+                                </div>
                                 <p data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.getDescriptionPreview() }}</p>
                                 <div class="row">
                                     {% if movie.showToday() and app.user is not null and app.user.canWatch(movie) %}

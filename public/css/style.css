@@ -484,8 +484,9 @@ CUSTOM
 #ticket-submit{
 	padding-left: 60px;
 	padding-right: 60px;
-	margin: auto;
+	/*margin: auto;*/
 	width: 100%;
+	font-size:15px;
 }
 
 #watch-later{
@@ -561,16 +562,43 @@ CUSTOM
 }
 
 .movie-image {
-	/*height:200px;*/
-	min-height: 200px;
-	width: auto!important;
-	overflow:hidden
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
 }
 
 .movie-date {
 	font-size: 18px;
 }
 
-/*.movie-card{*/
-/*	height: 411px;*/
-/*}*/
+.movie-card {
+	height: 550px;
+}
+
+.movie-card-image-container {
+	width: auto!important;
+	overflow: hidden;
+}
+
+.trailor-video-movies{
+	height: 50px;
+}
+
+.movie-preview{
+	height: 70px;
+}
+
+.movie-actions{
+	height: 120px;
+	display: flex;
+	justify-content: center;
+	align-content: space-around;
+	flex-direction: column;
+	width: 100%;
+}
+
+.movie-actions-buy {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}

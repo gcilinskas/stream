@@ -120,6 +120,30 @@ class Movie
     private $previewUrl;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $country;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $duration;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $year;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $director;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -539,7 +563,6 @@ class Movie
         return number_format($this->getActiveClubPrice()->getAmount() / 100, 2, '.', '');
     }
 
-
     /**
      * @param User $user
      *
@@ -651,12 +674,112 @@ class Movie
      *
      * @return Price|null
      */
-    public function getActivePriceByUser(?User $user)
+    public function getActivePriceByUser(?User $user): ?Price
     {
         if (!$user || ($user && $user->isRegularUser())) {
             return $this->getActiveRegularPrice();
         }
 
         return $this->getActiveClubPrice();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowToday(): bool
+    {
+        return $this->showToday;
+    }
+
+    /**
+     * @param bool $showToday
+     *
+     * @return Movie
+     */
+    public function setShowToday(bool $showToday): Movie
+    {
+        $this->showToday = $showToday;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string|null $country
+     *
+     * @return Movie
+     */
+    public function setCountry(?string $country): Movie
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYear(): ?string
+    {
+        return $this->year;
+    }
+
+    /**
+     * @param string|null $year
+     *
+     * @return Movie
+     */
+    public function setYear(?string $year): Movie
+    {
+        $this->year = $year;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDirector(): ?string
+    {
+        return $this->director;
+    }
+
+    /**
+     * @param string|null $director
+     *
+     * @return Movie
+     */
+    public function setDirector(?string $director): Movie
+    {
+        $this->director = $director;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDuration(): ?string
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param string|null $duration
+     *
+     * @return Movie
+     */
+    public function setDuration(?string $duration): Movie
+    {
+        $this->duration = $duration;
+
+        return $this;
     }
 }

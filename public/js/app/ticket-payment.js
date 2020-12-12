@@ -1,3 +1,5 @@
+import {url} from '../config.js';
+
 $('.pay-for-ticket').submit(function(e) {
     e.preventDefault();
 });
@@ -33,9 +35,9 @@ $("#apply-ticket-form").submit(function (e) {
 function useTicket(ticket) {
     $.ajax({
         type: "POST",
-        url: 'http://localhost:8005/ticket/use/' + ticket,
+        url: url + '/ticket/use/' + ticket,
         success: function(data) {
-            window.location.href = 'http://localhost:8005/show/' + data;
+            window.location.href = url + '/show/' + data;
         },
         error: function (xhr) {
         }
@@ -45,11 +47,11 @@ function useTicket(ticket) {
 function payForTicket(movieId) {
     $.ajax({
         type: "POST",
-        url: 'http://localhost:8005/api/paysera/new/' + movieId,
+        url: url + '/api/paysera/new/' + movieId,
         success: function(data) {
             if (data.url === undefined) {
                 alert('Tik registruoti vartotojai gali pirkti bilietus')
-                window.location.href = 'http://localhost:8005/register'
+                window.location.href = url + '/register'
             } else {
                 window.location.href = data.url;
             }
@@ -62,7 +64,7 @@ function payForTicket(movieId) {
 
 function loadTickets(movie) {
     $.ajax({
-        url: 'http://localhost:8005/ticket/movie/' + movie,
+        url: url + '/ticket/movie/' + movie,
         type: 'GET',
         success: function (html) {
             var array = [];

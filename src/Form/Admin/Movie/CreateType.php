@@ -112,6 +112,29 @@ class CreateType extends AbstractType
                 'required' => false,
                 'label' => 'Anonso Nuoroda',
                 'attr' => ['class' => "form-control"]
+            ])
+            ->add('year', TextType::class, [
+                'required' => false,
+                'label' => 'Metai',
+                'attr' => ['class' => "form-control"]
+            ])
+            ->add('director', TextType::class, [
+                'required' => false,
+                'label' => 'Režisierius',
+                'attr' => ['class' => "form-control"]
+            ])
+            ->add('country', TextType::class, [
+                'required' => false,
+                'label' => 'Šalis',
+                'attr' => ['class' => "form-control"]
+            ])
+            ->add('duration', TextType::class, [
+                'required' => false,
+                'label' => 'Trukmė',
+                'attr' => [
+                    'class' => "form-control",
+                    'placeholder' => 'pvz: 1h 15min'
+                ]
             ])->add(
                 'submit',
                 SubmitType::class,
