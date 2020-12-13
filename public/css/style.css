@@ -602,3 +602,17 @@ CUSTOM
 	align-items: center;
 	justify-content: space-around;
 }
+
+.movie-actions-buy span {
+	font-size: 15px!important;
+}
+
+.movie-free-buttons {
+	display: flex;
+	flex-direction: column;
+	margin-left:15px!important;
+}
+
+.movie-free-buttons a {
+	margin-bottom: 5px!important;
+}

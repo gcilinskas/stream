@@ -6,6 +6,7 @@ use App\Entity\Movie;
 use App\EventListener\MovieListener;
 use App\Service\CategoryService;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -135,6 +136,12 @@ class CreateType extends AbstractType
                     'class' => "form-control",
                     'placeholder' => 'pvz: 1h 15min'
                 ]
+            ])->add('free', CheckboxType::class, [
+                'label'    => 'Pažymėkite varnelę, jeigu filmas yra nemokamas klubo nariams',
+                'required' => false,
+                'attr' => [
+                    'class' => "form-control club-checkbox d-flex align-items-center",
+                ],
             ])->add(
                 'submit',
                 SubmitType::class,

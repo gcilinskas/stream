@@ -75,6 +75,10 @@ class MovieShowVoter extends Voter
      */
     private function shouldAllow(Movie $subject, User $user): bool
     {
+        if ($subject->isFree() && $user->isClubOrAdmin()) {
+            return true;
+        }
+
         foreach ($user->getTickets() as $ticket) {
             if ($ticket->getMovie() &&
                 $ticket->getMovie()->getId() === $subject->getId() &&

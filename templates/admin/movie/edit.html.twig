@@ -51,6 +51,11 @@
                                                 {{ form_widget(form.clubPrice, {'value': movie.getActiveFormattedClubPrice()}) }}
                                                 {{ form_errors(form.clubPrice) }}
                                             </div>
+                                            <div class="col-12 form-group admin-movie-free">
+                                                {{ form_widget(form.free) }}
+                                                {{ form_label(form.free) }}
+                                                {{ form_errors(form.free) }}
+                                            </div>
                                             <div class="col-12 form-group">
                                                 {{ form_label(form.date) }}
                                                 {{ form_widget(form.date) }}

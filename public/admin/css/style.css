@@ -881,3 +881,14 @@ input[type=number]::-webkit-outer-spin-button {
 .mgb10{
   margin-bottom: 10px!important;
 }
+
+
+.admin-movie-free {
+    display: flex;
+    flex-direction: row;
+}
+
+.admin-movie-free input {
+    height: 30px;
+    width: 50px;
+}

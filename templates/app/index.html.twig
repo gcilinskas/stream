@@ -43,7 +43,27 @@
                                 </div>
                                 <p data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.getDescriptionPreview() }}</p>
                                 <div class="row">
-                                    {% if movie.showToday() and app.user is not null and app.user.canWatch(movie) %}
+                                    {% if app.user and app.user.isClubOrAdmin() and movie.isFree() %}
+                                        {% if movie.showToday() %}
+                                            <div class="movie-free-buttons" data-animation-in="fadeInUp" data-delay-in="1">
+                                                <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
+                                                    <span class="btn btn-hover">
+                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar
+                                                    </span>
+                                                </a>
+                                                <span>Nemokamas</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="movie-free-buttons" data-animation-in="fadeInUp" data-delay-in="1">
+                                                <div>
+                                                    <button type="button" id="watch-later" class=" btn btn-outline-primary child-cell flex-center">
+                                                        Rodys {{ movie.date|date('Y-m-d') }}
+                                                    </button>
+                                                </div>
+                                                <span>Nemokamas</span>
+                                            </div>
+                                        {% endif %}
+                                    {% elseif movie.showToday() and app.user is not null and app.user.canWatch(movie) %}
                                         {% if app.user.hasUsedTicket(movie) == true %}
                                             <a href="{{ path("app_show_index", {"movie": movie.id}) }}" data-animation-in="fadeInUp" data-delay-in="1">
                                                  <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>

@@ -25,7 +25,23 @@
 
                                             <div class="hover-buttons">
                                                 <div class="movie-actions-buy">
-                                                    {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
+                                                    {% if app.user and app.user.isClubOrAdmin() and movie.isFree() %}
+                                                        {% if movie.showToday() %}
+                                                            <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
+                                                                <span class="btn btn-hover">
+                                                                    <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar
+                                                                </span>
+                                                            </a>
+                                                            <span>Nemokamas</span>
+                                                        {% else %}
+                                                            <div>
+                                                                <button type="button" id="watch-later" class=" btn btn-outline-primary child-cell flex-center">
+                                                                    <span>Rodys {{ movie.date|date('Y-m-d') }}</span>
+                                                                </button>
+                                                            </div>
+                                                            <span>Nemokamas</span>
+                                                        {% endif %}
+                                                    {% elseif movie.showToday() and app.user and app.user.canWatch(movie) %}
                                                         {% if app.user.hasUsedTicket(movie) == true %}
                                                             <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
                                                                 <span class="btn btn-hover">

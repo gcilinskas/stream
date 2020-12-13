@@ -144,6 +144,12 @@ class Movie
     private $director;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $free = false;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -779,6 +785,26 @@ class Movie
     public function setDuration(?string $duration): Movie
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFree(): bool
+    {
+        return $this->free;
+    }
+
+    /**
+     * @param bool $free
+     *
+     * @return Movie
+     */
+    public function setFree(bool $free): Movie
+    {
+        $this->free = $free;
 
         return $this;
     }
