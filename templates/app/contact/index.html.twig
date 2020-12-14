@@ -1,0 +1,32 @@
+{% extends 'app/base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+    <section id="parallex" class="parallax-window about"  style="background-image: none">
+        <div class="container-fluid h-100  parallaxt-details">
+            <div class="col-lg-12" style="padding-top:10px;">
+                <h1>Susisiekite su mumis:</h1>
+                <section class="projects-section" id="projects" style="padding:20px;">
+                    <div class="featured-text text-center text-lg-left">
+                        <p>El paštu: kestas.mekes@gmail.com</p>
+                    </div>
+                </section>
+
+                <section class="projects-section" id="projects" style="padding:20px;">
+                    <div class="featured-text text-center text-lg-left">
+                        <p>Telefonu: +37068732897</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/scripts.js') }}"></script>
+{% endblock %}

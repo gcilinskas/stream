@@ -48,7 +48,6 @@ RUN apt-get install -y \
         libjpeg62-turbo-dev \
         default-mysql-client \
      && docker-php-ext-configure gd \
-          --enable-gd-native-ttf \
           --with-freetype-dir=/usr/include/freetype2 \
           --with-png-dir=/usr/include \
           --with-jpeg-dir=/usr/include \

@@ -8,15 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class DukController
- * @Route("/duk")
+ * @Route("/contact")
  */
-class DukController extends AbstractController
+class ContactController extends AbstractController
 {
     /**
-     * @Route("/", name="app_duk_index")
+     * @Route("/", name="app_contact")
      */
     public function index(): Response
     {
-        return $this->render('app/duk/index.html.twig');
+        return $this->render('app/contact/index.html.twig');
     }
 }
