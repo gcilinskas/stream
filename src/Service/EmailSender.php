@@ -22,7 +22,8 @@ class EmailSender
         //https://myaccount.google.com/security?pli=1#connectedapps -> to enable sending
         $mail->IsSMTP(); // telling the class to use SMTP
         $mail->SMTPAuth = true; // enable SMTP authentication
-        $mail->SMTPSecure = "ssl"; // sets the prefix to the servier
+        $mail->SMTPAutoTLS = false;
+        $mail->SMTPSecure = false;
         $mail->Host = "smtp.gmail.com"; // sets GMAIL as the SMTP server
         $mail->Port = 465; // set the SMTP port for the GMAIL server
         $mail->Username = $_ENV["GMAIL_EMAIL"];
