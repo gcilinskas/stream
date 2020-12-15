@@ -95,8 +95,6 @@ class SecurityController extends AbstractController
                 );
                 $this->userService->update($user);
             } catch (Exception $e) {
-                var_dump($e);
-                die();
                 return $this->render('app/reset-password/index.html.twig', ['error' => 'Nepavyko išsiųsti laiško. Susisiekite su administracija']);
             }
 
