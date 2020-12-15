@@ -10,6 +10,9 @@
   .search:focus, .search:hover { width: 220px !important; }
 }
 @media (min-width:992px) {
+  .duk img {
+    max-width: 600px;
+  }
   .search-box { left: auto !important; right: 0 !important; }
   .three-column { -webkit-column-count: 3; -moz-column-count: 3; column-count: 3; -webkit-column-gap: 5px; -moz-column-gap: 5px; column-gap: 5px; }
 }
@@ -23,6 +26,12 @@
   li.slide-item.slick-active + li.slide-item.slick-active + li.slide-item.slick-active:hover .block-images{ transform: scale3d(1.3, 1.3, 1) translate3d(-12%, 0, 0) perspective(500px); }
   .video-container { height: 100%; }
   #home-slider .slick-bg { height: 100%; }
+  .duk img {
+    max-width: 400px;
+  }
+  .about-logo img {
+    max-width: 600px;
+  }
 }
 @media(max-width:991px) {
   li.slide-item .block-description .parallax-ratting span, li.slide-item .block-description .movie-time span, li.slide-item .block-description .ratting-start, .block-description .movie-content li { font-size: 10px; }
@@ -57,7 +66,7 @@
   .topten-title-sm { display: block; }
   .topten-title { display: none; }
   .device-margin { margin-top: 15px; }
-  #home-slider h1.slider-text { font-size: 35px;}
+  #home-slider h1.slider-text { font-size: 30px;}
   header .navbar ul li{display:block;}
   .iq-main-slider{padding-top:60px!important;}
   .m-profile {padding-top: 100px;padding-bottom: 60px;}
@@ -71,6 +80,10 @@
   li.slide-item.slick-active:hover .block-images, li.slide-item.slick-active + li.slide-item.slick-active + 
   li.slide-item.slick-active:hover .block-images { transform: none; }
   .type { padding: 9px 10px; font-size: 13px; }
+
+  .about-logo img {
+    max-width: 400px;
+  }
 }
 @media (max-width:767px) {
   .parallax-window { padding: 60px 0; }
@@ -118,10 +131,22 @@
   .banner-caption{bottom:10px;}
   .w-name{font-size: 18px;}
   .overlay-wrapper:before{background-image: linear-gradient(to bottom, rgba(51, 51, 51, 0), rgba(0, 0, 0, 0.8) 40%, var(--iq-black) 100%);}
+
+  .duk img {
+    max-width: 300px;
+  }
+
+  .duk {
+    margin:auto;
+    text-align: center;
+  }
 }
 @media (min-width:576px) {
   .iq-search-bar a.search-toggle { display: none; }
 }
 @media (max-width:479px) {
   header .navbar ul li.list-inline-item a { padding-left: 20px; padding-right: 20px; }
+  .about-logo img {
+    max-width: 200px;
+  }
 }

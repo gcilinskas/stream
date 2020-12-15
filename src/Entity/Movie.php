@@ -62,6 +62,7 @@ class Movie
     /**
      * @var string|null
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"ajax_movie"})
      */
     private $description;
 
@@ -197,8 +198,8 @@ class Movie
      */
     public function getDescriptionPreview(): ?string
     {
-        if ($this->getDescription() && strlen($this->getDescription()) > 300) {
-            $descriptionPreview = substr($this->getDescription(), 0, 300);
+        if ($this->getDescription() && strlen($this->getDescription()) > 200) {
+            $descriptionPreview = substr($this->getDescription(), 0, 200);
             $descriptionPreview .= '...';
 
             return $descriptionPreview;

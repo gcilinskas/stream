@@ -18,6 +18,7 @@ class EmailSender
     public function send(string $recipientEmail, string $recipientName, string $subject, string $body)
     {
         $mail = new PHPMailer(true);
+        $mail->SMTPDebug = 2;
         //https://myaccount.google.com/security?pli=1#connectedapps -> to enable sending
         $mail->IsSMTP(); // telling the class to use SMTP
         $mail->SMTPAuth = true; // enable SMTP authentication
