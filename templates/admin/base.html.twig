@@ -7,25 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="verify-paysera" content="f2ad09f4becd5f379c32c3e91f6a555d">
     <title>{% block title %}Filmai{% endblock %}</title>
-    {% block stylesheets %}
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}" />
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.min.css') }}">
-        <!-- Typography CSS -->
-        <link rel="stylesheet" href="{{ asset('admin/css/typography.css') }}">
-        <!-- Style CSS -->
-        <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
-        <!-- Responsive CSS -->
-        <link rel="stylesheet" href="{{ asset('admin/css/responsive.css') }}">
-    {% endblock %}
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('admin/images/favicon.ico') }}" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('admin/css/bootstrap.min.css') }}">
+    <!-- Typography CSS -->
+    <link rel="stylesheet" href="{{ asset('admin/css/typography.css') }}">
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{{ asset('admin/css/responsive.css') }}">
+    {% block stylesheets %}{% endblock %}
 </head>
 <body>
-{#<div id="loading">#}
-{#    <div id="loading-center">#}
-{#    </div>#}
-{#</div>#}
-
 <div class="wrapper">
     {% include('admin/includes/sidebar.html.twig') %}
     {% include('admin/includes/top-nav-bar.html.twig') %}
@@ -33,8 +27,6 @@
 </div>
 
 {% include('admin/includes/footer.html.twig') %}
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="{{ asset('admin/js/jquery.min.js') }}"></script>
@@ -64,7 +56,6 @@
     <!-- Custom JavaScript -->
     <script src="{{ asset('admin/js/custom.js') }}"></script>
 {% block javascripts %}{% endblock %}
-
 {% block customjs %}{% endblock %}
 </body>
 </html>

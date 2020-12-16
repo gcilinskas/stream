@@ -44,7 +44,7 @@
                                 </div>
                                 <br>
                                 <span data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.getDescriptionPreview() }}</span>
-                                {% if movie.getDescription | length > 100 %}
+                                {% if movie.getDescription | length > 200 %}
                                     <br>
                                 <span data-animation-in="fadeInUp" data-delay-in="1.2" class="mb-0"
                                    id="read-more-modal" data-toggle="modal" data-target="#read-more">
@@ -91,13 +91,14 @@
                                         {% endif %}
                                     {% else %}
                                         {% if app.user is not null and app.user.canWatch(movie) %}
-                                            <div class="" style="margin: 0 0 0 15px; width:100%">
-                                                <button type="button" id="watch-later" style="width:300px;"
-                                                        class=" btn btn-outline-primary child-cell col-2 flex-center">
-                                                    Rodys {{ movie.date|date('Y-m-d') }}
-                                                </button>
+                                            <div class="row">
+                                                <a href="#" data-animation-in="fadeInUp" data-delay-in="1" style="margin-left: 15px; margin-top:15px;">
+                                                    <span class="btn btn-outline-primary">Rodys {{ movie.date|date('Y-m-d') }}</span>
+                                                </a>
                                             </div>
-                                            <span style="margin: 0 0 0 15px">Turite Bilietą</span>
+                                            <div class="row">
+                                                <span style="margin: 0 0 0 15px"  data-animation-in="fadeInUp" data-delay-in="1">Turite Bilietą</span>
+                                            </div>
                                         {% else %}
                                             <div class="d-flex r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
                                                 <form method="POST" class="ticket-form pay-for-ticket" style="margin: 0 0 0 15px; width:100%" >
