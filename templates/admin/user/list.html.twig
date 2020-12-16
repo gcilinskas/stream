@@ -42,12 +42,20 @@
                                                 <div class="flex align-items-center">
                                                     {% if user.isAdmin %}
                                                         <a href="{{ path('admin_user_admin', {'user': user.id}) }}"
-                                                           class="iq-bg-success">Suteikti Vartotojo Teises
+                                                           class="iq-bg-success">Atimti Admin Teises
                                                         </a>
                                                         {% else %}
                                                             <a href="{{ path('admin_user_admin', {'user': user.id}) }}"
                                                                class="iq-bg-success">Suteikti Admin Teises
                                                             </a>
+                                                    {% endif %}
+                                                </div>
+                                                <hr>
+                                                <div class="flex align-items-center">
+                                                    {% if user.isClubOrAdmin == false %}
+                                                        <a href="{{ path('admin_make_club_user', {'user': user.id}) }}"
+                                                           class="iq-bg-success">Suteikti Klubo Nario Teises
+                                                        </a>
                                                     {% endif %}
                                                 </div>
                                             </td>

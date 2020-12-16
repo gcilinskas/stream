@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Service\UserService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -33,7 +34,7 @@ class UserController extends AbstractController
     /**
      * @Route("/list", name="admin_user_list")
      */
-    public function list()
+    public function list(): Response
     {
         return $this->render('admin/user/list.html.twig', [
             'users' => $this->userService->getAll(),
@@ -53,11 +54,12 @@ class UserController extends AbstractController
     /**
      * @Route("/club/approve/{user}", name="admin_approve_club_user")
      * @param User $user
+     * @param Request $request
      *
      * @return Response
      * @throws Exception
      */
-    public function approveClubUserAction(User $user)
+    public function approveClubUserAction(User $user, Request $request): Response
     {
         $user->setClubRequest(false)
             ->setRole(User::ROLE_KLUBO_NARYS);
@@ -108,18 +110,21 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/club/{user}", name="admin_user_admin")
+     * @Route("/club/make/{user}", name="admin_make_club_user")
      * @param User $user
+     * @param Request $request
      *
      * @return Response
      * @throws Exception
      */
-    public function approveClubUser(User $user)
+    public function makeClubUserAction(User $user, Request $request): Response
     {
-        if ($user->isAdmin()) {
-            $user->setRole(User::ROLE_USER);
-        } else {
-            $user->setRole(User::ROLE_ADMIN);
-        }
+        $user->setClubRequest(false)
+            ->setRole(User::ROLE_KLUBO_NARYS);
+        $this->userService->update($user);
+
+        return $this->render('admin/user/list.html.twig', [
+            'users' => $this->userService->getAll(),
+        ]);
     }
 }
