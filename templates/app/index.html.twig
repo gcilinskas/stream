@@ -91,13 +91,15 @@
                                         {% endif %}
                                     {% else %}
                                         {% if app.user is not null and app.user.canWatch(movie) %}
-                                            <div class="row">
-                                                <a href="#" data-animation-in="fadeInUp" data-delay-in="1" style="margin-left: 15px; margin-top:15px;">
-                                                    <span class="btn btn-outline-primary">Rodys {{ movie.date|date('Y-m-d') }}</span>
-                                                </a>
-                                            </div>
-                                            <div class="row">
-                                                <span style="margin: 0 0 0 15px"  data-animation-in="fadeInUp" data-delay-in="1">Turite Bilietą</span>
+                                            <div class="flex-column" style="margin-left:15px">
+                                                <div class="row">
+                                                    <a href="#" data-animation-in="fadeInUp" data-delay-in="1" style="margin-left: 15px; margin-top:15px;">
+                                                        <span class="btn btn-outline-primary">Rodys {{ movie.date|date('Y-m-d') }}</span>
+                                                    </a>
+                                                </div>
+                                                <div class="row">
+                                                    <span style="margin: 0 0 0 15px"  data-animation-in="fadeInUp" data-delay-in="1">Turite Bilietą</span>
+                                                </div>
                                             </div>
                                         {% else %}
                                             <div class="d-flex r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
