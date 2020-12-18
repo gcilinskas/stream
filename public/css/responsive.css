@@ -29,9 +29,6 @@
   .duk img {
     max-width: 400px;
   }
-  .about-logo img {
-    max-width: 600px;
-  }
 }
 @media(max-width:991px) {
   li.slide-item .block-description .parallax-ratting span, li.slide-item .block-description .movie-time span, li.slide-item .block-description .ratting-start, .block-description .movie-content li { font-size: 10px; }
@@ -80,10 +77,6 @@
   li.slide-item.slick-active:hover .block-images, li.slide-item.slick-active + li.slide-item.slick-active + 
   li.slide-item.slick-active:hover .block-images { transform: none; }
   .type { padding: 9px 10px; font-size: 13px; }
-
-  .about-logo img {
-    max-width: 400px;
-  }
 }
 @media (max-width:767px) {
   .parallax-window { padding: 60px 0; }
@@ -146,7 +139,4 @@
 }
 @media (max-width:479px) {
   header .navbar ul li.list-inline-item a { padding-left: 20px; padding-right: 20px; }
-  .about-logo img {
-    max-width: 200px;
-  }
 }

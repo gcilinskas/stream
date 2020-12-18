@@ -618,12 +618,16 @@ CUSTOM
 }
 
 .about-logo {
+	display: flex;
     margin:auto;
     text-align: center;
+	width: 100%;
+	justify-content: space-evenly;
 }
 
 .about-logo img {
-   max-width: 800px;
+   max-width: 100px;
+	margin:auto;
 }
 
 #home {
