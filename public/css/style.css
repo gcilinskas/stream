@@ -154,7 +154,7 @@ li.slide-item .block-description .parallax-ratting span { font-size: 14px; }
 /*---------------------*/
 #trending-slider .tranding-block, .banner-wrapper { background-size: cover; background-position: top right; position: relative; }
 .trending-pills { background: rgb(0, 0, 0, 0.25); }
-.trending-info { padding: 60px 0; }
+.trending-info { padding: 10px 0; }
 .tab-title-info { z-index: 99; }
 .trending-content .tab-pane.fade { display: none; visibility: hidden; opacity: 0; }
 .trending-content .tab-pane.fade.active.show { display: block; visibility: visible; opacity: 1; }
@@ -572,7 +572,7 @@ CUSTOM
 }
 
 .movie-card {
-	height: 600px;
+	height: 650px;
 }
 
 .movie-card-image-container {
