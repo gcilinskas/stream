@@ -13,21 +13,11 @@
         <span>Nemokamas</span>
     {% endif %}
 {% elseif movie.showToday() and app.user and app.user.canWatch(movie) %}
-    {% if app.user.hasUsedTicket(movie) == true %}
-        <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
-            <span class="btn btn-hover">
-                <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar
-            </span>
-        </a>
-    {% else %}
-        <form method="POST" id="open-ticket-modal-form">
-            <input type="hidden" value="{{ movie.id }}" class="ticket-movie-data">
-            <span class="btn btn-hover open-ticket-apply-modal" id="open-ticket-apply-modal"
-                  data-toggle="modal" data-target="#exampleModalCenter">
-                <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar
-            </span>
-        </form>
-    {% endif %}
+    <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
+        <span class="btn btn-hover">
+            <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar
+        </span>
+    </a>
 {% else %}
     {% if app.user is not null and app.user.canWatch(movie) %}
         <div>

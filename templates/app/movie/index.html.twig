@@ -2,7 +2,6 @@
 
 {% block body %}
 <div class="movie-content-custom">
-    {% include('app/includes/apply-ticket-modal.html.twig') %}
     {% include('app/includes/read-more-modal.html.twig') %}
     <div class="app-movie-title trending-text  text-uppercase">
         <h1>Filmai</h1>
@@ -85,7 +84,6 @@
                                 <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0 movie-card-slider">
 
                                     {% for movie in category.movies %}
-
                                         <div class="e-item movie-card">
                                             <div class="block-image position-relative movie-card-image-container">
                                                 <img src="{{ asset('uploads/movies/images/'~movie.image) }}" class=" movie-image">
@@ -137,7 +135,6 @@
                                                     </p>
                                                 {% endif %}
                                             </div>
-
                                         </div>
                                     {% endfor %}
                                 </div>

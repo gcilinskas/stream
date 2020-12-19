@@ -1,7 +1,6 @@
 {% extends 'app/base.html.twig' %}
 
 {% block body %}
-    {% include('app/includes/apply-ticket-modal.html.twig') %}
     {% include('app/includes/read-more-modal.html.twig') %}
     <!-- Slider Start -->
     <section id="home" class="iq-main-slider p-0" style="height: 100%" style="background-image:url('{{ asset('uploads/movies/images/' ~ movie.image) }}')">
@@ -74,21 +73,11 @@
                                             </div>
                                         {% endif %}
                                     {% elseif movie.showToday() and app.user is not null and app.user.canWatch(movie) %}
-                                        {% if app.user.hasUsedTicket(movie) == true %}
-                                            <a href="{{ path("app_show_index", {"movie": movie.id}) }}" data-animation-in="fadeInUp" data-delay-in="1">
+                                        <a href="{{ path("app_show_index", {"movie": movie.id}) }}" data-animation-in="fadeInUp" data-delay-in="1">
                                                  <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>
                                                     Žiūrėti Dabar
                                                 </span>
-                                            </a>
-                                        {% else %}
-                                            <form method="POST" style="margin: 0 15px 0 0; " id="open-ticket-modal-form" data-animation-in="fadeInUp" data-delay-in="1">
-                                                <input type="hidden" value="{{ movie.id }}" class="ticket-movie-data">
-                                                <span class="btn btn-hover open-ticket-apply-modal" id="open-ticket-apply-modal"
-                                                      data-toggle="modal" data-target="#exampleModalCenter"
-                                                      style="margin: 0 15px 0 15px">
-                                                    <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar</span>
-                                            </form>
-                                        {% endif %}
+                                        </a>
                                     {% else %}
                                         {% if app.user is not null and app.user.canWatch(movie) %}
                                             <div class="flex-column" style="margin-left:15px">
