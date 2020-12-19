@@ -79,6 +79,10 @@ class MovieShowVoter extends Voter
             return true;
         }
 
+        if ($user->isAdmin()) {
+            return true;
+        }
+
         foreach ($user->getTickets() as $ticket) {
             if ($ticket->getMovie() &&
                 $ticket->getMovie()->getId() === $subject->getId() &&
