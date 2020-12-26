@@ -51,6 +51,17 @@ class Movie
     /**
      * @var File|null
      */
+    private $subtitlesFile;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", unique=true, nullable=true)
+     */
+    private $subtitles;
+
+    /**
+     * @var File|null
+     */
     private $imageFile;
 
     /**
@@ -270,6 +281,46 @@ class Movie
     public function setMovie(?string $movie): self
     {
         $this->movie = $movie;
+
+        return $this;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getSubtitlesFile(): ?File
+    {
+        return $this->subtitlesFile;
+    }
+
+    /**
+     * @param File|null $subtitlesFile
+     *
+     * @return Movie
+     */
+    public function setSubtitlesFile(?File $subtitlesFile): Movie
+    {
+        $this->subtitlesFile = $subtitlesFile;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSubtitles(): ?string
+    {
+        return $this->subtitles;
+    }
+
+    /**
+     * @param string|null $subtitles
+     *
+     * @return Movie
+     */
+    public function setSubtitles(?string $subtitles): Movie
+    {
+        $this->subtitles = $subtitles;
 
         return $this;
     }

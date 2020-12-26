@@ -73,11 +73,23 @@ class FileService
      *
      * @return string
      */
-    public function upload(UploadedFile $file)
+    public function upload(UploadedFile $file): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $ext = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        $fileName = $safeFilename.'-'.uniqid().'.'.$ext;
+        $file->move($this->targetDirectory, $fileName);
+
+        return $fileName;
+    }
+
+    public function uploadSubtitles(UploadedFile $file): string
+    {
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $ext = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+        $safeFilename = $this->slugger->slug($originalFilename);
+        $fileName = $safeFilename . '-' . uniqid() . $ext;
         $file->move($this->targetDirectory, $fileName);
 
         return $fileName;
@@ -94,6 +106,7 @@ class FileService
     {
         $item = $this->removeMovieFile($movie, $flush);
         $item = $this->removeMovieImage($movie, $flush);
+        $item = $this->removeSubtitleFile($movie, $flush);
 
         return $item;
     }
@@ -131,6 +144,25 @@ class FileService
         if ($movie->getImage()) {
             $filesystem->remove($this->moviesImagesDir . '/' . $movie->getImage());
             $movie->setImage(null);
+        }
+
+        return $this->movieService->update($movie, $flush);
+    }
+
+    /**
+     * @param Movie $movie
+     * @param bool $flush
+     *
+     * @return Movie
+     * @throws Exception
+     */
+    public function removeSubtitleFile(Movie $movie, bool $flush = true): Movie
+    {
+        $filesystem = new Filesystem();
+
+        if ($movie->getSubtitles()) {
+            $filesystem->remove($this->targetDirectory. '/'. $movie->getSubtitles());
+            $movie->setSubtitles(null);
         }
 
         return $this->movieService->update($movie, $flush);

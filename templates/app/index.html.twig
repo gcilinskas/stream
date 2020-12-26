@@ -3,6 +3,7 @@
 {% block body %}
     {% include('app/includes/read-more-modal.html.twig') %}
     <!-- Slider Start -->
+    {% if movie %}
     <section id="home" class="iq-main-slider p-0" style="height: 100%" style="background-image:url('{{ asset('uploads/movies/images/' ~ movie.image) }}')">
         <div id="home-slider" class="slider m-0 p-0" style="height: 100%">
             {% if movie %}
@@ -142,6 +143,19 @@
             </symbol>
         </svg>
     </section>
+
+
+    {% else %}
+
+    <section class="m-profile">
+        <div class="container">
+            <h1 class="main-title flex-center">Šiuo metu transliuojamų filmų nėra</h1>
+            <div class="row justify-content-center">
+            </div>
+        </div>
+    </section>
+
+    {% endif %}
 {% endblock %}
 
 {% block javascripts %}

@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-2">
                                         <span>Filmo Failo Pavadinimas: </span>
                                         <label for="edit-movie-file" id="edit-movie-filename">{{ movie.movie }}</label>
                                         <div class="d-block position-relative">
@@ -79,9 +79,22 @@
                                                 <p>Įkelti Filmą</p>
                                             </div>
                                         </div>
-
                                     </div>
 
+                                    <div class="col-lg-2" style="height: 450px">
+                                        <div style="height:100px; overflow: hidden">
+                                            <span >Subtitru Failo Pavadinimas: </span>
+                                            <label for="edit-subtitles-file" id="edit-subtitles-filename" ></label>
+                                        </div>
+
+                                        <div class="d-block position-relative" style="height: 350px">
+                                            {{ form_errors(form.subtitlesFile) }}
+                                            <div class="form_video-upload">
+                                                {{ form_widget(form.subtitlesFile) }}
+                                                <p>Įkelti Subtitrus</p>
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 <div style="display: flex;flex-direction: column; " class="col-lg-6">
 
@@ -149,6 +162,16 @@
         $('#edit-movie-file').change(function() {
             var file = $('#edit-movie-file')[0].files[0].name;
             $('#edit-movie-filename').text(file);
+        });
+
+        $('.movie-add-moviefile').change(function() {
+            var file = $(this)[0].files[0];
+            $('#edit-movie-filename').text(file.name);
+        });
+
+        $('.movie-add-subtitlesfile').change(function() {
+            var file = $(this)[0].files[0];
+            $('#edit-subtitles-filename').text(file.name);
         });
 
     </script>

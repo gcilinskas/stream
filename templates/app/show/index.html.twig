@@ -1,14 +1,15 @@
 {% extends 'app/base.html.twig' %}
 
 {% block body %}
-    <!-- Banner Start -->
     <div class="video-container iq-main-slider">
         <video class="video d-block" controls controlsList="nodownload">
             <source src="{{ asset('uploads/movies/'~movie.movie) }}" type="video/mp4">
+            {% if movie.subtitles %}
+                <track src="{{ movie.subtitles }}" kind="subtitles" srclang="en" label="English" />
+            {% endif %}
         </video>
     </div>
-    <!-- Banner End -->
-    <!-- MainContent -->
+
     <div class="main-content">
         <section class="movie-detail container-fluid">
             <div class="row">

@@ -55,8 +55,7 @@ class CreateType extends AbstractType
                 'required' => true,
                 'label' => 'Pavadinimas',
                 'attr' => ['class' => "form-control"]
-            ])
-            ->add(
+            ])->add(
                 'imageFile', FileType::class, [
                     'required' => false,
                     'label' => 'Filmo Viršelis',
@@ -65,8 +64,7 @@ class CreateType extends AbstractType
                         "data-name" => "#gallery2"
                     ]
                 ]
-            )
-            ->add(
+            )->add(
                 'category',
                 ChoiceType::class,
                 [
@@ -74,62 +72,56 @@ class CreateType extends AbstractType
                     'choices' => $this->getCategoryChoices(),
                     'attr' => ['class' => "form-control"]
                 ]
-            )
-            ->add('price', MoneyType::class, [
+            )->add('price', MoneyType::class, [
                 'required' => false,
                 'label' => 'Įprasta Bilieto Kaina',
                 'mapped' => false,
                 'scale' => 2,
                 'attr' => ['class' => "form-control"],
-            ])
-            ->add('clubPrice', MoneyType::class, [
+            ])->add('clubPrice', MoneyType::class, [
                 'required' => false,
                 'label' => 'Bilieto Kaina Klubo Nariams',
                 'mapped' => false,
                 'scale' => 2,
                 'attr' => ['class' => "form-control"],
-            ])
-            ->add('date', DateType::class, [
+            ])->add('date', DateType::class, [
                 'required' => false,
                 'widget' => 'single_text',
                 'label' => 'Pasirinkite Transliavimo Datą',
                 'html5' => false,
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => "form-control date-input basicFlatpickr"]
-            ])
-            ->add('description', TextareaType::class, [
+            ])->add('description', TextareaType::class, [
                 'required' => false,
                 'label' => 'Aprašymas',
                 'attr' => ['class' => "form-control"]
-            ])
-            ->add(
-                'movieFile', FileType::class, [
+            ])->add('movieFile', FileType::class, [
                     'required' => false,
                     'label' => 'Filmas',
                     'attr' => ['class' => 'movie-add-moviefile']
                 ]
-            )
-            ->add('previewUrl', TextType::class, [
+            )->add('subtitlesFile', FileType::class, [
+                    'required' => false,
+                    'label' => 'Subtitrai',
+                    'attr' => ['class' => 'movie-add-subtitlesFile']
+                ]
+            )->add('previewUrl', TextType::class, [
                 'required' => false,
                 'label' => 'Anonso Nuoroda',
                 'attr' => ['class' => "form-control"]
-            ])
-            ->add('year', TextType::class, [
+            ])->add('year', TextType::class, [
                 'required' => false,
                 'label' => 'Metai',
                 'attr' => ['class' => "form-control"]
-            ])
-            ->add('director', TextType::class, [
+            ])->add('director', TextType::class, [
                 'required' => false,
                 'label' => 'Režisierius',
                 'attr' => ['class' => "form-control"]
-            ])
-            ->add('country', TextType::class, [
+            ])->add('country', TextType::class, [
                 'required' => false,
                 'label' => 'Šalis',
                 'attr' => ['class' => "form-control"]
-            ])
-            ->add('duration', TextType::class, [
+            ])->add('duration', TextType::class, [
                 'required' => false,
                 'label' => 'Trukmė',
                 'attr' => [

@@ -110,5 +110,10 @@ class MovieListener implements EventSubscriberInterface
             $movieImageFilename = $this->fileService->uploadImage($movie->getImageFile());
             $movie->setImage($movieImageFilename);
         }
+
+        if ($movie->getSubtitlesFile()) {
+            $subtitlesFilename = $this->fileService->uploadSubtitles($movie->getSubtitlesFile());
+            $movie->setSubtitles($subtitlesFilename);
+        }
     }
 }
