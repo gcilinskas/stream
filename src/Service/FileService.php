@@ -58,7 +58,7 @@ class FileService
      *
      * @return string
      */
-    public function uploadImage(UploadedFile $file)
+    public function uploadImage(UploadedFile $file): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
@@ -99,10 +99,10 @@ class FileService
      * @param Movie $movie
      * @param bool $flush
      *
-     * @return mixed
+     * @return Movie
      * @throws Exception
      */
-    public function removeMovieFiles(Movie $movie, bool $flush = true)
+    public function removeMovieFiles(Movie $movie, bool $flush = true): Movie
     {
         $item = $this->removeMovieFile($movie, $flush);
         $item = $this->removeMovieImage($movie, $flush);
@@ -118,7 +118,7 @@ class FileService
      * @return Movie
      * @throws Exception
      */
-    public function removeMovieFile(Movie $movie, bool $flush = true)
+    public function removeMovieFile(Movie $movie, bool $flush = true): Movie
     {
         $filesystem = new Filesystem();
 
@@ -137,7 +137,7 @@ class FileService
      * @return Movie
      * @throws Exception
      */
-    public function removeMovieImage(Movie $movie, bool $flush = true)
+    public function removeMovieImage(Movie $movie, bool $flush = true): Movie
     {
         $filesystem = new Filesystem();
 

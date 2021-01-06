@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use WebToPay;
+use WebToPayException;
 
 /**
  * Class PayseraPaymentController
@@ -112,5 +114,39 @@ class PayseraPaymentController extends AbstractController
         $this->ticketFactory->createForPayment($payseraPayment);
 
         return $this->redirectToRoute('app_ticket_index');
+    }
+
+    /**
+     * @Route("/callback")
+     * @param Request $request
+     *
+     * @return Response
+     * @throws WebToPayException
+     */
+    public function callback(Request $request)
+    {
+
+        try {
+            // Validating data of processed payment.
+            WebToPay::smsAnswer(array(
+                // Unique message number in our system. You got it by message.
+                'id' => 0,
+
+                // Responsive message
+                'msg' => 'Thank you for sending',
+
+                // Generated project password from paysera.com system.
+                'sign_password' => 'secret',
+
+                // Path to file to which all requests will be logged
+                // If you plan to use this feature, make sure that log file
+                // is not accessible from outside.
+                //'log' => 'webtopay.log',
+            ));
+        }
+        catch (Exception $e) {
+            echo get_class($e).': '.$e->getMessage();
+        }
+
     }
 }

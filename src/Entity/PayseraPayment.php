@@ -73,6 +73,24 @@ class PayseraPayment
     private $ticket;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $payseraStatus;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $payseraOrderId;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $payseraError;
+
+    /**
      * PayseraPayment constructor.
      */
     public function __construct()
@@ -257,6 +275,66 @@ class PayseraPayment
     public function setTicket(?Ticket $ticket): PayseraPayment
     {
         $this->ticket = $ticket;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPayseraStatus(): ?string
+    {
+        return $this->payseraStatus;
+    }
+
+    /**
+     * @param string|null $payseraStatus
+     *
+     * @return PayseraPayment
+     */
+    public function setPayseraStatus(?string $payseraStatus): PayseraPayment
+    {
+        $this->payseraStatus = $payseraStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPayseraOrderId(): ?string
+    {
+        return $this->payseraOrderId;
+    }
+
+    /**
+     * @param string|null $payseraOrderId
+     *
+     * @return PayseraPayment
+     */
+    public function setPayseraOrderId(?string $payseraOrderId): PayseraPayment
+    {
+        $this->payseraOrderId = $payseraOrderId;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPayseraError(): ?string
+    {
+        return $this->payseraError;
+    }
+
+    /**
+     * @param string|null $payseraError
+     *
+     * @return PayseraPayment
+     */
+    public function setPayseraError(?string $payseraError): PayseraPayment
+    {
+        $this->payseraError = $payseraError;
 
         return $this;
     }

@@ -19,12 +19,12 @@ class CommentService extends BaseService
     }
 
     /**
-     * @param Comment $category
+     * @param Comment $comment
      *
      * @throws Exception
      */
-    public function delete(Comment $category)
+    public function delete(Comment $comment)
     {
-        parent::remove($category);
+        parent::remove($comment);
     }
 }
