@@ -16,6 +16,7 @@ class Log
     const STATUS_NOK = 'STATUS_NOK';
 
     const TYPE_PAYSERA_CALLBACK = 'TYPE_PAYSERA_CALLBACK';
+    const TYPE_PAYSERA_SUCCESS = 'TYPE_PAYSERA_SUCCESS';
 
     /**
      * @var int|null

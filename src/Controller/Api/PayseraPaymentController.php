@@ -119,16 +119,22 @@ class PayseraPaymentController extends AbstractController
      */
     public function success(PayseraPayment $payseraPayment, Request $request): Response
     {
+        $log = (new Log())->setType(Log::TYPE_PAYSERA_SUCCESS);
+        $this->logService->create($log);
+
         $data = $request->get('data');
         $payseraPayment->setStatus(PayseraPayment::STATUS_PAID)->setToken($data);
         $this->payseraPaymentService->update($payseraPayment);
         $this->ticketFactory->createForPayment($payseraPayment);
 
+        $log->setInfo('Paysera payment ID' . $payseraPayment->getId())->setStatus(Log::STATUS_OK);
+        $this->logService->update($log);
+
         return $this->redirectToRoute('app_ticket_index');
     }
 
     /**
-     * @Route("/callback")
+     * @Route("/callback/{payseraPayment}")
      * @param PayseraPayment $payseraPayment
      * @param Request $request
      *
