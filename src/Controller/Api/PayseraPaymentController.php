@@ -2,9 +2,11 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Log;
 use App\Entity\Movie;
 use App\Entity\PayseraPayment;
 use App\Factory\TicketFactory;
+use App\Service\LogService;
 use App\Service\MovieService;
 use App\Service\PayseraPaymentService;
 use Exception;
@@ -13,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use WebToPay;
-use WebToPayException;
 
 /**
  * Class PayseraPaymentController
@@ -38,20 +39,28 @@ class PayseraPaymentController extends AbstractController
     private $ticketFactory;
 
     /**
+     * @var LogService
+     */
+    private $logService;
+
+    /**
      * PayseraPaymentController constructor.
      *
      * @param PayseraPaymentService $payseraPaymentService
      * @param MovieService $movieService
      * @param TicketFactory $ticketFactory
+     * @param LogService $logService
      */
     public function __construct(
         PayseraPaymentService $payseraPaymentService,
         MovieService $movieService,
-        TicketFactory $ticketFactory
+        TicketFactory $ticketFactory,
+        LogService $logService
     ) {
         $this->payseraPaymentService = $payseraPaymentService;
         $this->movieService = $movieService;
         $this->ticketFactory = $ticketFactory;
+        $this->logService = $logService;
     }
 
     /**
@@ -68,7 +77,9 @@ class PayseraPaymentController extends AbstractController
                 ->setPrice($movie->getActivePriceByUser($this->getUser()))
                 ->setUser($this->getUser())
                 ->setStatus(PayseraPayment::STATUS_NOT_PAID);
+
             $payseraPayment = $this->payseraPaymentService->create($payseraPayment);
+
             try {
                 $response = $this->payseraPaymentService->pay($payseraPayment);
 
@@ -118,35 +129,52 @@ class PayseraPaymentController extends AbstractController
 
     /**
      * @Route("/callback")
+     * @param PayseraPayment $payseraPayment
      * @param Request $request
      *
      * @return Response
-     * @throws WebToPayException
+     * @throws Exception
      */
-    public function callback(Request $request)
+    public function callback(PayseraPayment $payseraPayment, Request $request): Response
     {
+        $log = (new Log())->setType(Log::TYPE_PAYSERA_CALLBACK);
+        $this->logService->create($log);
 
         try {
-            // Validating data of processed payment.
-            WebToPay::smsAnswer(array(
-                // Unique message number in our system. You got it by message.
-                'id' => 0,
+            $response = WebToPay::checkResponse($_GET, [
+                'project_id' => $_ENV['PAYSERA_PROJECT_ID'],
+                'sign_password' => $_ENV['PAYSERA_SECRET_KEY'],
+            ]);
 
-                // Responsive message
-                'msg' => 'Thank you for sending',
+            if ($response['status'] != 0 && !empty($response['orderid'])) {
+                $payseraPayment->setStatus(PayseraPayment::STATUS_PAID)
+                    ->setPayseraStatus($response['status'])
+                    ->setPayseraOrderId($response['orderid']);
 
-                // Generated project password from paysera.com system.
-                'sign_password' => 'secret',
+                $this->payseraPaymentService->update($payseraPayment);
+                $this->ticketFactory->createForPayment($payseraPayment);
 
-                // Path to file to which all requests will be logged
-                // If you plan to use this feature, make sure that log file
-                // is not accessible from outside.
-                //'log' => 'webtopay.log',
-            ));
+                $log->setStatus(Log::STATUS_OK)->setInfo(json_encode($response));
+                $this->logService->update($log);
+
+                return new Response('OK');
+            } else {
+                $payseraPayment->setPayseraStatus($response['status'])
+                    ->setPayseraError($response['error'])
+                    ->setPayseraOrderId($response['orderid']);
+
+                $log->setStatus(Log::STATUS_NOK)->setInfo(json_encode($response));
+                $this->logService->update($log);
+                
+                return new Response('OK');
+            }
+
+        } catch (Exception $e) {
+            $log->setStatus(Log::STATUS_NOK)->setInfo($e->getMessage());
+            $this->logService->update($log);
+
+            return new Response($e->getMessage(), 400);
         }
-        catch (Exception $e) {
-            echo get_class($e).': '.$e->getMessage();
-        }
-
     }
 }
+
