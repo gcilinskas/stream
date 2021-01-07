@@ -5,17 +5,24 @@ $(document).on("click", "[data-entry-id]", function () {
     getDescription(movieId);
 
     function getDescription(movie) {
-        $.ajax({
-            url: url + '/movie/' + movie,
-            type: 'GET',
-            success: function (response) {
-                var desc = response.description;
-                $('#read-more-modal-description').empty();
-                $('#read-more-modal-description').html(desc);
-            },
-            error: function (xhr, status, error) {
-                alert('Nesuveike filmo apziura, kreipkites i administratoriu');
+
+        var xmlhttp;
+        if (window.XDomainRequest) {
+            xmlhttp=new XDomainRequest();
+            xmlhttp.onload = function(){callBack(xmlhttp.responseText)};
+        } else if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+        } else {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                document.getElementById("read-more-modal-description").innerHTML = JSON.parse(xmlhttp.responseText).description;
             }
-        });
+        }
+
+        xmlhttp.open("GET", url + '/movie/' + movie, true);
+        xmlhttp.send();
     }
 });
