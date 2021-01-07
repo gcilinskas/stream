@@ -61,7 +61,10 @@
                                     <p class="mb-0">{{ movie.getMiniDescriptionPreview }}</p>
                                     {% if movie.getDescription | length > 100 %}
                                         <p class="mb-0" id="read-more-modal" data-toggle="modal" data-target="#read-more">
-                                            <a href="#" data-entry-id="{{ movie.id }}" style="text-decoration: underline">Skaityti daugiau</a>
+                                            <a href="#" data-entry-id="{{ movie.id }}"
+                                               style="text-decoration: underline"
+                                               onclick="readMore({{ movie.id }})"
+                                            >Skaityti daugiau</a>
                                         </p>
                                     {% endif %}
                                 </div>
@@ -131,7 +134,9 @@
                                                 <p class="mb-0">{{ movie.getMiniDescriptionPreview }}</p>
                                                 {% if movie.getDescription | length > 100 %}
                                                     <p class="mb-0" id="read-more-modal" data-toggle="modal" data-target="#read-more">
-                                                        <a href="#" data-entry-id="{{ movie.id }}" style="text-decoration: underline">Skaityti daugiau</a>
+                                                        <a href="#" data-entry-id="{{ movie.id }}" style="text-decoration: underline"
+                                                           onclick="readMore({{ movie.id }})"
+                                                        >Skaityti daugiau</a>
                                                     </p>
                                                 {% endif %}
                                             </div>
@@ -165,5 +170,38 @@
         });
     </script>
 
-    <script type="module" src="{{ asset('js/app/movie-preview.js') }}"></script>
+    <script>
+        url = 'http://localhost:8005'
+
+        function readMore(movie) {
+            var xmlhttp;
+            if (window.XDomainRequest) {
+                xmlhttp = new XDomainRequest();
+
+                xmlhttp.onload = function() {
+                    console.log(xmlhttp.responseText);
+                    document.getElementById("read-more-modal-description").innerHTML =
+                        JSON.parse(xmlhttp.responseText).description;
+                };
+            } else if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                    console.log(xmlhttp.responseText);
+                    document.getElementById("read-more-modal-description").innerHTML =
+                        JSON.parse(xmlhttp.responseText).description;
+                }
+            }
+
+            xmlhttp.open("GET", url + '/movie/' + movie, true);
+            xmlhttp.send();
+        }
+
+    </script>
+
+{#    <script type="module" src="{{ asset('js/app/movie-preview.js') }}"></script>#}
 {% endblock %}
