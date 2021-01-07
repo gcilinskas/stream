@@ -89,7 +89,7 @@ class FileService
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $ext = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
         $safeFilename = $this->slugger->slug($originalFilename);
-        $fileName = $safeFilename . '-' . uniqid() . $ext;
+        $fileName = $safeFilename . '-' . uniqid() . '.' . $ext;
         $file->move($this->targetDirectory, $fileName);
 
         return $fileName;
