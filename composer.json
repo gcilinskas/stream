@@ -12,6 +12,7 @@
         "doctrine/orm": "^2.7",
         "gedmo/doctrine-extensions": "^3.0",
         "lexik/jwt-authentication-bundle": "^2.9",
+        "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpmailer/phpmailer": "^6.2",
         "sensio/framework-extra-bundle": "^5.1",
