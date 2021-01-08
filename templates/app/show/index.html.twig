@@ -5,7 +5,12 @@
         <video class="video d-block" controls controlsList="nodownload">
             <source src="{{ asset('uploads/movies/'~movie.movie) }}" type="video/mp4">
             {% if movie.subtitles %}
-                <track src="{{ asset('uploads/movies/'~movie.subtitles) }}" kind="subtitles" srclang="lt" label="Lietuviu" />
+                <track label="Lietuviu"
+                       kind="subtitles"
+                       srclang="lt"
+                       src="{{ asset('uploads/movies/'~movie.subtitles) }}"
+                       default
+                />
             {% endif %}
         </video>
     </div>
