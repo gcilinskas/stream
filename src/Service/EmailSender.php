@@ -39,6 +39,7 @@ class EmailSender
         } catch (Exception $e) {
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;
+            die();
         }
 
     }
