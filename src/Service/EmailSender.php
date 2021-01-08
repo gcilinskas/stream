@@ -28,7 +28,7 @@ class EmailSender
 
             $mail->Port = 465; // TCP port to connect to
             $mail->Username = 'info@mediaport.lt';
-            $mail->Password = 'Mediaport123123';
+            $mail->Password = $_ENV['MAIL_PASSWORD'];
 
             $mail->AddAddress($recipientEmail, $recipientName);
             $mail->SetFrom('info@mediaport.lt', 'Gediminas');
