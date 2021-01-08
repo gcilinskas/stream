@@ -80,20 +80,24 @@ class SecurityController extends AbstractController
             $user = $this->userService->getOneBy(['email' => $email]);
 
             if (!$user) {
-                return $this->render('app/reset-password/index.html.twig', ['error' => 'Vartotojo su tokiu el-paštu nėra']);
+                return $this->render(
+                    'app/reset-password/index.html.twig',
+                    ['error' => 'Vartotojo su tokiu el-paštu nėra']
+                );
             }
 
             try {
                 $plainPassword = random_int(10000, 100000);
                 $encodedPassword = $this->encoder->encodePassword($user, $plainPassword);
                 $user->setPassword($encodedPassword);
+
                 $this->emailSender->send(
                     $email,
                     $email,
                     'Slaptazodzio Atstatymas',
                     'Jūsų slaptažodis buvo atstatytas. Dabartinis slaptažodis: ' . $plainPassword
                 );
-                $this->userService->update($user);
+//                $this->userService->update($user);
             } catch (Exception $e) {
                 return $this->render('app/reset-password/index.html.twig', ['error' => 'Nepavyko išsiųsti laiško. Susisiekite su administracija']);
             }
