@@ -75,6 +75,11 @@ class User implements UserInterface
     private $tickets;
 
     /**
+     * @var string|null
+     */
+    private $plainPassword;
+
+    /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
@@ -443,5 +448,25 @@ class User implements UserInterface
     public function isRegularUser(): bool
     {
         return $this->getRole() === User::ROLE_USER;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param string|null $plainPassword
+     *
+     * @return User
+     */
+    public function setPlainPassword(?string $plainPassword): User
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
     }
 }

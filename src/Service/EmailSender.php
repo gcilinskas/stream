@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\User;
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -35,30 +36,46 @@ class EmailSender
      */
     public function send(string $recipientEmail, string $recipientName, string $subject, string $body)
     {
-        try {
-            $mail = new PHPMailer(true);
-            $mail->SMTPDebug = 2;
-            //https://myaccount.google.com/security?pli=1#connectedapps -> to enable sending if gmail
-            $mail->IsSMTP(); // telling the class to use SMTP
-            $mail->Host = $this->mailerConfig['host'];
-            $mail->SMTPAuth = true; // enable SMTP authentication
-            $mail->SMTPSecure = "ssl"; // sets the prefix to the server
+        $mail = $this->configureMailer();
 
-            $mail->Port = $this->mailerConfig['port']; // TCP port to connect to
-            $mail->Username = $this->mailerConfig['username'];
-            $mail->Password = $this->mailerConfig['password'];
+        $mail->AddAddress($recipientEmail, $recipientName);
+        $mail->SetFrom($this->mailerConfig['sender_email'], $this->mailerConfig['sender_name']);
+        $mail->Subject = $subject;
+        $mail->Body = $body;
 
-            $mail->AddAddress($recipientEmail, $recipientName);
-            $mail->SetFrom($this->mailerConfig['sender_email'], $this->mailerConfig['sender_name']);
-            $mail->Subject = $subject;
-            $mail->Body = $body;
+        $mail->Send();
+    }
 
-            $mail->Send();
-        } catch (Exception $e) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
-            die();
-        }
+    /**
+     * @return PHPMailer
+     */
+    private function configureMailer(): PHPMailer
+    {
+        $mail = new PHPMailer(true);
+        $mail->SMTPDebug = $this->mailerConfig['debug'];
+        $mail->IsSMTP();
+        $mail->Host = $this->mailerConfig['host'];
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = "ssl";
+        $mail->Port = $this->mailerConfig['port'];
+        $mail->Username = $this->mailerConfig['username'];
+        $mail->Password = $this->mailerConfig['password'];
 
+        return $mail;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @throws Exception
+     */
+    public function sendResetPasswordMail(User $user)
+    {
+        $this->send(
+            $user->getEmail(),
+            $user->getFirstName(),
+            'Slaptazodzio Atstatymas',
+            'Jūsų slaptažodis buvo atstatytas. Dabartinis slaptažodis: ' . $user->getPlainPassword()
+        );
     }
 }

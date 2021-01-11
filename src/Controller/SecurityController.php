@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Log;
 use App\Service\EmailSender;
+use App\Service\LogService;
 use App\Service\UserService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -34,21 +36,37 @@ class SecurityController extends AbstractController
     private $encoder;
 
     /**
+     * @var LogService
+     */
+    private $logService;
+
+    /**
      * SecurityController constructor.
      *
      * @param UserService $userService
      * @param EmailSender $emailSender
      * @param UserPasswordEncoderInterface $encoder
+     * @param LogService $logService
      */
-    public function __construct(UserService $userService, EmailSender $emailSender, UserPasswordEncoderInterface $encoder)
-    {
+    public function __construct(
+        UserService $userService,
+        EmailSender $emailSender,
+        UserPasswordEncoderInterface $encoder,
+        LogService $logService
+    ) {
         $this->userService = $userService;
         $this->emailSender = $emailSender;
         $this->encoder = $encoder;
+        $this->logService = $logService;
     }
+
 
     /**
      * @Route("/login", name="app_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @param Request $request
+     *
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
@@ -73,42 +91,29 @@ class SecurityController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request): Response
     {
         if ($request->getMethod() === "POST") {
-            $email = $request->get('email');
-            $user = $this->userService->getOneBy(['email' => $email]);
-
-            if (!$user) {
-                return $this->render(
-                    'app/reset-password/index.html.twig',
-                    ['error' => 'Vartotojo su tokiu el-paštu nėra']
-                );
-            }
-
             try {
-                $plainPassword = random_int(10000, 100000);
-                $encodedPassword = $this->encoder->encodePassword($user, $plainPassword);
-                $user->setPassword($encodedPassword);
+                $user = $this->userService->getOneBy(['email' => $request->get('email')]);
+                if (!$user) {
+                    throw new NotFoundHttpException('Vartotojo su tokiu el-paštu nėra');
+                }
 
-                $this->emailSender->send(
-                    $email,
-                    $email,
-                    'Slaptazodzio Atstatymas',
-                    'Jūsų slaptažodis buvo atstatytas. Dabartinis slaptažodis: ' . $plainPassword
-                );
-//                $this->userService->update($user);
+                $user = $this->userService->resetRandomPassword($user, false);
+                $this->emailSender->sendResetPasswordMail($user);
+                $this->userService->flush();
+                $this->addFlash('success', 'Slaptažodis atstatytas. Informacija išsiųsta į jūsų el-paštą');
 
-                die();
+                return $this->redirectToRoute('app_login');
+            } catch (NotFoundHttpException $e) {
+                $error = $e->getMessage();
             } catch (Exception $e) {
-                return $this->render('app/reset-password/index.html.twig', ['error' => 'Nepavyko išsiųsti laiško. Susisiekite su administracija']);
+                $this->logService->createNok(Log::TYPE_EMAIL_RESET_PASSWORD, $e->getMessage());
+                $error = 'Nepavyko išsiųsti laiško. ' . $e->getMessage();
             }
-
-            $this->addFlash('success', 'Slaptažodis atstatytas. Informacija išsiųsta į jūsų el-paštą');
-
-            return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('app/reset-password/index.html.twig', ['error' => null]);
+        return $this->render('app/reset-password/index.html.twig', ['error' => isset($error) ? $error : null]);
     }
 }
