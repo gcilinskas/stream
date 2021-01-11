@@ -34,5 +34,7 @@ services:
             $targetDirectory: '%movies_directory%'
             $moviesImagesDir: '%movies_images_directory%'
 
-    # add more Service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Service\EmailSender:
+        arguments:
+            $mailerConfig: '%mailer%'
+

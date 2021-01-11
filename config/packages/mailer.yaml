@@ -1,3 +1,8 @@
-framework:
+parameters:
     mailer:
-        dsn: '%env(MAILER_DSN)%'
+        sender_email: '%env(MAIL_SENDER_EMAIL)%'
+        sender_name: '%env(MAIL_SENDER_NAME)%'
+        username: '%env(MAIL_USERNAME)%'
+        password: '%env(MAIL_PASSWORD)%'
+        host: '%env(MAIL_HOST)%'
+        port: '%env(MAIL_PORT)%'

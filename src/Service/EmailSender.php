@@ -5,8 +5,26 @@ namespace App\Service;
 use Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
+/**
+ * Class EmailSender
+ */
 class EmailSender
 {
+    /**
+     * @var array
+     */
+    private $mailerConfig;
+
+    /**
+     * EmailSender constructor.
+     *
+     * @param array $mailerConfig
+     */
+    public function __construct(array $mailerConfig)
+    {
+        $this->mailerConfig = $mailerConfig;
+    }
+
     /**
      * @param string $recipientEmail
      * @param string $recipientName
@@ -20,18 +38,18 @@ class EmailSender
         try {
             $mail = new PHPMailer(true);
             $mail->SMTPDebug = 2;
-            //https://myaccount.google.com/security?pli=1#connectedapps -> to enable sending
+            //https://myaccount.google.com/security?pli=1#connectedapps -> to enable sending if gmail
             $mail->IsSMTP(); // telling the class to use SMTP
-            $mail->Host = "smtp.pingvinas.serveriai.lt"; // sets GMAIL as the SMTP server
+            $mail->Host = $this->mailerConfig['host'];
             $mail->SMTPAuth = true; // enable SMTP authentication
-            $mail->SMTPSecure = "ssl"; // sets the prefix to the servier
+            $mail->SMTPSecure = "ssl"; // sets the prefix to the server
 
-            $mail->Port = 465; // TCP port to connect to
-            $mail->Username = 'info@mediaport.lt';
-            $mail->Password = $_ENV['MAIL_PASSWORD'];
+            $mail->Port = $this->mailerConfig['port']; // TCP port to connect to
+            $mail->Username = $this->mailerConfig['username'];
+            $mail->Password = $this->mailerConfig['password'];
 
             $mail->AddAddress($recipientEmail, $recipientName);
-            $mail->SetFrom('info@mediaport.lt', 'Gediminas');
+            $mail->SetFrom($this->mailerConfig['sender_email'], $this->mailerConfig['sender_name']);
             $mail->Subject = $subject;
             $mail->Body = $body;
 

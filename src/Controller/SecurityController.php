@@ -98,6 +98,8 @@ class SecurityController extends AbstractController
                     'Jūsų slaptažodis buvo atstatytas. Dabartinis slaptažodis: ' . $plainPassword
                 );
 //                $this->userService->update($user);
+
+                die();
             } catch (Exception $e) {
                 return $this->render('app/reset-password/index.html.twig', ['error' => 'Nepavyko išsiųsti laiško. Susisiekite su administracija']);
             }
