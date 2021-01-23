@@ -91,6 +91,13 @@ class CreateType extends AbstractType
                 'html5' => false,
                 'format' => 'yyyy-MM-dd',
                 'attr' => ['class' => "form-control date-input basicFlatpickr"]
+            ])->add('dateTo', DateType::class, [
+                'required' => false,
+                'widget' => 'single_text',
+                'label' => 'Pratesti Transliavimo Data Iki (Nebutina)',
+                'html5' => false,
+                'format' => 'yyyy-MM-dd',
+                'attr' => ['class' => "form-control date-input basicFlatpickr"]
             ])->add('description', TextareaType::class, [
                 'required' => false,
                 'label' => 'Aprašymas',

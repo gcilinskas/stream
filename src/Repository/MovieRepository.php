@@ -29,6 +29,7 @@ class MovieRepository extends ServiceEntityRepository
             ->orderBy('m.date', 'ASC')
             ->where('m.deletedAt is null')
             ->andWhere('m.date >= :today')
+            ->orWhere('m.dateTo >= :today')
             ->setParameter('today', (new DateTime())->setTime(0,0, 0))
             ->getQuery()->getResult();
     }
@@ -55,6 +56,7 @@ class MovieRepository extends ServiceEntityRepository
             ->orderBy('m.date', 'ASC')
             ->where('m.deletedAt is null')
             ->andWhere('m.date >= :today')
+            ->orWhere('m.dateTo >= :today')
             ->setParameter('today', (new DateTime())->setTime(0,0, 0))
             ->setMaxResults($limit)
             ->getQuery()->getResult();

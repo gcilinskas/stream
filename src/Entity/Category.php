@@ -78,7 +78,7 @@ class Category
     /**
      * @return int
      */
-    public function getMoviesCount()
+    public function getMoviesCount(): int
     {
         foreach ($this->getMovies() as $movie) {
             if (!$movie->getDeletedAt()) {
@@ -92,16 +92,24 @@ class Category
     /**
      * @return Movie[]|ArrayCollection
      */
-    public function getMovies()
+    public function getActiveMovies()
     {
-        $movies = [];
+        $activeMovies = [];
         foreach ($this->movies as $movie) {
-            if (!$movie->isDeleted() && $movie->getDate() >= (new DateTime())->setTime(0, 0, 0)) {
-                $movies[] = $movie;
+            if (!$movie->isDeleted() && $movie->isActive()) {
+                $activeMovies[] = $movie;
             }
         }
 
-        return $movies;
+        return $activeMovies;
+    }
+
+    /**
+     * @return Movie[]|ArrayCollection
+     */
+    public function getMovies()
+    {
+        return $this->movies;
     }
 
     /**

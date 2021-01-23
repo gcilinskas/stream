@@ -97,6 +97,12 @@ class Movie
     private $date;
 
     /**
+     * @var DateTimeInterface|null
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateTo;
+
+    /**
      * @var Comment[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="movie", orphanRemoval=true, cascade={"persist", "remove"})
      */
@@ -426,6 +432,26 @@ class Movie
     }
 
     /**
+     * @return DateTimeInterface|null
+     */
+    public function getDateTo(): ?DateTimeInterface
+    {
+        return $this->dateTo;
+    }
+
+    /**
+     * @param DateTimeInterface|null $dateTo
+     *
+     * @return Movie
+     */
+    public function setDateTo(?DateTimeInterface $dateTo): Movie
+    {
+        $this->dateTo = $dateTo;
+
+        return $this;
+    }
+
+    /**
      * @return Comment[]|ArrayCollection
      */
     public function getComments()
@@ -628,10 +654,9 @@ class Movie
      */
     public function isValidForPurchase(User $user): bool
     {
-        return (($user->isClubOrAdmin() && $this->getActiveClubPrice()) ||
-            ($user->isRegularUser() && $this->getActiveRegularPrice())) &&
-            $this->getDate() &&
-            ($this->getDate()->getTimestamp() >= time() || $this->showToday());
+        return (($user->isClubOrAdmin() && $this->getActiveClubPrice())
+            || ($user->isRegularUser() && $this->getActiveRegularPrice()))
+            && $this->getDate();
     }
 
     /**
@@ -690,7 +715,25 @@ class Movie
         $today = (new DateTime())->format("Y-m-d");
         $movieDate = $this->getDate()->format("Y-m-d");
 
+        if ($dateTo = $this->getDateTo()) {
+            $today = (new DateTime())->setTime(0,0,0);
+
+            return ($today >= $this->getDate()) && ($today <= $this->getDateTo());
+        }
+
         return $today === $movieDate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        $today = (new DateTime())->setTime(0,0,0);
+
+        return $this->getDateTo()
+            ? ($today >= $this->getDate() || $today <= $this->getDateTo())
+            : $this->getDate() >= $today;
     }
 
     /**
@@ -859,5 +902,19 @@ class Movie
         $this->free = $free;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFormattedShowDate(): string
+    {
+        $formattedDate = $this->getDate()->format('Y-m-d');
+
+        if ($this->getDateTo()) {
+            return $formattedDate . ' - ' . $this->getDateTo()->format('Y-m-d');
+        }
+
+        return $formattedDate;
     }
 }
