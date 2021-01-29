@@ -20,7 +20,7 @@ class ShowController extends AbstractController
      *
      * @return Response
      */
-    public function index(Movie $movie)
+    public function index(Movie $movie): Response
     {
         $this->denyAccessUnlessGranted(MovieShowVoter::ATTRIBUTE, $movie);
 

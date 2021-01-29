@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Api;
+namespace App\Controller;
 
 use App\Entity\Log;
 use App\Entity\Movie;
@@ -11,10 +11,12 @@ use App\Service\MovieService;
 use App\Service\PayseraPaymentService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use WebToPay;
+use WebToPayException;
 
 /**
  * Class PayseraPaymentController
@@ -78,7 +80,18 @@ class PayseraPaymentController extends AbstractController
                 ->setUser($this->getUser())
                 ->setStatus(PayseraPayment::STATUS_NOT_PAID);
 
+            /** @var PayseraPayment $payseraPayment */
             $payseraPayment = $this->payseraPaymentService->create($payseraPayment);
+
+            $log = (new Log())->setType(Log::TYPE_PAYSERA_NEW)
+                ->setInfo(
+                    sprintf('User ID %s opened paysera for a movie ID %s and created NOT_PAID payment ID = %s',
+                        $this->getUser()->getId(),
+                        $movie->getId(),
+                        $payseraPayment->getId()
+                    )
+                );
+            $this->logService->create($log);
 
             try {
                 $response = $this->payseraPaymentService->pay($payseraPayment);
@@ -102,11 +115,15 @@ class PayseraPaymentController extends AbstractController
      */
     public function cancelPayment(PayseraPayment $payseraPayment, Request $request): Response
     {
+        $log = (new Log())->setType(Log::TYPE_PAYSERA_CANCEL)
+            ->setInfo('PAYMENT ID = ' . $payseraPayment->getId());
+        $this->logService->create($log);
+
         $data = $request->get('data');
         $payseraPayment->setStatus(PayseraPayment::STATUS_CANCELED)->setToken($data);
         $this->payseraPaymentService->update($payseraPayment);
 
-        return $this->json(['response' => PayseraPayment::STATUS_CANCELED], 200);
+        return new RedirectResponse($this->generateUrl('home_index'));
     }
 
     /**
@@ -143,43 +160,47 @@ class PayseraPaymentController extends AbstractController
      */
     public function callback(PayseraPayment $payseraPayment, Request $request): Response
     {
-        $log = (new Log())->setType(Log::TYPE_PAYSERA_CALLBACK);
+        $log = (new Log())->setType(Log::TYPE_PAYSERA_CALLBACK)->setRequest(json_encode($request->query->all()));
         $this->logService->create($log);
 
         try {
             $response = WebToPay::checkResponse($_GET, [
-                'project_id' => $_ENV['PAYSERA_PROJECT_ID'],
+                'projectid' => $_ENV['PAYSERA_PROJECT_ID'],
                 'sign_password' => $_ENV['PAYSERA_SECRET_KEY'],
             ]);
+        } catch (Exception $e) {
+            $log->setStatus(Log::STATUS_NOK)
+                ->setResponse($e->getMessage())
+                ->setInfo('WebToPay::checkResponse failed');
+            $this->logService->update($log);
 
-            if ($response['status'] != 0 && !empty($response['orderid'])) {
-                $payseraPayment->setStatus(PayseraPayment::STATUS_PAID)
-                    ->setPayseraStatus($response['status'])
-                    ->setPayseraOrderId($response['orderid']);
+            return new Response($e->getMessage());
+        }
 
-                $this->payseraPaymentService->update($payseraPayment);
-                $this->ticketFactory->createForPayment($payseraPayment);
+        try {
+            $paymentSuccessful = $this->payseraPaymentService->isCallbackPaymentSuccessful(
+                $payseraPayment,
+                $response['status'],
+                $response['orderid']
+            );
 
-                $log->setStatus(Log::STATUS_OK)->setInfo(json_encode($response));
+            if ($paymentSuccessful) {
+                $log->setStatus(Log::STATUS_OK)->setResponse(json_encode($response));
                 $this->logService->update($log);
 
                 return new Response('OK');
             } else {
-                $payseraPayment->setPayseraStatus($response['status'])
-                    ->setPayseraError($response['error'])
-                    ->setPayseraOrderId($response['orderid']);
-
-                $log->setStatus(Log::STATUS_NOK)->setInfo(json_encode($response));
+                $log->setStatus(Log::STATUS_NOK)->setResponse(json_encode($response));
                 $this->logService->update($log);
-                
-                return new Response('OK');
+
+                return new Response('');
             }
 
         } catch (Exception $e) {
-            $log->setStatus(Log::STATUS_NOK)->setInfo($e->getMessage());
+            $log->setStatus(Log::STATUS_NOK)->setResponse($e->getMessage())->setInfo(json_encode($response));
             $this->logService->update($log);
 
-            return new Response($e->getMessage(), 400);
+            return new Response($e->getMessage());
         }
     }
 }

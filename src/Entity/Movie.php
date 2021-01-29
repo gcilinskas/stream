@@ -33,7 +33,7 @@ class Movie
     /**
      * @var string|null
      * @ORM\Column(type="string")
-     * @Groups({"ajax_tickets", "ticket_movie"})
+     * @Groups({"ajax_tickets", "ticket_movie", "ajax_movie"})
      */
     private $title;
 
@@ -560,7 +560,7 @@ class Movie
      *
      * @return Movie
      */
-    public function setPrices($prices)
+    public function setPrices($prices): Movie
     {
         $this->prices = $prices;
 
@@ -761,7 +761,7 @@ class Movie
      *
      * @return string|null
      */
-    public function getActiveFormattedPriceByUser(?User $user): ?string
+    public function getActiveFormattedPriceByUser(?User $user = null): ?string
     {
         if (!$user || ($user && $user->isRegularUser())) {
             return $this->getActiveFormattedRegularPrice();
@@ -775,7 +775,7 @@ class Movie
      *
      * @return Price|null
      */
-    public function getActivePriceByUser(?User $user): ?Price
+    public function getActivePriceByUser(?User $user = null): ?Price
     {
         if (!$user || ($user && $user->isRegularUser())) {
             return $this->getActiveRegularPrice();
@@ -916,5 +916,45 @@ class Movie
         }
 
         return $formattedDate;
+    }
+
+    /**
+     * @param User|null $user
+     *
+     * @return bool
+     */
+    public function canWatchFree(?User $user): bool
+    {
+        return $user && $this->isFree() && $user->isClubOrAdmin();
+    }
+
+    /**
+     * @param User|null $user
+     *
+     * @return bool
+     */
+    public function canPayToWatch(?User $user): bool
+    {
+        return !$user || ($user && !$user->canWatch($this));
+    }
+
+    /**
+     * @param User|null $user
+     *
+     * @return bool
+     */
+    public function canWatchToday(?User $user): bool
+    {
+        return $user && $this->showToday() && $user->canWatch($this);
+    }
+
+    /**
+     * @param User|null $user
+     *
+     * @return bool
+     */
+    public function canWatchLater(?User $user): bool
+    {
+        return !$this->showToday() && $user && ($user->canWatch($this));
     }
 }

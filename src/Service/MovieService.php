@@ -107,6 +107,20 @@ class MovieService extends BaseService
     }
 
     /**
+     * @return array
+     */
+    public function getMoviesWithCategories(): array
+    {
+        $moviesWithCategories = [];
+        foreach ($this->repository->findWithCategories() as $movieWithCategory) {
+            $moviesWithCategories[$movieWithCategory['categoryId']]['movies'][] = $movieWithCategory['movie'];
+            $moviesWithCategories[$movieWithCategory['categoryId']]['category'] = $movieWithCategory['categoryTitle'];
+        }
+
+        return $moviesWithCategories;
+    }
+
+    /**
      * @return Movie[]|array|null
      */
     public function getAllNotDeleted(): ?array

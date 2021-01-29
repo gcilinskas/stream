@@ -17,6 +17,8 @@ class Log
 
     const TYPE_PAYSERA_CALLBACK = 'TYPE_PAYSERA_CALLBACK';
     const TYPE_PAYSERA_SUCCESS = 'TYPE_PAYSERA_SUCCESS';
+    const TYPE_PAYSERA_CANCEL = 'TYPE_PAYSERA_CANCEL';
+    const TYPE_PAYSERA_NEW = 'TYPE_PAYSERA_NEW';
     const TYPE_EMAIL_RESET_PASSWORD = 'TYPE_EMAIL_RESET_PASSWORD';
 
     /**
@@ -50,6 +52,18 @@ class Log
      * @ORM\Column(type="string", nullable=true)
      */
     private $status;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $request;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $response;
 
     /**
      * Log constructor.
@@ -143,6 +157,46 @@ class Log
     public function setStatus(?string $status): Log
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRequest(): ?string
+    {
+        return $this->request;
+    }
+
+    /**
+     * @param string|null $request
+     *
+     * @return Log
+     */
+    public function setRequest(?string $request): Log
+    {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getResponse(): ?string
+    {
+        return $this->response;
+    }
+
+    /**
+     * @param string|null $response
+     *
+     * @return Log
+     */
+    public function setResponse(?string $response): Log
+    {
+        $this->response = $response;
 
         return $this;
     }

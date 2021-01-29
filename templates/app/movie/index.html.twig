@@ -3,7 +3,7 @@
 {% block body %}
 <div class="movie-content-custom">
     {% include('app/includes/read-more-modal.html.twig') %}
-    <div class="app-movie-title trending-text  text-uppercase">
+    <div class="app-movie-title trending-text text-uppercase">
         <h1>Filmai</h1>
     </div>
 
@@ -14,61 +14,7 @@
                 <div class="episodes-contens mt-4">
                     <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0 movie-card-slider">
                         {% for movie in newestMovies %}
-                            <div class="e-item movie-card">
-                                <div class="block-image position-relative movie-card-image-container">
-                                    <img src="{{ asset('uploads/movies/images/'~movie.image) }}" class=" movie-image">
-                                </div>
-                                <div class="episodes-description text-body mt-2">
-
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="movie-actions">
-
-                                            <div class="hover-buttons">
-                                                <div class="movie-actions-buy">
-                                                    {% include('app/includes/movie-action-button.html.twig') %}
-                                                </div>
-                                            </div>
-
-                                            <div class="movie-preview">
-                                                {% if movie.previewUrl %}
-                                                    {% include('app/movie/movie-preview.html.twig') %}
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h4>{{ movie.title }}</h4>
-                                        <span class="text-primary">{{ movie.duration }}</span>
-                                    </div>
-                                    <div class="movie-time d-flex align-items-center my-2 movie-date">
-                                        {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
-                                            <span  style="margin-right:5px">Filmą rodo: </span>
-                                            <div class="badge badge-secondary p-1 mr-2"><span>šiandien</span></div>
-                                        {% else %}
-                                            <span  style="margin-right:5px">Filmą rodys: </span>
-                                            <div class="badge badge-secondary p-1 mr-2"><span>{{ movie.getFormattedShowDate() }}</span></div>
-                                        {% endif %}
-                                    </div>
-                                    <div class="movie-time d-flex align-items-center my-2 movie-date">
-                                        <span style="margin-right:5px">Metai: {{ movie.year }}</span>
-                                    </div>
-                                    <div class="movie-time d-flex align-items-center my-2 movie-date">
-                                        <span style="margin-right:5px">Šalis: {{ movie.country }}</span>
-                                    </div>
-                                    <div class="movie-time d-flex align-items-center my-2 movie-date">
-                                        <span style="margin-right:5px">Režisierius: {{ movie.director }}</span>
-                                    </div>
-                                    <p class="mb-0">{{ movie.getMiniDescriptionPreview }}</p>
-                                    {% if movie.getDescription | length > 100 %}
-                                        <p class="mb-0" id="read-more-modal" data-toggle="modal" data-target="#read-more">
-                                            <a href="#" data-entry-id="{{ movie.id }}"
-                                               style="text-decoration: underline"
-                                               onclick="readMore({{ movie.id }})"
-                                            >Skaityti daugiau</a>
-                                        </p>
-                                    {% endif %}
-                                </div>
-                            </div>
+                            {% include('app/includes/movie-card.html.twig') %}
                         {% endfor %}
                     </div>
                 </div>
@@ -76,132 +22,31 @@
         </div>
     </div>
 
-        {% for category in categories %}
-            {% if category.activeMovies|length > 0 %}
+    {% for movieWithCategory in moviesWithCategories %}
 
-                <div class="container-fluid">
-                    <div id="trending-data24">
-                        <div class="trending-info align-items-center w-100 animated fadeInUp">
-                            <p class="trending-text text-uppercase movie-category-title">{{ category.title }}</p>
-                            <div class="episodes-contens mt-4">
-                                <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0 movie-card-slider">
-
-                                    {% for movie in category.activeMovies %}
-                                        <div class="e-item movie-card">
-                                            <div class="block-image position-relative movie-card-image-container">
-                                                <img src="{{ asset('uploads/movies/images/'~movie.image) }}" class=" movie-image">
-                                            </div>
-                                            <div class="episodes-description text-body mt-2">
-
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="movie-actions">
-
-                                                        <div class="hover-buttons">
-                                                            <div class="movie-actions-buy">
-                                                                {% include('app/includes/movie-action-button.html.twig') %}
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="movie-preview">
-                                                            {% if movie.previewUrl %}
-                                                                {% include('app/movie/movie-preview.html.twig') %}
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <h4>{{ movie.title }}</h4>
-                                                    <span class="text-primary">{{ movie.duration }}</span>
-                                                </div>
-                                                <div class="movie-time d-flex align-items-center my-2 movie-date">
-                                                    {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
-                                                        <span  style="margin-right:5px">Filmą rodo: </span>
-                                                        <div class="badge badge-secondary p-1 mr-2"><span>šiandien</span></div>
-                                                    {% else %}
-                                                        <span  style="margin-right:5px">Filmą rodys: </span>
-                                                        <div class="badge badge-secondary p-1 mr-2"><span>{{ movie.getFormattedShowDate() }}</span></div>
-                                                    {% endif %}
-                                                </div>
-                                                <div class="movie-time d-flex align-items-center my-2 movie-date">
-                                                    <span style="margin-right:5px">Metai: {{ movie.year }}</span>
-                                                </div>
-                                                <div class="movie-time d-flex align-items-center my-2 movie-date">
-                                                    <span style="margin-right:5px">Šalis: {{ movie.country }}</span>
-                                                </div>
-                                                <div class="movie-time d-flex align-items-center my-2 movie-date">
-                                                    <span style="margin-right:5px">Režisierius: {{ movie.director }}</span>
-                                                </div>
-                                                <p class="mb-0">{{ movie.getMiniDescriptionPreview }}</p>
-                                                {% if movie.getDescription | length > 100 %}
-                                                    <p class="mb-0" id="read-more-modal" data-toggle="modal" data-target="#read-more">
-                                                        <a href="#" data-entry-id="{{ movie.id }}" style="text-decoration: underline"
-                                                           onclick="readMore({{ movie.id }})"
-                                                        >Skaityti daugiau</a>
-                                                    </p>
-                                                {% endif %}
-                                            </div>
-                                        </div>
-                                    {% endfor %}
+            <div class="container-fluid">
+                <div id="trending-data24">
+                    <div class="trending-info align-items-center w-100 animated fadeInUp">
+                        <p class="trending-text text-uppercase movie-category-title">{{ movieWithCategory.category }}</p>
+                        <div class="episodes-contens mt-4">
+                            <div class="owl-carousel owl-theme episodes-slider1 list-inline p-0 mb-0 movie-card-slider">
+                                {% for movie in movieWithCategory.movies %}
+                                    {% include('app/includes/movie-card.html.twig') %}
+                                {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-        {% endif %}
     {% endfor %}
+
+</div>
 
 {% endblock %}
 
 {% block javascripts %}
     <script type="module" src="{{ asset('js/app/ticket-payment.js') }}"></script>
-    <script>
-        $('.owl-carousel').owlCarousel({
-            nav: true,
-            loop: false,
-            margin: 30,
-            items : 1,
-            responsive : {
-                480 : { items : 1  },
-                768 : { items : 2  },
-                1024 : { items : 3 },
-                1500: {items : 4},
-            },
-        });
-    </script>
-
-    <script>
-        url = 'http://mediaport.lt'
-
-        function readMore(movie) {
-            var xmlhttp;
-            if (window.XDomainRequest) {
-                xmlhttp = new XDomainRequest();
-
-                xmlhttp.onload = function() {
-                    console.log(xmlhttp.responseText);
-                    document.getElementById("read-more-modal-description").innerHTML =
-                        JSON.parse(xmlhttp.responseText).description;
-                };
-            } else if (window.XMLHttpRequest) {
-                xmlhttp = new XMLHttpRequest();
-            } else {
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-                    console.log(xmlhttp.responseText);
-                    document.getElementById("read-more-modal-description").innerHTML =
-                        JSON.parse(xmlhttp.responseText).description;
-                }
-            }
-
-            xmlhttp.open("GET", url + '/movie/' + movie, true);
-            xmlhttp.send();
-        }
-
-    </script>
-
-{#    <script type="module" src="{{ asset('js/app/movie-preview.js') }}"></script>#}
+    <script type="module" src="{{ asset('js/app/movie-list.js') }}"></script>
+    <script type="module" src="{{ asset('js/app/movie-preview.js') }}"></script>
 {% endblock %}

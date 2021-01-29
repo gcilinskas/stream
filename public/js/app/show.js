@@ -1,8 +1,6 @@
-
 jQuery(document).ready(function () {
     hideNav();
     params = getParamsByUrl(window.location.href)
-    console.log(params);
     loadComments(params.movie);
     initiateSubmit();
 });

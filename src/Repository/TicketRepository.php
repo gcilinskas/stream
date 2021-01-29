@@ -56,7 +56,7 @@ class TicketRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->leftJoin('t.movie', 'tm')
             ->where('t.user = :user')
-            ->andWhere('tm.date >= :today')
+            ->andWhere('(tm.date >= :today OR tm.dateTo >= :today)')
             ->setParameters([
                 'today' => (new DateTime())->setTime(0,0, 0),
                 'user' => $user

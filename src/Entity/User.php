@@ -375,38 +375,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param $movie
-     *
-     * @return bool
-     */
-    public function canWatch($movie)
-    {
-        foreach ($this->getTickets() as $ticket) {
-            if ($ticket->getMovie() === $movie && $ticket->isPaid()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Movie $movie
-     *
-     * @return bool
-     */
-    public function hasUsedTicket(Movie $movie)
-    {
-        foreach ($this->getTickets() as $ticket) {
-            if ($ticket->getMovie() === $movie && $ticket->isUsed()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * @return bool
      */
     public function isClubRequest(): bool
@@ -468,5 +436,25 @@ class User implements UserInterface
         $this->plainPassword = $plainPassword;
 
         return $this;
+    }
+
+    /**
+     * @param $movie
+     *
+     * @return bool
+     */
+    public function canWatch(?Movie $movie): bool
+    {
+        if ($movie && $movie->canWatchFree($this)) {
+            return true;
+        }
+
+        foreach ($this->getTickets() as $ticket) {
+            if ($ticket->getMovie() === $movie && $ticket->isPaid()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

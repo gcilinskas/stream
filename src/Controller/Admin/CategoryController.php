@@ -8,7 +8,6 @@ use App\Service\CategoryService;
 use App\Service\MovieService;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,7 +89,7 @@ class CategoryController extends AbstractController
             $form->submit($request->request->all());
             if ($form->isSubmitted() && $form->isValid()) {
                 try {
-                    $this->categoryService->create($category);
+                    $this->categoryService->update($category);
 
                     return $this->redirectToRoute('admin_category_list');
                 } catch (Exception $e) {
@@ -125,7 +124,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/list", name="admin_category_list")
      */
-    public function list()
+    public function list(): Response
     {
         return $this->render('admin/category/list.html.twig', [
             'categories' => $this->categoryService->getAll(),

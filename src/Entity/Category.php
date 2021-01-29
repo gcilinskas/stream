@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -87,21 +86,6 @@ class Category
         }
 
         return $this->moviesCount;
-    }
-
-    /**
-     * @return Movie[]|ArrayCollection
-     */
-    public function getActiveMovies()
-    {
-        $activeMovies = [];
-        foreach ($this->movies as $movie) {
-            if (!$movie->isDeleted() && $movie->isActive()) {
-                $activeMovies[] = $movie;
-            }
-        }
-
-        return $activeMovies;
     }
 
     /**

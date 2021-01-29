@@ -1,38 +1,26 @@
-{% if app.user and app.user.isClubOrAdmin() and movie.isFree() %}
-    {% if movie.showToday() %}
-        <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
-            <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar</span>
-        </a>
-        <span>Nemokamas</span>
-    {% else %}
-        <div>
-            <button type="button" id="watch-later" class=" btn btn-outline-primary child-cell flex-center">
-                <span>Rodys {{ movie.date|date('Y-m-d') }}</span>
-            </button>
-        </div>
-        <span>Nemokamas</span>
-    {% endif %}
-{% elseif movie.showToday() and app.user and app.user.canWatch(movie) %}
+{% if movie.canPayToWatch(app.user) %}
+    <form method="POST" class="ticket-form pay-for-ticket">
+        <input type="hidden" name="movie-id" value="{{ movie.id }}" class="ticket-movie-data">
+        <button type="submit" id="ticket-submit" class=" btn btn-outline-primary child-cell flex-center">
+            Pirkti Bilietą
+        </button>
+    </form>
+    <span>Kaina: {{ movie.getActiveFormattedPriceByUser(app.user) }} &euro;</span>
+{% elseif movie.canWatchToday(app.user) %}
     <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
         <span class="btn btn-hover">
             <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar
         </span>
     </a>
-{% else %}
-    {% if app.user is not null and app.user.canWatch(movie) %}
-        <div>
-            <button type="button" id="watch-later" class=" btn btn-outline-primary child-cell flex-center">
-                Rodys {{ movie.date|date('Y-m-d') }}
-            </button>
-        </div>
-        <span>Turite Bilietą</span>
-    {% else %}
-        <form method="POST" class="ticket-form pay-for-ticket">
-            <input type="hidden" name="movie-id" value="{{ movie.id }}" class="ticket-movie-data">
-            <button type="submit" id="ticket-submit" class=" btn btn-outline-primary child-cell flex-center">
-                Pirkti Bilietą
-            </button>
-        </form>
-        <span>Kaina: {{ movie.getActiveFormattedPriceByUser(app.user) }} &euro;</span>
-    {% endif %}
+{% elseif movie.canWatchLater(app.user) %}
+    <div>
+        <button type="button" id="watch-later" class=" btn btn-outline-primary child-cell flex-center">
+            Rodys {{ movie.getFormattedShowDate() }}
+        </button>
+    </div>
+    <span>Turite Bilietą</span>
+{% endif %}
+
+{% if movie.canWatchFree(app.user) %}
+    <span>Nemokamas</span>
 {% endif %}

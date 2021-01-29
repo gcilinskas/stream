@@ -1,9 +1,6 @@
 {% extends 'app/base.html.twig' %}
 
 {% block body %}
-
-    {% include('app/includes/apply-ticket-modal.html.twig') %}
-
     <section class="m-profile">
         <div class="container">
             <h4 class="main-title mb-4">Turimi Bilietai</h4>
@@ -38,7 +35,7 @@
                                             <div class="text-center child-cell col-lg-1 flex-center pd10">
                                                 {% if movie.category %} {{ movie.category.title }} {% endif %}
                                             </div>
-                                            <div class="text-center child-cell col-lg-2 flex-center pd10">{{ movie.date|date('Y-m-d') }}</div>
+                                            <div class="text-center child-cell col-lg-2 flex-center pd10">{{ movie.getFormattedShowDate() }}</div>
                                             <div class="text-center child-cell col-lg-2 flex-center pd10">{{ ticket.status }}</div>
                                             <div class="text-center child-cell col-lg-3 flex-center pd10">{{ ticket.code }}</div>
                                         </div>
@@ -46,24 +43,14 @@
                                 </div>
 
                                 <div class="text-center child-cell col-lg-2 flex-center pd10">
-                                    {% if ticket.movie %}
-                                        {% if movie.showToday() and app.user is not null and app.user.canWatch(movie) %}
-                                            {% if app.user.hasUsedTicket(movie) == true %}
-                                                <a href="{{ path("app_show_index", {"movie": ticket.movie.id}) }}" >
-                                                    <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar</span>
-                                                </a>
-                                                {% else %}
-                                                    <form method="POST" style="margin: 0 15px 0 0; " id="open-ticket-modal-form" data-animation-in="fadeInUp" data-delay-in="1">
-                                                        <input type="hidden" value="{{ ticket.movie.id }}" class="ticket-movie-data">
-                                                        <span class="btn btn-hover open-ticket-apply-modal" id="open-ticket-apply-modal"
-                                                              data-toggle="modal" data-target="#exampleModalCenter"
-                                                              style="margin: 0 15px 0 15px">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar</span>
-                                                    </form>
-                                                {% endif %}
-                                            {% endif %}
-                                        {% endif %}
-                                    </div>
+                                    {% if movie.canWatchToday(app.user) %}
+                                        <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
+                                            <span class="btn btn-hover">
+                                                <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar
+                                            </span>
+                                        </a>
+                                    {% endif %}
+                                </div>
                                 <hr>
                             {% endfor %}
 

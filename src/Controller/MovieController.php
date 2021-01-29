@@ -57,7 +57,7 @@ class MovieController extends AbstractController
         return $this->render('app/movie/index.html.twig',
             [
                 'newestMovies' => $this->movieService->getNewestMovies(),
-                'movies' => $this->movieService->getAllOrdered(),
+                'moviesWithCategories' => $this->movieService->getMoviesWithCategories(),
                 'categories' => $this->categoryService->getAll()
             ]
         );
@@ -71,8 +71,6 @@ class MovieController extends AbstractController
      */
     public function getMovie(Movie $movie): Response
     {
-//        $response = $this->serializerInterface->serialize(['data' => $movie], 'json', ['groups' => 'ajax_movie']);
-
-        return $this->json(['description' => $movie->getDescription(), 'title' => $movie->getTitle()]);
+        return $this->json($movie, Response::HTTP_OK, [], ['groups' => 'ajax_movie']);
     }
 }

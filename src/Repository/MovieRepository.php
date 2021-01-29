@@ -61,4 +61,20 @@ class MovieRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()->getResult();
     }
+
+    /**
+     * @return array
+     */
+    public function findWithCategories(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->select('mc.title as categoryTitle, mc.id as categoryId, m as movie')
+            ->leftJoin('m.category', 'mc')
+            ->orderBy('m.date', 'ASC')
+            ->where('m.deletedAt is null')
+            ->andWhere('m.date >= :today')
+            ->orWhere('m.dateTo >= :today')
+            ->setParameter('today', (new DateTime())->setTime(0,0, 0))
+            ->getQuery()->getResult();
+    }
 }

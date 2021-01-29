@@ -1,0 +1,52 @@
+<div class="e-item movie-card">
+    <div class="block-image position-relative movie-card-image-container">
+        <img src="{{ asset('uploads/movies/images/'~movie.image) }}" class=" movie-image">
+    </div>
+    <div class="episodes-description text-body mt-2">
+
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="movie-actions">
+
+                <div class="hover-buttons">
+                    <div class="movie-actions-buy">
+                        {% include('app/includes/movie-action-button.html.twig') %}
+                    </div>
+                </div>
+
+                <div class="movie-preview">
+                    {% if movie.previewUrl %}
+                        {% include('app/movie/movie-preview.html.twig') %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+            <h4>{{ movie.title }}</h4>
+            <span class="text-primary">{{ movie.duration }}</span>
+        </div>
+        <div class="movie-time d-flex align-items-center my-2 movie-date">
+            {% if movie.showToday() and app.user and app.user.canWatch(movie) %}
+                <span  style="margin-right:5px">Filmą rodo: </span>
+                <div class="badge badge-secondary p-1 mr-2"><span>šiandien</span></div>
+            {% else %}
+                <span  style="margin-right:5px">Filmą rodys: </span>
+                <div class="badge badge-secondary p-1 mr-2"><span>{{ movie.getFormattedShowDate() }}</span></div>
+            {% endif %}
+        </div>
+        <div class="movie-time d-flex align-items-center my-2 movie-date">
+            <span style="margin-right:5px">Metai: {{ movie.year }}</span>
+        </div>
+        <div class="movie-time d-flex align-items-center my-2 movie-date">
+            <span style="margin-right:5px">Šalis: {{ movie.country }}</span>
+        </div>
+        <div class="movie-time d-flex align-items-center my-2 movie-date">
+            <span style="margin-right:5px">Režisierius: {{ movie.director }}</span>
+        </div>
+        <p class="mb-0">{{ movie.getMiniDescriptionPreview }}</p>
+        {% if movie.getDescription | length > 100 %}
+            <p class="mb-0" id="read-more-modal" data-toggle="modal" data-target="#read-more">
+                <a href="#" data-entry-id="{{ movie.id }}" style="text-decoration: underline">Skaityti daugiau</a>
+            </p>
+        {% endif %}
+    </div>
+</div>

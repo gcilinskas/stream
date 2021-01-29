@@ -7,93 +7,53 @@
     <section id="home" class="iq-main-slider p-0" style="height: 100%" style="background-image:url('{{ asset('uploads/movies/images/' ~ movie.image) }}')">
         <div id="home-slider" class="slider m-0 p-0" style="height: 100%">
             {% if movie %}
-            <div class="slide slick-bg s-bg-1" style="background-image:url('{{ asset('uploads/movies/images/' ~ movie.image) }}')">
-                <div class="container-fluid position-relative h-100" style="height: 100%">
+                <div class="slide slick-bg s-bg-1" style="background-image:url('{{ asset('uploads/movies/images/' ~ movie.image) }}')">
+                    <div class="container-fluid position-relative h-100" style="height: 100%">
 
-                    <div class="slider-inner h-100" style="height: 100%">
-                        <div class="row align-items-center  h-100" style="height: 100%">
-                            <div class="col-xl-7 col-lg-12 col-md-12" style="height: 100%">
-                                <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
-                                    data-delay-in="0.6">{{ movie.title }}
-                                </h1>
-                                <div class="movie-time d-flex align-items-center my-2"  data-animation-in="fadeInUp" data-delay-in="1">
-                                    {% if movie.showToday() %}
-                                        <span class="text-white" style="margin-right:5px">Filmą rodo: </span>
-                                        <div class="badge badge-secondary p-1 mr-2"> šiandien </div>
-                                    {% else %}
-                                        <span class="text-white" style="margin-right:5px">Filmą rodys: </span>
-                                        <div class="badge badge-secondary p-1 mr-2"> {{ movie.getFormattedShowDate() }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
-                                    {% if movie.category %}
-                                        Žanras: <span class="ml-3">{{ movie.category.title }}</span>
-                                    {% endif %}
-                                </div>
-                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
-                                        Metai: <span class="ml-3">{{ movie.year }}</span>
-                                </div>
-                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
-                                    Šalis: <span class="ml-3">{{ movie.country }}</span>
-                                </div>
-                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
-                                    Režisierius: <span class="ml-3">{{ movie.director }}</span>
-                                </div>
-                                <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
-                                    Trukmė: <span class="ml-3">{{ movie.duration }}</span>
-                                </div>
-                                <br>
-                                <span data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.getDescriptionPreview() }}</span>
-                                {% if movie.getDescription | length > 200 %}
-                                    <br>
-                                <span data-animation-in="fadeInUp" data-delay-in="1.2" class="mb-0"
-                                   id="read-more-modal" data-toggle="modal" data-target="#read-more">
-                                    <a href="#" data-entry-id="{{ movie.id }}"
-                                       style="text-decoration: underline"
-                                       onclick="readMore({{ movie.id }})">Skaityti daugiau</a>
-                                </span>
-                                    <br><br>
-                                {% endif %}
-                                <div class="row">
-                                    {% if app.user and app.user.isClubOrAdmin() and movie.isFree() %}
+                        <div class="slider-inner h-100" style="height: 100%">
+                            <div class="row align-items-center  h-100" style="height: 100%">
+                                <div class="col-xl-7 col-lg-12 col-md-12" style="height: 100%">
+                                    <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
+                                        data-delay-in="0.6">{{ movie.title }}
+                                    </h1>
+                                    <div class="movie-time d-flex align-items-center my-2"  data-animation-in="fadeInUp" data-delay-in="1">
                                         {% if movie.showToday() %}
-                                            <div class="movie-free-buttons" data-animation-in="fadeInUp" data-delay-in="1">
-                                                <a href="{{ path("app_show_index", {"movie": movie.id}) }}">
-                                                    <span class="btn btn-hover">
-                                                        <i class="fa fa-play mr-1" aria-hidden="true"></i>Žiūrėti Dabar
-                                                    </span>
-                                                </a>
-                                                <span>Nemokamas</span>
-                                            </div>
+                                            <span class="text-white" style="margin-right:5px">Filmą rodo: </span>
+                                            <div class="badge badge-secondary p-1 mr-2"> šiandien </div>
                                         {% else %}
-                                            <div class="movie-free-buttons" data-animation-in="fadeInUp" data-delay-in="1">
-                                                <div>
-                                                    <button type="button" id="watch-later" class=" btn btn-outline-primary child-cell flex-center">
-                                                        Rodys {{ movie.getFormattedShowDate() }}
-                                                    </button>
-                                                </div>
-                                                <span>Nemokamas</span>
-                                            </div>
+                                            <span class="text-white" style="margin-right:5px">Filmą rodys: </span>
+                                            <div class="badge badge-secondary p-1 mr-2"> {{ movie.getFormattedShowDate() }}</div>
                                         {% endif %}
-                                    {% elseif movie.showToday() and app.user is not null and app.user.canWatch(movie) %}
-                                        <a href="{{ path("app_show_index", {"movie": movie.id}) }}" data-animation-in="fadeInUp" data-delay-in="1">
-                                                 <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>
-                                                    Žiūrėti Dabar
-                                                </span>
-                                        </a>
-                                    {% else %}
-                                        {% if app.user is not null and app.user.canWatch(movie) %}
-                                            <div class="flex-column" style="margin-left:15px">
-                                                <div class="row">
-                                                    <a href="#" data-animation-in="fadeInUp" data-delay-in="1" style="margin-left: 15px; margin-top:15px;">
-                                                        <span class="btn btn-outline-primary">Rodys {{ movie.getFormattedShowDate() }}</span>
-                                                    </a>
-                                                </div>
-                                                <div class="row">
-                                                    <span style="margin: 0 0 0 15px"  data-animation-in="fadeInUp" data-delay-in="1">Turite Bilietą</span>
-                                                </div>
-                                            </div>
-                                        {% else %}
+                                    </div>
+                                    <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                        {% if movie.category %}
+                                            Žanras: <span class="ml-3">{{ movie.category.title }}</span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                            Metai: <span class="ml-3">{{ movie.year }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                        Šalis: <span class="ml-3">{{ movie.country }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                        Režisierius: <span class="ml-3">{{ movie.director }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
+                                        Trukmė: <span class="ml-3">{{ movie.duration }}</span>
+                                    </div>
+                                    <br>
+                                    <span data-animation-in="fadeInUp" data-delay-in="1.2">{{ movie.getDescriptionPreview() }}</span>
+                                    {% if movie.getDescription | length > 200 %}
+                                        <br>
+                                        <span data-animation-in="fadeInUp" data-delay-in="1.2" class="mb-0"
+                                           id="read-more-modal" data-toggle="modal" data-target="#read-more">
+                                            <a href="#" data-entry-id="{{ movie.id }}" style="text-decoration: underline">Skaityti daugiau</a>
+                                        </span>
+                                        <br><br>
+                                    {% endif %}
+                                    <div class="row">
+                                        {% if movie.canPayToWatch(app.user) %}
                                             <div class="d-flex r-mb-23" data-animation-in="fadeInUp" data-delay-in="1.2">
                                                 <form method="POST" class="ticket-form pay-for-ticket" style="margin: 0 0 0 15px; width:100%" >
                                                     <input type="hidden" name="movie-id" value="{{ movie.id }}" class="ticket-movie-data">
@@ -102,40 +62,61 @@
                                                 </form>
                                                 <span style="margin: 0 15px 0 0; ">Kaina: {{ movie.getActiveFormattedPriceByUser(app.user) }} &euro;</span>
                                             </div>
-                                        {% endif%}
-                                    {% endif %}
+                                        {% elseif movie.canWatchToday(app.user) %}
+                                            <div class="movie-free-buttons" data-animation-in="fadeInUp" data-delay-in="1">
+                                                <a href="{{ path("app_show_index", {"movie": movie.id}) }}" data-animation-in="fadeInUp" data-delay-in="1">
+                                                     <span class="btn btn-hover"><i class="fa fa-play mr-1" aria-hidden="true"></i>
+                                                        Žiūrėti Dabar
+                                                    </span>
+                                                </a>
+                                                {% if movie.canWatchFree(app.user) %}
+                                                    <span data-animation-in="fadeInUp" data-delay-in="1">Nemokamas</span>
+                                                {% endif %}
+                                            </div>
+                                        {% elseif movie.canWatchLater(app.user) %}
+                                            <div class="flex-column" style="margin-left:15px">
+                                                <div class="row">
+                                                    <a href="#" data-animation-in="fadeInUp" data-delay-in="1" style="margin-left: 15px; margin-top:15px;">
+                                                        <span class="btn btn-outline-primary">Rodys {{ movie.getFormattedShowDate() }}</span>
+                                                    </a>
+                                                </div>
+                                                <div class="row">
+                                                    <span style="margin: 0 0 0 15px" data-animation-in="fadeInUp" data-delay-in="1">Turite Bilietą</span>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
+
+                            {% if movie.previewUrl %}
+                                <div class="trailor-video">
+                                    <a href="{{ movie.previewUrl }}"  class="video-open-youtube playbtn" id="open-video">
+                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                             x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
+                                             enable-background="new 0 0 213.7 213.7" xml:space="preserve">
+                                      <polygon class='triangle' fill="none" stroke-width="7" stroke-linecap="round"
+                                               stroke-linejoin="round" stroke-miterlimit="10"
+                                               points="73.5,62.5 148.5,105.8 73.5,149.1 " />
+                                            <circle class='circle' fill="none" stroke-width="7" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />
+                                   </svg>
+                                        <span class="w-trailor">Anonsas</span>
+                                    </a>
+                                </div>
+                            {% endif %}
+
                         </div>
-
-                        {% if movie.previewUrl %}
-                            <div class="trailor-video">
-                                <a href="{{ movie.previewUrl }}"  class="video-open-youtube playbtn" id="open-video">
-                                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                         x="0px" y="0px" width="80px" height="80px" viewBox="0 0 213.7 213.7"
-                                         enable-background="new 0 0 213.7 213.7" xml:space="preserve">
-                                  <polygon class='triangle' fill="none" stroke-width="7" stroke-linecap="round"
-                                           stroke-linejoin="round" stroke-miterlimit="10"
-                                           points="73.5,62.5 148.5,105.8 73.5,149.1 " />
-                                        <circle class='circle' fill="none" stroke-width="7" stroke-linecap="round"
-                                                stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />
-                               </svg>
-                                    <span class="w-trailor">Anonsas</span>
-                                </a>
-                            </div>
-                        {% endif %}
-
                     </div>
                 </div>
-            </div>
             {% else %}
-            <section class="m-profile">
-                <div class="container">
-                    <h1 class="main-title flex-center">Šiuo metu transliuojamų filmų nėra</h1>
-                    <div class="row justify-content-center">
+                <section class="m-profile">
+                    <div class="container">
+                        <h1 class="main-title flex-center">Šiuo metu transliuojamų filmų nėra</h1>
+                        <div class="row justify-content-center">
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
             {% endif %}
         </div>
         <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -145,8 +126,6 @@
             </symbol>
         </svg>
     </section>
-
-
     {% else %}
 
     <section class="m-profile">
@@ -161,37 +140,6 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script>
-        url = 'http://mediaport.lt'
-
-        function readMore(movie) {
-            var xmlhttp;
-            if (window.XDomainRequest) {
-                xmlhttp = new XDomainRequest();
-
-                xmlhttp.onload = function() {
-                    console.log(xmlhttp.responseText);
-                    document.getElementById("read-more-modal-description").innerHTML =
-                        JSON.parse(xmlhttp.responseText).description;
-                };
-            } else if (window.XMLHttpRequest) {
-                xmlhttp = new XMLHttpRequest();
-            } else {
-                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
-                    console.log(xmlhttp.responseText);
-                    document.getElementById("read-more-modal-description").innerHTML =
-                        JSON.parse(xmlhttp.responseText).description;
-                }
-            }
-
-            xmlhttp.open("GET", url + '/movie/' + movie, true);
-            xmlhttp.send();
-        }
-    </script>
     <script type="module" src="{{ asset('js/app/ticket-payment.js') }}"></script>
-{#    <script type="module" src="{{ asset('js/app/movie-preview.js') }}"></script>#}
+    <script type="module" src="{{ asset('js/app/movie-preview.js') }}"></script>
 {% endblock %}

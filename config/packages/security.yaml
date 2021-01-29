@@ -40,3 +40,7 @@ security:
          - { path: ^/user, roles: [ROLE_USER, ROLE_ADMIN, ROLE_KLUBO_NARYS] }
          - { path: ^/preview, roles: [ROLE_USER, ROLE_ADMIN, ROLE_KLUBO_NARYS] }
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/paysera/new, roles: [ROLE_USER, ROLE_ADMIN, ROLE_KLUBO_NARYS] }
+         - { path: ^/paysera/cancel, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/paysera/success, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/paysera/callback, roles: IS_AUTHENTICATED_ANONYMOUSLY }
