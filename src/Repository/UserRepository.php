@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -34,5 +35,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newEncodedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findAllWithLastMonthSubscription(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.subscription', 'us')
+            ->where('us is not null')
+            ->andWhere('us.validTo < :lastMonth')
+            ->setParameter('lastMonth', (new DateTime())->modify('+1 month'))
+            ->getQuery()->getResult();
+    }
+
+    /**
+     * @return array
+     */
+    public function findAllWithExpiredSubscription(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->leftJoin('u.subscription', 'us')
+            ->where('us is not null')
+            ->andWhere('us.validTo < :today')
+            ->setParameter('today', new DateTime())
+            ->getQuery()->getResult();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Movie;
+use App\Entity\User;
 use App\Repository\MovieRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -126,5 +127,18 @@ class MovieService extends BaseService
     public function getAllNotDeleted(): ?array
     {
         return $this->repository->findAllNotDeleted();
+    }
+
+    /**
+     * @param Movie $movie
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isValidForPurchase(Movie $movie, User $user): bool
+    {
+        return (($user->isClubOrAdmin() && $movie->getActiveClubPrice())
+                || ($user->isRegularUser() && $movie->getActiveRegularPrice()))
+            && $movie->getDate();
     }
 }

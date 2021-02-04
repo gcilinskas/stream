@@ -57,6 +57,8 @@ class EmailSender
         $mail->Host = $this->mailerConfig['host'];
         $mail->SMTPAuth = true;
         $mail->SMTPSecure = "ssl";
+        $mail->CharSet = 'UTF-8';
+        $mail->IsHTML(true);
         $mail->Port = $this->mailerConfig['port'];
         $mail->Username = $this->mailerConfig['username'];
         $mail->Password = $this->mailerConfig['password'];

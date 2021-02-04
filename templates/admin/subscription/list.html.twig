@@ -1,0 +1,62 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block body %}
+    <div id="content-page" class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="iq-card">
+                        <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Klubo Narių Prenumeratos</h4>
+                            </div>
+                            <div class="iq-card-header-toolbar d-flex align-items-center">
+                                <a href="{{ path('admin_subscription_add') }}" class="btn btn-primary">Pridėti Prenumeratą</a>
+                            </div>
+                        </div>
+                        <div class="iq-card-body">
+                            <div class="table-view">
+                                <table class="data-tables table movie_table " style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:10%;">ID</th>
+                                        <th style="width:20%;">Vardas</th>
+                                        <th style="width:10%;">Pavardė</th>
+                                        <th style="width:10%;">E-Mail</th>
+                                        <th style="width:20%;">Galioja nuo</th>
+                                        <th style="width:20%;">Galioja iki</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for subscription in subscriptions %}
+                                        <tr>
+                                            <td>{{ subscription.id }}</td>
+                                            <td>{{ subscription.user.firstName }}</td>
+                                            <td>{{ subscription.user.lastName }}</td>
+                                            <td>{{ subscription.user.email }}</td>
+                                            <td>{{ subscription.validFrom | date('Y-m-d')}}</td>
+                                            <td>{{ subscription.validTo | date('Y-m-d') }}</td>
+                                            <td>
+                                                <div class="flex align-items-center list-user-action">
+                                                    <a href="{{ path('admin_subscription_edit', {'subscription': subscription.id }) }}"
+                                                       class="iq-bg-success" data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Edit"><i class="ri-pencil-line"></i></a>
+                                                    <a href="{{ path('admin_subscription_delete', {'subscription': subscription.id }) }}"
+                                                        class="iq-bg-primary" data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Delete" ><i class="ri-delete-bin-line"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

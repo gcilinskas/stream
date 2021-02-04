@@ -1,0 +1,8 @@
+email:
+  alert_expiring:
+    title: "Klubo narystė eina į pabaigą"
+    body: 'Sveiki. Primename, jog Jūsų klubo narystės galiojimas baigiasi: <b>validTo</b>. Galite atsinaujinti klubo narystę šioje nuorodoje: url'
+  alert_expired:
+    title: "Klubo narystės galiojimas baigėsi"
+    body: 'Sveiki. Jūsų klubo narystės galiojimas baigėsi. Norėdami vėl tapti klubo nariu, galite tai padaryti atsidarę šią nuorodą: url'
+

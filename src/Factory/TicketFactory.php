@@ -2,7 +2,6 @@
 
 namespace App\Factory;
 
-use App\Entity\Movie;
 use App\Entity\PayseraPayment;
 use App\Entity\Ticket;
 use App\Service\TicketService;

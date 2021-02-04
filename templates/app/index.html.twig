@@ -2,6 +2,14 @@
 
 {% block body %}
     {% include('app/includes/read-more-modal.html.twig') %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert" id="home-index-alert"
+             style="position: absolute; height: 50px; width: 100%; text-align: center; z-index: 1000000; opacity: 0.8">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <!-- Slider Start -->
     {% if movie %}
     <section id="home" class="iq-main-slider p-0" style="height: 100%" style="background-image:url('{{ asset('uploads/movies/images/' ~ movie.image) }}')">
@@ -140,6 +148,9 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        $("#home-index-alert").delay(5000).fadeOut(800);
+    </script>
     <script type="module" src="{{ asset('js/app/ticket-payment.js') }}"></script>
     <script type="module" src="{{ asset('js/app/movie-preview.js') }}"></script>
 {% endblock %}

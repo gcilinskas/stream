@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Price
 {
+    public const PRICE_SUBSCRIPTION = 700;
+
     /**
      * @var int
      * @ORM\Id()

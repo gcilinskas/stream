@@ -25,6 +25,9 @@
                     <a href="{{ path('admin_user_club_list_approve') }}" class="iq-waves-effect"><i class="las la-user-friends"></i><span>Klubo Narių Patvirtinimas</span></a>
                 </li>
                 <li>
+                    <a href="{{ path('admin_subscription_list') }}" class="iq-waves-effect"><i class="fa fa-star-half-o" aria-hidden="true"></i><span>Prenumeratos</span></a>
+                </li>
+                <li>
                     <a href="{{ path('admin_user_list') }}" class="iq-waves-effect"><i class="las la-user-friends"></i><span>Visi Vartotojai</span></a>
                 </li>
                 <li>
@@ -41,7 +44,13 @@
                         <li><a href="{{ path('admin_movie_list') }}"><i class="las la-eye"></i>Filmų Sąrašas</a></li>
                     </ul>
                 </li>
-                <li><a href="{{ path('admin_paysera_list') }}" class="iq-waves-effect"><i class="ri-price-tag-line"></i><span>Mokėjimai</span></a></li>
+                <li>
+                    <a href="#payments" class="iq-waves-effect collapsed" data-toggle="collapse" aria-expanded="false"><i class="ri-price-tag-line"></i><span>Mokėjimai</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                    <ul id="payments" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                        <li><a href="{{ path('admin_paysera_ticket_list') }}"><i class="las la-user-plus"></i>Filmų mokėjimai</a></li>
+                        <li><a href="{{ path('admin_paysera_subscription_list') }}"><i class="las la-eye"></i>Prenumeratų mokėjimai</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
 

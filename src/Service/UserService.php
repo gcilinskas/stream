@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -72,6 +73,20 @@ class UserService extends BaseService
     }
 
     /**
+     * @param User $entity
+     * @param bool $flush
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function update($entity, bool $flush = true)
+    {
+        $entity->setUpdatedAt(new DateTime());
+
+        return parent::update($entity, $flush);
+    }
+
+    /**
      * @return User
      */
     public function getLoggedInUser(): User
@@ -102,5 +117,37 @@ class UserService extends BaseService
             ->setPlainPassword($plainPassword);
 
         return $this->update($user, $flush);
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return User
+     * @throws Exception
+     */
+    public function setClubRole(User $user): User
+    {
+        if ($user->isRegularUser()) {
+            $user->setRole(User::ROLE_KLUBO_NARYS);
+            $this->update($user);
+        }
+
+        return $user;
+    }
+
+    /**
+     * @return User[]
+     */
+    public function getAllWithLastMonthSubscription(): array
+    {
+        return $this->repository->findAllWithLastMonthSubscription();
+    }
+
+    /**
+     * @return User[]
+     */
+    public function getAllWithExpiredSubscription(): array
+    {
+        return $this->repository->findAllWithExpiredSubscription();
     }
 }

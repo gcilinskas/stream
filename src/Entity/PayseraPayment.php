@@ -15,6 +15,8 @@ class PayseraPayment
     public const STATUS_CANCELED = 'STATUS_CANCELED';
     public const STATUS_NOT_PAID = 'STATUS_NOT_PAID';
     public const STATUS_PAID = 'STATUS_PAID';
+    public const TYPE_TICKET = 'TYPE_TICKET';
+    public const TYPE_SUBSCRIPTION = 'TYPE_SUBSCRIPTION';
 
     /**
      * @var int
@@ -89,6 +91,18 @@ class PayseraPayment
      * @ORM\Column(type="string", nullable=true)
      */
     private $payseraError;
+
+    /**
+     * @var Subscription|null
+     * @ORM\ManyToOne(targetEntity="App\Entity\Subscription", inversedBy="payseraPayments")
+     */
+    private $subscription;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $type;
 
     /**
      * PayseraPayment constructor.
@@ -335,6 +349,46 @@ class PayseraPayment
     public function setPayseraError(?string $payseraError): PayseraPayment
     {
         $this->payseraError = $payseraError;
+
+        return $this;
+    }
+
+    /**
+     * @return Subscription|null
+     */
+    public function getSubscription(): ?Subscription
+    {
+        return $this->subscription;
+    }
+
+    /**
+     * @param Subscription|null $subscription
+     *
+     * @return PayseraPayment
+     */
+    public function setSubscription(?Subscription $subscription): PayseraPayment
+    {
+        $this->subscription = $subscription;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string|null $type
+     *
+     * @return PayseraPayment
+     */
+    public function setType(?string $type): PayseraPayment
+    {
+        $this->type = $type;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\PayseraPayment;
 use App\Service\PayseraPaymentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -29,12 +30,32 @@ class PayseraPaymentController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="admin_paysera_list")
+     * @Route("/ticket/list", name="admin_paysera_ticket_list")
      */
-    public function list()
+    public function ticketList(): Response
     {
-        return $this->render('admin/paysera/list.html.twig', [
-            'payseraPayments' => $this->payseraPaymetService->getBy(['status' => PayseraPayment::STATUS_PAID]),
+        return $this->render('admin/paysera/ticket/list.html.twig', [
+            'payseraPayments' => $this->payseraPaymetService->getBy(
+                [
+                    'status' => PayseraPayment::STATUS_PAID,
+                    'type' => PayseraPayment::TYPE_TICKET
+                ]
+            ),
+        ]);
+    }
+
+    /**
+     * @Route("/subscription/list", name="admin_paysera_subscription_list")
+     */
+    public function subscriptionList(): Response
+    {
+        return $this->render('admin/paysera/subscription/list.html.twig', [
+            'payseraPayments' => $this->payseraPaymetService->getBy(
+                [
+                    'status' => PayseraPayment::STATUS_PAID,
+                    'type' => PayseraPayment::TYPE_SUBSCRIPTION
+                ]
+            ),
         ]);
     }
 }

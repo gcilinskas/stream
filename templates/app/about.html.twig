@@ -73,7 +73,11 @@
     <section class="projects-section" id="projects" style="background-color: #1c1b1b;">
 
         <div class="flex-center about-register" style="margin-bottom:50px; margin-top: -80px;" >
-            <a href="{{ path('register_index') }}" class="btn btn-outline-light"> <h2>Registracija</h2> </a>
+            {% if app.user %}
+                <a href="{{ path('app_subscription_view') }}" class="btn btn-outline-light"> <h2>Tapti Klubo Nariu</h2> </a>
+            {% else %}
+                <a href="{{ path('register_index') }}" class="btn btn-outline-light"> <h2>Registracija</h2> </a>
+            {% endif %}
         </div>
 
         <div class="container">

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimeEntityTrait;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -13,6 +15,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class User implements UserInterface
 {
+    use TimeEntityTrait;
+
     const ROLE_ADMIN = 'ROLE_ADMIN';
     const ROLE_USER = 'ROLE_USER';
     const ROLE_KLUBO_NARYS = 'ROLE_KLUBO_NARYS';
@@ -86,6 +90,12 @@ class User implements UserInterface
     private $clubRequest = false;
 
     /**
+     * @var Subscription|null
+     * @ORM\OneToOne(targetEntity="App\Entity\Subscription", mappedBy="user")
+     */
+    private $subscription;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -93,6 +103,8 @@ class User implements UserInterface
         $this->comments = new ArrayCollection();
         $this->payseraPayments = new ArrayCollection();
         $this->tickets = new ArrayCollection();
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
     }
 
     public function getId(): ?int
@@ -456,5 +468,25 @@ class User implements UserInterface
         }
 
         return false;
+    }
+
+    /**
+     * @return Subscription|null
+     */
+    public function getSubscription(): ?Subscription
+    {
+        return $this->subscription;
+    }
+
+    /**
+     * @param Subscription|null $subscription
+     *
+     * @return User
+     */
+    public function setSubscription(?Subscription $subscription): User
+    {
+        $this->subscription = $subscription;
+
+        return $this;
     }
 }

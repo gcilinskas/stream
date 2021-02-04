@@ -648,18 +648,6 @@ class Movie
     }
 
     /**
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function isValidForPurchase(User $user): bool
-    {
-        return (($user->isClubOrAdmin() && $this->getActiveClubPrice())
-            || ($user->isRegularUser() && $this->getActiveRegularPrice()))
-            && $this->getDate();
-    }
-
-    /**
      * @return Ticket[]|ArrayCollection
      */
     public function getTickets()

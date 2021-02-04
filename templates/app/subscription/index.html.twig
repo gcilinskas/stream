@@ -1,0 +1,37 @@
+{% extends 'app/base.html.twig' %}
+{% block body %}
+
+    <section id="parallex" class="parallax-window about"  style="background-image: none">
+        <div class="container-fluid h-100  parallaxt-details">
+            <div class="col-lg-12" style="padding-top:10px;">
+                {% if subscription %}
+                    <h1>Narystės informacija:</h1>
+                    <section class="projects-section" id="projects" style="padding:20px;">
+                        <div class="featured-text text-center text-lg-left">
+                            <p>Galioja nuo: {{subscription.validFrom | date('Y-m-d')}}</p>
+                            <p>Galioja iki: {{subscription.validTo | date('Y-m-d')}}</p>
+                        </div>
+                    </section>
+                    <h3>Pratęsti klubo narystę metams:</h3>
+                {% else %}
+                    <h1>Įsigyti klubo narystę metams:</h1>
+                {% endif %}
+                <section class="projects-section" id="projects" style="padding:20px;">
+                    <div class="featured-text text-center text-lg-left">
+                        <form method="POST" class="subscription-form pay-for-subscription">
+                            <button type="submit" id="subscription-submit" class=" btn btn-outline-primary child-cell flex-center">
+                                Pirkti - 7 &euro;
+                            </button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="module" src="{{ asset('js/app/subscription-payment.js') }}"></script>
+{% endblock %}
+

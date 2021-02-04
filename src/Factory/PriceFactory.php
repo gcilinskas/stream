@@ -65,4 +65,15 @@ class PriceFactory
 
         return $this->priceService->create($price);
     }
+
+    /**
+     * @return Price
+     * @throws Exception
+     */
+    public function createSubscriptionPrice(): Price
+    {
+        $price = (new Price())->setActive(true)->setAmount(Price::PRICE_SUBSCRIPTION);
+
+        return $this->priceService->create($price);
+    }
 }
