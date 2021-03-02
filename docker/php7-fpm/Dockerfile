@@ -11,8 +11,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     libxml2-dev \
     gnupg \
-    wget \
-    redis-tools
+    wget
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -42,30 +41,8 @@ RUN "date"
 # Type docker-php-ext-install to see available extensions
 RUN docker-php-ext-install pdo pdo_mysql opcache exif soap bcmath
 
-# Install GD
-RUN apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        default-mysql-client \
-     && docker-php-ext-configure gd \
-          --with-freetype-dir=/usr/include/freetype2 \
-          --with-png-dir=/usr/include \
-          --with-jpeg-dir=/usr/include \
-    && docker-php-ext-configure bcmath --enable-bcmath \
-    && docker-php-ext-install gd \
-    && docker-php-ext-enable gd \
-    && docker-php-ext-install zip \
-    && docker-php-ext-enable zip \
-    && docker-php-ext-install xml \
-    && docker-php-ext-enable xml \
-    && docker-php-ext-install sockets \
-    && docker-php-ext-enable sockets \
-    && docker-php-ext-install bcmath \
-    && docker-php-ext-enable bcmath
-
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y ffmpeg
 
 COPY php.ini /usr/local/etc/php/
 
